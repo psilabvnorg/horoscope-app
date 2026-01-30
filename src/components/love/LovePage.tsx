@@ -1,8 +1,9 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { UserProfile, ZodiacSign } from '@/types';
 import { ZODIAC_SIGNS, ZODIAC_DATES } from '@/types';
 import { getCompatibilityText } from '@/hooks/useCompatibility';
-import { ChevronLeft } from 'lucide-react';
+import { useChat } from '@/hooks/useChat';
+import { ChevronLeft, Send, Sparkles, X } from 'lucide-react';
 
 interface LovePageProps {
   profile: UserProfile;
@@ -47,17 +48,72 @@ function getDateRange(sign: ZodiacSign): string {
   return `${range.start[1]} ${startMonth} - ${range.end[1]} ${endMonth}`;
 }
 
+const suggestedLoveQuestions = [
+  'What makes our relationship special?',
+  'How can we strengthen our bond?',
+  'What challenges might we face together?',
+  'What does the future hold for us?',
+  'How do our personalities complement each other?',
+  'What should we focus on in our relationship?',
+];
+
 export function LovePage({ profile, onBack }: LovePageProps) {
   const [selectedSign, setSelectedSign] = useState<ZodiacSign>(profile.partnerSign || 'leo');
   const [showResult, setShowResult] = useState(false);
+  const [showChat, setShowChat] = useState(false);
   const userSign = profile.sign;
   const scrollRef = useRef<HTMLDivElement>(null);
+  const chatScrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [chatInput, setChatInput] = useState('');
+
+  const compatibilityText = getCompatibilityText(userSign, selectedSign);
+  
+  // Initialize chat with love context and compatibility info
+  const { messages, isLoading, sendMessage } = useChat({
+    context: 'couple',
+    enhancedContext: {
+      compatibilityText,
+      zodiacDescription: `${profile.name} is ${userSign} and their partner is ${selectedSign}.`,
+    },
+  });
 
   const handleCheckLove = () => {
     setShowResult(true);
+    setShowChat(true);
   };
 
-  const compatibilityText = getCompatibilityText(userSign, selectedSign);
+  const handleSendMessage = async () => {
+    if (!chatInput.trim() || isLoading) return;
+    const message = chatInput;
+    setChatInput('');
+    await sendMessage(message, profile);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  const handleSuggestedQuestion = (question: string) => {
+    sendMessage(question, profile);
+  };
+
+  // Auto-scroll chat to bottom
+  useEffect(() => {
+    if (chatScrollRef.current) {
+      chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  // Focus input when chat opens
+  useEffect(() => {
+    if (showChat && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [showChat]);
 
   return (
     <div className="flex flex-col h-full bg-[#0a0a12] text-white overflow-y-auto overflow-x-hidden">
@@ -231,49 +287,160 @@ export function LovePage({ profile, onBack }: LovePageProps) {
         </button>
       </div>
 
-      {/* Compatibility Result Modal */}
+      {/* Compatibility Result Modal with Chat */}
       {showResult && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-[#1a1a2e] rounded-3xl border border-purple-500/20 overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 backdrop-blur-sm">
+          <div className="w-full max-h-[90vh] bg-[#0a0a12] rounded-t-3xl border-t border-purple-500/20 overflow-hidden flex flex-col">
             {/* Header */}
-            <div className="p-6 bg-gradient-to-br from-purple-500/20 to-pink-500/20">
+            <div className="p-4 bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-b border-purple-500/20 flex-shrink-0">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                    <Sparkles className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-sm text-white">Love Guide</h4>
+                    <p className="text-xs text-white/60">Ask about your relationship</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    setShowResult(false);
+                    setShowChat(false);
+                  }}
+                  className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
               <div className="flex items-center justify-center gap-4">
                 <div 
-                  className="w-16 h-16 rounded-full flex items-center justify-center"
+                  className="w-12 h-12 rounded-full flex items-center justify-center"
                   style={{ boxShadow: `0 0 20px ${zodiacColors[userSign].glow}` }}
                 >
-                  <ZodiacIcon sign={userSign} size={50} />
+                  <ZodiacIcon sign={userSign} size={40} />
                 </div>
-                <span className="text-2xl text-pink-400">❤️</span>
+                <span className="text-xl text-pink-400">❤️</span>
                 <div 
-                  className="w-16 h-16 rounded-full flex items-center justify-center"
+                  className="w-12 h-12 rounded-full flex items-center justify-center"
                   style={{ boxShadow: `0 0 20px ${zodiacColors[selectedSign].glow}` }}
                 >
-                  <ZodiacIcon sign={selectedSign} size={50} />
+                  <ZodiacIcon sign={selectedSign} size={40} />
                 </div>
               </div>
-              <h2 className="text-center text-lg font-semibold text-white mt-4 capitalize">
+              <h2 className="text-center text-base font-semibold text-white mt-3 capitalize">
                 {userSign} & {selectedSign}
               </h2>
             </div>
 
-            {/* Content */}
-            <div className="p-6">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-purple-400 mb-3">
+            {/* Compatibility Summary */}
+            <div className="px-4 py-3 bg-[#1a1a2e]/50 border-b border-purple-500/10 flex-shrink-0">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-purple-400 mb-2">
                 Compatibility
               </h3>
-              <p className="text-white/70 text-sm leading-relaxed">
+              <p className="text-white/70 text-xs leading-relaxed">
                 {compatibilityText}
               </p>
             </div>
 
-            {/* Close Button */}
-            <div className="p-4 pt-0">
+            {/* Chat Messages */}
+            <div 
+              ref={chatScrollRef}
+              className="flex-1 overflow-y-auto px-4 py-4 space-y-4"
+            >
+              {messages.length === 0 && (
+                <div className="space-y-3">
+                  <p className="text-sm text-white/60 text-center">
+                    Ask me anything about your relationship:
+                  </p>
+                  <div className="flex flex-wrap gap-2 justify-center">
+                    {suggestedLoveQuestions.map((question, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleSuggestedQuestion(question)}
+                        className="px-3 py-2 bg-purple-500/20 text-purple-300 rounded-full text-xs hover:bg-purple-500/30 transition-all border border-purple-500/30"
+                      >
+                        {question}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`flex gap-2 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}
+                >
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    message.role === 'user' 
+                      ? 'bg-purple-500/30' 
+                      : 'bg-gradient-to-br from-purple-500 to-pink-500'
+                  }`}>
+                    {message.role === 'user' ? (
+                      <span className="text-sm">👤</span>
+                    ) : (
+                      <Sparkles className="w-4 h-4 text-white" />
+                    )}
+                  </div>
+                  <div className={`max-w-[75%] rounded-2xl px-4 py-2 text-sm ${
+                    message.role === 'user'
+                      ? 'bg-purple-500/80 text-white'
+                      : 'bg-[#1a1a2e]/80 text-white/90 border border-purple-500/20'
+                  }`}>
+                    {message.content}
+                  </div>
+                </div>
+              ))}
+
+              {isLoading && (
+                <div className="flex gap-2">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                    <Sparkles className="w-4 h-4 text-white" />
+                  </div>
+                  <div className="bg-[#1a1a2e]/80 rounded-2xl px-4 py-2 border border-purple-500/20">
+                    <div className="flex gap-1">
+                      <span className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <span className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <span className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Input and Actions */}
+            <div className="p-4 pb-6 border-t border-purple-500/20 bg-[#1a1a2e]/50 space-y-3 flex-shrink-0">
+              {/* Chat Input */}
+              <div className="flex gap-2">
+                <input
+                  ref={inputRef}
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Ask about your love compatibility..."
+                  className="flex-1 px-4 py-3 bg-[#0a0a12] border border-purple-500/30 rounded-full text-white placeholder-white/40 focus:outline-none focus:border-purple-500/60 text-sm"
+                  disabled={isLoading}
+                />
+                <button 
+                  onClick={handleSendMessage} 
+                  disabled={!chatInput.trim() || isLoading}
+                  className="w-12 h-12 flex-shrink-0 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center hover:from-purple-600 hover:to-pink-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Send className="w-5 h-5 text-white" />
+                </button>
+              </div>
+              
+              {/* Check Another Button */}
               <button
-                onClick={() => setShowResult(false)}
-                className="w-full py-3 rounded-full border border-white/20 text-white/70 font-medium hover:bg-white/5 transition-all"
+                onClick={() => {
+                  setShowResult(false);
+                  setShowChat(false);
+                }}
+                className="w-full py-3 rounded-full border border-purple-500/30 text-purple-300 font-medium hover:bg-purple-500/10 transition-all text-sm"
               >
-                Close
+                Check Another Compatibility
               </button>
             </div>
           </div>

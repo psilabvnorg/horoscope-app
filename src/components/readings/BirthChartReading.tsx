@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronDown, ChevronUp } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import type { ZodiacSign } from '@/types';
+import zodiacCalendarData from '@/data/zodiac-star-calendar-2026.json';
+
+const zodiacCalendar = zodiacCalendarData as Record<string, Record<string, string>>;
 
 interface BirthChartReadingProps {
     onBack: () => void;
+    userSign?: ZodiacSign;
 }
 
 type TabType = 'daily' | 'weekly' | 'year';
@@ -18,6 +23,14 @@ interface TransitCard {
     description: string;
     image1: string;
     image2: string;
+}
+
+interface MonthEnergy {
+    month: string;
+    status: 'aligned' | 'compatible' | 'challenging';
+    description: string;
+    element: string;
+    sign: string;
 }
 
 const shortTermTransits: TransitCard[] = [
@@ -108,11 +121,54 @@ const generateDates = () => {
     return dates;
 };
 
-export function BirthChartReading({ onBack }: BirthChartReadingProps) {
-    const [activeTab, setActiveTab] = useState<TabType>('daily');
+// Parse zodiac calendar data
+const parseZodiacCalendar = (sign: string): MonthEnergy[] => {
+    const signData = zodiacCalendar[sign as keyof typeof zodiacCalendar];
+    if (!signData) return [];
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    return months.map(month => {
+        const data = signData[month as keyof typeof signData];
+        const parts = data.split(' – ');
+        const status = parts[0] as 'aligned' | 'compatible' | 'challenging';
+        const rest = parts[1];
+        
+        // Extract element and sign from parentheses
+        const elementMatch = rest.match(/\(([^)]+)\)/);
+        const element = elementMatch ? elementMatch[1] : '';
+        const description = rest.replace(/\([^)]+\)\s*/, '');
+        
+        return {
+            month,
+            status,
+            description,
+            element,
+            sign: element
+        };
+    });
+};
+
+export function BirthChartReading({ onBack, userSign = 'aries' }: BirthChartReadingProps) {
+    const [activeTab, setActiveTab] = useState<TabType>('year');
     const [selectedDate, setSelectedDate] = useState(3); // Index of today
     const [isExpanded, setIsExpanded] = useState(false);
     const dates = generateDates();
+    const capitalizedSign = userSign.charAt(0).toUpperCase() + userSign.slice(1);
+    const yearEnergyData = parseZodiacCalendar(capitalizedSign);
+
+    const getStatusColor = (status: string) => {
+        switch (status) {
+            case 'aligned':
+                return { bg: 'bg-green-500/20', border: 'border-green-500/40', text: 'text-green-400' };
+            case 'compatible':
+                return { bg: 'bg-blue-500/20', border: 'border-blue-500/40', text: 'text-blue-400' };
+            case 'challenging':
+                return { bg: 'bg-orange-500/20', border: 'border-orange-500/40', text: 'text-orange-400' };
+            default:
+                return { bg: 'bg-gray-500/20', border: 'border-gray-500/40', text: 'text-gray-400' };
+        }
+    };
 
     const renderPlanetImage = (planet: string, size: number = 60) => {
         const planetStyles: Record<string, { gradient: string; rings?: boolean; spots?: boolean }> = {
@@ -181,92 +237,162 @@ export function BirthChartReading({ onBack }: BirthChartReadingProps) {
                 <ChevronLeft className="w-5 h-5" />
             </button>
 
-            {/* Header */}
-            <div className="flex items-center justify-center px-4 py-4 pt-6">
-                <h1 className="text-sm font-semibold tracking-[0.15em] uppercase">Birth Chart</h1>
-            </div>
+            {/* Fixed Header Section */}
+            <div className="flex-shrink-0 bg-[#050510] border-b border-white/10">
+                {/* Header */}
+                <div className="flex items-center justify-center px-4 py-4 pt-6">
+                    <h1 className="text-sm font-semibold tracking-[0.15em] uppercase">Birth Chart</h1>
+                </div>
 
-            {/* Tabs */}
-            <div className="flex justify-center gap-2 px-4 mb-4">
-                {(['daily', 'weekly', 'year'] as TabType[]).map((tab) => (
-                    <button
-                        key={tab}
-                        onClick={() => setActiveTab(tab)}
-                        className={`px-4 py-2 rounded-full text-xs uppercase tracking-wider transition-all ${
-                            activeTab === tab
-                                ? 'bg-violet-500/30 text-violet-300 border border-violet-500/50'
-                                : 'bg-white/5 text-white/50 border border-white/10 hover:bg-white/10'
-                        }`}
-                    >
-                        {tab === 'year' ? 'Year Chart' : tab}
-                    </button>
-                ))}
-            </div>
+                {/* Tabs */}
+                <div className="flex justify-center gap-2 px-4 mb-4">
+                    {(['daily', 'weekly', 'year'] as TabType[]).map((tab) => (
+                        <button
+                            key={tab}
+                            onClick={() => setActiveTab(tab)}
+                            className={`px-4 py-2 rounded-full text-xs uppercase tracking-wider transition-all ${
+                                activeTab === tab
+                                    ? 'bg-violet-500/30 text-violet-300 border border-violet-500/50'
+                                    : 'bg-white/5 text-white/50 border border-white/10 hover:bg-white/10'
+                            }`}
+                        >
+                            {tab === 'year' ? 'Year Chart' : tab}
+                        </button>
+                    ))}
+                </div>
 
-            {/* Date Picker */}
-            <div className="flex justify-center gap-2 px-4 mb-4">
-                {dates.map((d, index) => (
-                    <button
-                        key={index}
-                        onClick={() => setSelectedDate(index)}
-                        className={`flex flex-col items-center px-3 py-2 rounded-xl transition-all ${
-                            selectedDate === index
-                                ? 'bg-violet-500/30 border border-violet-500/50'
-                                : 'bg-white/5 border border-white/10 hover:bg-white/10'
-                        }`}
-                    >
-                        <span className="text-[10px] text-white/50 uppercase">{d.day}</span>
-                        <span className={`text-sm font-medium ${selectedDate === index ? 'text-violet-300' : 'text-white/70'}`}>
-                            {d.date}
-                        </span>
-                    </button>
-                ))}
+                {/* Date Picker - Only show for daily/weekly */}
+                {activeTab !== 'year' && (
+                    <div className="flex justify-center gap-2 px-4 mb-4">
+                        {dates.map((d, index) => (
+                            <button
+                                key={index}
+                                onClick={() => setSelectedDate(index)}
+                                className={`flex flex-col items-center px-3 py-2 rounded-xl transition-all ${
+                                    selectedDate === index
+                                        ? 'bg-violet-500/30 border border-violet-500/50'
+                                        : 'bg-white/5 border border-white/10 hover:bg-white/10'
+                                }`}
+                            >
+                                <span className="text-[10px] text-white/50 uppercase">{d.day}</span>
+                                <span className={`text-sm font-medium ${selectedDate === index ? 'text-violet-300' : 'text-white/70'}`}>
+                                    {d.date}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
+                )}
+
+                {/* Year Calendar - Only show for year tab */}
+                {activeTab === 'year' && (
+                    <div className="px-4 pb-4">
+                        <div className="grid grid-cols-3 gap-2">
+                            {yearEnergyData.map((monthData, index) => {
+                                const colors = getStatusColor(monthData.status);
+                                return (
+                                    <div
+                                        key={index}
+                                        className={`p-3 rounded-xl ${colors.bg} border ${colors.border} transition-all hover:scale-105`}
+                                    >
+                                        <div className="text-center">
+                                            <div className="text-xs font-bold uppercase tracking-wider text-white/90 mb-1">
+                                                {monthData.month}
+                                            </div>
+                                            <div className={`text-[10px] font-semibold uppercase ${colors.text}`}>
+                                                {monthData.status}
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
             </div>
 
             <ScrollArea className="flex-1 px-4">
-                {/* Why should you care section */}
-                <div className="mb-6">
-                    <button
-                        onClick={() => setIsExpanded(!isExpanded)}
-                        className="w-full flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10"
-                    >
-                        <span className="text-white/70 text-sm">Why should you care about</span>
-                        {isExpanded ? (
-                            <ChevronUp className="w-4 h-4 text-white/50" />
-                        ) : (
-                            <ChevronDown className="w-4 h-4 text-white/50" />
-                        )}
-                    </button>
-                    {isExpanded && (
-                        <div className="mt-2 p-4 rounded-xl bg-white/5 border border-white/10">
-                            <p className="text-white/60 text-sm leading-relaxed">
-                                Transits reveal how current planetary movements interact with your birth chart, 
-                                offering insights into opportunities, challenges, and personal growth periods. 
-                                Understanding these cosmic influences helps you navigate life with greater awareness.
-                            </p>
+                {activeTab === 'year' ? (
+                    /* Year View - Monthly Energy Details */
+                    <div className="pb-24 pt-4">
+                        <h2 className="text-lg font-semibold tracking-wider uppercase text-white/90 mb-4">
+                            2026 Energy Calendar for {capitalizedSign}
+                        </h2>
+                        {yearEnergyData.map((monthData, index) => {
+                            const colors = getStatusColor(monthData.status);
+                            return (
+                                <div key={index} className="mb-4 rounded-2xl overflow-hidden bg-gradient-to-b from-[#1a1a2e] to-[#0f0f1a] border border-white/10">
+                                    <div className={`p-4 ${colors.bg} border-b ${colors.border}`}>
+                                        <div className="flex items-center justify-between">
+                                            <h3 className="text-base font-bold uppercase tracking-wider text-white">
+                                                {monthData.month}
+                                            </h3>
+                                            <span className={`text-xs font-semibold uppercase px-3 py-1 rounded-full ${colors.bg} ${colors.text} border ${colors.border}`}>
+                                                {monthData.status}
+                                            </span>
+                                        </div>
+                                        {monthData.element && (
+                                            <div className="mt-2 text-xs text-white/60">
+                                                <span className="font-semibold">{monthData.element}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="p-4">
+                                        <p className="text-white/70 text-sm leading-relaxed">
+                                            {monthData.description}
+                                        </p>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                ) : (
+                    /* Daily/Weekly View - Transits */
+                    <>
+                        {/* Why should you care section */}
+                        <div className="mb-6 mt-4">
+                            <button
+                                onClick={() => setIsExpanded(!isExpanded)}
+                                className="w-full flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10"
+                            >
+                                <span className="text-white/70 text-sm">Why should you care about</span>
+                                {isExpanded ? (
+                                    <ChevronUp className="w-4 h-4 text-white/50" />
+                                ) : (
+                                    <ChevronDown className="w-4 h-4 text-white/50" />
+                                )}
+                            </button>
+                            {isExpanded && (
+                                <div className="mt-2 p-4 rounded-xl bg-white/5 border border-white/10">
+                                    <p className="text-white/60 text-sm leading-relaxed">
+                                        Transits reveal how current planetary movements interact with your birth chart, 
+                                        offering insights into opportunities, challenges, and personal growth periods. 
+                                        Understanding these cosmic influences helps you navigate life with greater awareness.
+                                    </p>
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
 
-                {/* Short Term Transits */}
-                <div className="mb-6">
-                    <h2 className="text-lg font-semibold tracking-wider uppercase text-white/90 mb-4">
-                        Your Short Term Transits
-                    </h2>
-                    {shortTermTransits.map((transit) => (
-                        <TransitCardComponent key={transit.id} transit={transit} />
-                    ))}
-                </div>
+                        {/* Short Term Transits */}
+                        <div className="mb-6">
+                            <h2 className="text-lg font-semibold tracking-wider uppercase text-white/90 mb-4">
+                                Your Short Term Transits
+                            </h2>
+                            {shortTermTransits.map((transit) => (
+                                <TransitCardComponent key={transit.id} transit={transit} />
+                            ))}
+                        </div>
 
-                {/* Long Term Transits */}
-                <div className="pb-24">
-                    <h2 className="text-lg font-semibold tracking-wider uppercase text-white/90 mb-4">
-                        Your Long Term Transits
-                    </h2>
-                    {longTermTransits.map((transit) => (
-                        <TransitCardComponent key={transit.id} transit={transit} />
-                    ))}
-                </div>
+                        {/* Long Term Transits */}
+                        <div className="pb-24">
+                            <h2 className="text-lg font-semibold tracking-wider uppercase text-white/90 mb-4">
+                                Your Long Term Transits
+                            </h2>
+                            {longTermTransits.map((transit) => (
+                                <TransitCardComponent key={transit.id} transit={transit} />
+                            ))}
+                        </div>
+                    </>
+                )}
             </ScrollArea>
         </div>
     );

@@ -5,6 +5,7 @@ import { SwipePage } from '@/components/swipe/SwipePage';
 import { TarotPage } from '@/components/tarot/TarotPage';
 import { TarotCardSelection } from '@/components/tarot/TarotCardSelection';
 import { TarotCardsPage } from '@/components/tarot/TarotCardsPage';
+import { CardLibrary } from '@/components/tarot/CardLibrary';
 import { LovePage } from '@/components/love/LovePage';
 import { FortunePage } from '@/components/fortune/FortunePage';
 import { SettingsPage } from '@/components/settings/SettingsPage';
@@ -23,7 +24,7 @@ import {
 } from 'lucide-react';
 
 type Tab = 'horoscope' | 'readings' | 'love' | 'guidance' | 'profile' | 'swipe';
-type ReadingView = 'menu' | 'tarot' | 'tarot-selection' | 'tarot-reading' | 'palm' | 'palm-result' | 'birth-chart';
+type ReadingView = 'menu' | 'tarot' | 'tarot-selection' | 'tarot-reading' | 'card-library' | 'palm' | 'palm-result' | 'birth-chart';
 
 function App() {
   const {
@@ -56,13 +57,22 @@ function App() {
             onBack={() => setReadingView('menu')}
             onSelectReading={(type) => {
               setSelectedReadingType(type);
-              if (type === 'daily' || type === 'meanings') {
+              if (type === 'meanings') {
+                setReadingView('card-library');
+              } else if (type === 'daily') {
                 setReadingView('tarot-reading');
               } else {
                 setReadingView('tarot-selection');
               }
             }}
           />
+        );
+        if (readingView === 'card-library') return (
+          <div className="h-full flex flex-col pt-safe bg-[#0a0a1a]">
+            <CardLibrary
+              onClose={() => setReadingView('tarot')}
+            />
+          </div>
         );
         if (readingView === 'tarot-selection') return (
           <TarotCardSelection
@@ -74,13 +84,13 @@ function App() {
           />
         );
         if (readingView === 'tarot-reading') return (
-          <div className="h-full flex flex-col pt-safe">
-            <div className="p-4 border-b border-white/5 flex items-center justify-between">
+          <div className="h-full flex flex-col pt-safe bg-[#0a0a1a]">
+            <div className="p-4 border-b border-white/5 flex items-center justify-between bg-[#0a0a1a]">
               <button onClick={() => setReadingView('tarot')} className="text-xs uppercase tracking-widest text-muted-foreground hover:text-white transition-colors">← Back</button>
-              <h2 className="text-sm font-bold tracking-widest uppercase">Tarot</h2>
+              <h2 className="text-sm font-bold tracking-widest uppercase text-white">Tarot</h2>
               <div className="w-10" />
             </div>
-            <div className="flex-1 overflow-auto">
+            <div className="flex-1 overflow-auto bg-[#0a0a1a]">
               <TarotPage
                 profile={profile}
                 readingType={selectedReadingType || undefined}
@@ -103,6 +113,7 @@ function App() {
         if (readingView === 'birth-chart') return (
           <BirthChartReading
             onBack={() => setReadingView('menu')}
+            userSign={profile.sign}
           />
         );
         return <ReadingsPage profile={profile} onNavigate={(view) => setReadingView(view as ReadingView)} />;

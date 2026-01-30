@@ -10,12 +10,12 @@ interface TarotCardProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
-export function TarotCardComponent({ 
-  card, 
-  reversed = false, 
-  revealed = false, 
+export function TarotCardComponent({
+  card,
+  reversed = false,
+  revealed = false,
   onClick,
-  size = 'md' 
+  size = 'md'
 }: TarotCardProps) {
   const [isFlipped, setIsFlipped] = useState(revealed);
 
@@ -33,70 +33,73 @@ export function TarotCardComponent({
   };
 
   return (
-    <div 
-      className={`relative ${sizeClasses[size]} cursor-pointer perspective-1000`}
+    <div
+      className={`relative ${sizeClasses[size]} cursor-pointer perspective-1000 group`}
       onClick={handleClick}
     >
-      <div 
-        className={`relative w-full h-full transition-transform duration-500 transform-style-3d ${
-          isFlipped ? 'rotate-y-180' : ''
-        }`}
-        style={{ 
+      <div
+        className={`relative w-full h-full transition-all duration-700 transform-style-3d ${isFlipped ? 'rotate-y-180' : 'hover:scale-105'
+          }`}
+        style={{
           transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
           transformStyle: 'preserve-3d'
         }}
       >
         {/* Card back */}
-        <div 
+        <div
           className="absolute inset-0 backface-hidden"
           style={{ backfaceVisibility: 'hidden' }}
         >
-          <div className="w-full h-full rounded-xl bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-600 shadow-xl flex items-center justify-center border-2 border-violet-400/30">
-            <div className="w-full h-full p-3">
-              <div className="w-full h-full border border-violet-300/30 rounded-lg flex items-center justify-center">
+          <div className="w-full h-full rounded-2xl bg-gradient-to-br from-violet-900 via-purple-900 to-black shadow-2xl flex items-center justify-center border border-white/10 overflow-hidden relative">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.3)_0%,transparent_70%)] animate-pulse" />
+            <div className="w-full h-full p-4 relative z-10">
+              <div className="w-full h-full border border-violet-500/20 rounded-xl flex items-center justify-center bg-black/20">
                 <div className="text-center">
-                  <Sparkles className="w-8 h-8 text-violet-200 mx-auto mb-2" />
-                  <div className="text-violet-200 text-xs font-medium">HOROS</div>
+                  <Sparkles className="w-8 h-8 text-violet-400 mx-auto mb-2 filter drop-shadow-[0_0_8px_rgba(167,139,250,0.5)]" />
+                  <div className="text-violet-300 text-[10px] font-black tracking-[0.3em]">HOROS</div>
                 </div>
               </div>
             </div>
+            {/* Corner decals */}
+            <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-violet-500/40 rounded-tl-lg" />
+            <div className="absolute top-2 right-2 w-4 h-4 border-t border-r border-violet-500/40 rounded-tr-lg" />
+            <div className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-violet-500/40 rounded-bl-lg" />
+            <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-violet-500/40 rounded-br-lg" />
           </div>
         </div>
 
         {/* Card front */}
-        <div 
+        <div
           className="absolute inset-0 backface-hidden"
-          style={{ 
+          style={{
             backfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)'
           }}
         >
-          <div 
-            className={`w-full h-full rounded-xl bg-white dark:bg-gray-900 shadow-xl overflow-hidden border-2 ${
-              reversed ? 'border-red-300 dark:border-red-700' : 'border-violet-300 dark:border-violet-700'
-            }`}
+          <div
+            className={`w-full h-full rounded-2xl glass-card shadow-2xl overflow-hidden border border-white/10 flex flex-col`}
             style={{ transform: reversed ? 'rotate(180deg)' : 'none' }}
           >
-            {/* Card image placeholder */}
-            <div className="h-3/5 bg-gradient-to-br from-violet-100 to-purple-100 dark:from-violet-900/30 dark:to-purple-900/30 flex items-center justify-center">
-              <div className="text-4xl">
-                {card.arcana === 'major' ? '🔮' : 
-                 card.suit === 'cups' ? '💧' :
-                 card.suit === 'pentacles' ? '💰' :
-                 card.suit === 'swords' ? '⚔️' : '🔥'}
+            {/* Card contents */}
+            <div className="h-3/5 relative overflow-hidden flex items-center justify-center p-4">
+              <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 to-transparent" />
+              <div className="text-6xl filter drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+                {card.arcana === 'major' ? '🔮' :
+                  card.suit === 'cups' ? '💧' :
+                    card.suit === 'pentacles' ? '💰' :
+                      card.suit === 'swords' ? '⚔️' : '🔥'}
               </div>
             </div>
-            
-            {/* Card info */}
-            <div className="h-2/5 p-2 flex flex-col justify-center">
-              <div className="text-xs text-violet-600 dark:text-violet-400 uppercase tracking-wider">
+
+            <div className="flex-1 p-3 flex flex-col justify-center text-center bg-black/40 border-t border-white/5">
+              <div className="text-[8px] font-black text-violet-400 uppercase tracking-widest leading-none mb-1">
                 {card.arcana === 'major' ? 'Major Arcana' : `${card.suit}`}
               </div>
-              <div className="font-bold text-sm leading-tight mt-1">
+              <div className="font-bold text-sm tracking-tight text-white line-clamp-2">
                 {card.name}
               </div>
               {reversed && (
-                <div className="text-xs text-red-500 mt-1">Reversed</div>
+                <div className="text-[8px] font-black text-rose-500 mt-1 uppercase tracking-widest">Reversed</div>
               )}
             </div>
           </div>

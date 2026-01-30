@@ -1,114 +1,138 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import type { TraitCard, SwipeDirection } from '@/types';
-import { Check, X, Info } from 'lucide-react';
+import { Check, X } from 'lucide-react';
 
 interface SwipeCardProps {
   trait: TraitCard;
   onSwipe: (direction: SwipeDirection) => void;
   isTop: boolean;
+  forcedDirection?: SwipeDirection | null;
 }
 
-export function SwipeCard({ trait, onSwipe, isTop }: SwipeCardProps) {
+export function SwipeCard({ trait, onSwipe, isTop, forcedDirection }: SwipeCardProps) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  const [showDetails, setShowDetails] = useState(false);
   const startPos = useRef({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
 
+  // Handle button-triggered swipes
+  useEffect(() => {
+    if (forcedDirection && isTop) {
+      if (forcedDirection === 'right') {
+        setPosition({ x: 1000, y: 0 });
+        setRotation(20);
+      } else if (forcedDirection === 'left') {
+        setPosition({ x: -1000, y: 0 });
+        setRotation(-20);
+      } else if (forcedDirection === 'up') {
+        setPosition({ x: 0, y: -1000 });
+        setRotation(0);
+      }
+    }
+  }, [forcedDirection, isTop]);
+
   const handleTouchStart = useCallback((e: React.TouchEvent | React.MouseEvent) => {
     if (!isTop) return;
-    
+
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-    
+
     startPos.current = { x: clientX, y: clientY };
     setIsDragging(true);
   }, [isTop]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent | React.MouseEvent) => {
     if (!isDragging || !isTop) return;
-    
+
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-    
+
     const deltaX = clientX - startPos.current.x;
     const deltaY = clientY - startPos.current.y;
-    
+
     setPosition({ x: deltaX, y: deltaY });
     setRotation(deltaX * 0.05);
   }, [isDragging, isTop]);
 
   const handleTouchEnd = useCallback(() => {
     if (!isDragging) return;
-    
+
     setIsDragging(false);
-    
+
     const threshold = 100;
     const verticalThreshold = 80;
-    
+
     if (position.x > threshold) {
-      // Swipe right - accept
-      onSwipe('right');
+      // Swipe Right - Animate off-screen
+      setPosition({ x: 1000, y: position.y });
+      setRotation(20);
+      setTimeout(() => onSwipe('right'), 200);
     } else if (position.x < -threshold) {
-      // Swipe left - reject
-      onSwipe('left');
+      // Swipe Left - Animate off-screen
+      setPosition({ x: -1000, y: position.y });
+      setRotation(-20);
+      setTimeout(() => onSwipe('left'), 200);
     } else if (position.y < -verticalThreshold) {
-      // Swipe up - very accurate
-      onSwipe('up');
+      // Swipe Up - Animate off-screen
+      setPosition({ x: position.x, y: -1000 });
+      setRotation(0);
+      setTimeout(() => onSwipe('up'), 200);
     } else {
-      // Reset position
       setPosition({ x: 0, y: 0 });
       setRotation(0);
     }
   }, [position, onSwipe, isDragging]);
 
-  const handleTap = useCallback(() => {
-    if (!isDragging && Math.abs(position.x) < 5 && Math.abs(position.y) < 5) {
-      setShowDetails(!showDetails);
-    }
-  }, [showDetails, isDragging, position]);
-
   const getSwipeIndicator = () => {
-    if (position.x > 50) {
+    const opacity = Math.min(Math.abs(position.x) / 100, 0.9);
+    const verticalOpacity = Math.min(Math.abs(position.y) / 100, 0.9);
+
+    if (position.x > 20) {
       return (
-        <div className="absolute top-8 right-8 bg-green-500 text-white px-4 py-2 rounded-full font-bold text-lg transform rotate-12 border-2 border-white shadow-lg">
-          <Check className="w-6 h-6 inline mr-1" />
-          ME
+        <div
+          className="absolute inset-0 bg-violet-500/10 flex items-center justify-center z-20 pointer-events-none transition-opacity rounded-3xl"
+          style={{ opacity }}
+        >
+          <div className="bg-violet-400 text-black px-6 py-3 rounded-full font-semibold text-sm uppercase tracking-widest">
+            This is me
+          </div>
         </div>
       );
     }
-    if (position.x < -50) {
+    if (position.x < -20) {
       return (
-        <div className="absolute top-8 left-8 bg-red-500 text-white px-4 py-2 rounded-full font-bold text-lg transform -rotate-12 border-2 border-white shadow-lg">
-          <X className="w-6 h-6 inline mr-1" />
-          NOT ME
+        <div
+          className="absolute inset-0 bg-gray-500/10 flex items-center justify-center z-20 pointer-events-none transition-opacity rounded-3xl"
+          style={{ opacity }}
+        >
+          <div className="bg-gray-700 text-white px-6 py-3 rounded-full font-semibold text-sm uppercase tracking-widest border border-gray-600">
+            Skip
+          </div>
         </div>
       );
     }
-    if (position.y < -50) {
+    if (position.y < -20) {
       return (
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-violet-500 text-white px-4 py-2 rounded-full font-bold text-lg border-2 border-white shadow-lg">
-          <Info className="w-6 h-6 inline mr-1" />
-          VERY ACCURATE
+        <div
+          className="absolute inset-0 bg-violet-500/10 flex items-center justify-center z-20 pointer-events-none transition-opacity rounded-3xl"
+          style={{ opacity: verticalOpacity }}
+        >
+          <div className="bg-violet-400 text-black px-6 py-3 rounded-full font-semibold text-sm uppercase tracking-widest">
+            Very accurate
+          </div>
         </div>
       );
     }
     return null;
   };
 
-  const getCategoryColor = (category: string) => {
-    const colors: Record<string, string> = {
-      personality: 'from-amber-400 to-orange-500',
-      love: 'from-rose-400 to-pink-500',
-      career: 'from-blue-400 to-indigo-500',
-      social: 'from-green-400 to-emerald-500',
-      emotion: 'from-violet-400 to-purple-500',
-      spiritual: 'from-cyan-400 to-teal-500',
-      challenge: 'from-red-400 to-rose-500',
-    };
-    return colors[category] || 'from-gray-400 to-slate-500';
+  const getCategoryTheme = (_category: string) => {
+    // All categories use the same violet theme for consistency
+    return { gradient: 'from-violet-600/20 to-violet-900/40', accent: 'text-violet-400' };
   };
+
+  const theme = getCategoryTheme(trait.category);
 
   return (
     <div
@@ -116,7 +140,7 @@ export function SwipeCard({ trait, onSwipe, isTop }: SwipeCardProps) {
       className={`absolute inset-0 touch-none select-none ${isTop ? 'z-10' : 'z-0'}`}
       style={{
         transform: `translate3d(${position.x}px, ${position.y}px, 0) rotate(${rotation}deg)`,
-        transition: isDragging ? 'none' : 'transform 0.3s ease-out',
+        transition: isDragging ? 'none' : 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
       }}
       onMouseDown={handleTouchStart}
       onMouseMove={handleTouchMove}
@@ -125,67 +149,52 @@ export function SwipeCard({ trait, onSwipe, isTop }: SwipeCardProps) {
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      onClick={handleTap}
     >
-      <div className="w-full h-full bg-white dark:bg-gray-900 rounded-3xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-800 relative">
-        {/* Swipe indicator overlay */}
+      <div className="w-full h-full rounded-3xl overflow-hidden border border-violet-500/20 bg-gray-900/80 relative shadow-[0_0_40px_rgba(139,92,246,0.1)]">
         {getSwipeIndicator()}
-        
-        {/* Card content */}
+
         <div className="h-full flex flex-col">
-          {/* Header with category badge */}
-          <div className={`bg-gradient-to-r ${getCategoryColor(trait.category)} p-6`}>
-            <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-white text-xs font-medium uppercase tracking-wider">
-              {trait.category}
-            </span>
+          {/* Header area with icon */}
+          <div className={`h-2/5 bg-gradient-to-br ${theme.gradient} relative overflow-hidden flex items-center justify-center p-8`}>
+            <div className="absolute inset-0 bg-black/30" />
+            
+            {/* Category badge */}
+            <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-gray-900/60 border border-violet-500/20">
+              <span className="text-[10px] uppercase tracking-widest font-medium text-violet-400">
+                {trait.category}
+              </span>
+            </div>
+
+            {/* Glowing icon container */}
+            <div className="relative">
+              <div className="absolute inset-0 blur-2xl bg-violet-500/20 scale-150" />
+              <div className="relative text-8xl">
+                {trait.emoji}
+              </div>
+            </div>
           </div>
-          
-          {/* Main content */}
-          <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
-            <div className="text-8xl mb-6">{trait.emoji}</div>
-            <h3 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
-              {trait.trait}
-            </h3>
-            <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+
+          {/* Content area */}
+          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-4 bg-black">
+            <p className="text-gray-400 text-sm leading-relaxed">
               {trait.description}
             </p>
-          </div>
-          
-          {/* Expanded details */}
-          {showDetails && (
-            <div className="absolute inset-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm p-8 flex flex-col items-center justify-center animate-in fade-in duration-200">
-              <div className="text-6xl mb-4">{trait.emoji}</div>
-              <h4 className="text-2xl font-bold mb-4">{trait.trait}</h4>
-              <p className="text-center text-gray-600 dark:text-gray-300 mb-6">
-                {trait.description}
-              </p>
-              <div className="space-y-2 text-sm text-gray-500">
-                <p>Swipe Right: "This describes me"</p>
-                <p>Swipe Left: "Not me"</p>
-                <p>Swipe Up: "Very accurate"</p>
+
+            <h3 className="text-2xl font-semibold tracking-wide text-white">
+              {trait.trait}
+            </h3>
+
+            <div className="pt-4 flex gap-16 text-[10px] uppercase tracking-widest font-medium text-gray-600">
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-10 h-10 rounded-xl border border-gray-800 flex items-center justify-center">
+                  <X className="w-5 h-5" />
+                </div>
+                <span>Skip</span>
               </div>
-              <button 
-                onClick={(e) => { e.stopPropagation(); setShowDetails(false); }}
-                className="mt-6 px-6 py-2 bg-gray-100 dark:bg-gray-800 rounded-full text-sm"
-              >
-                Close
-              </button>
-            </div>
-          )}
-          
-          {/* Action hints */}
-          <div className="p-6 bg-gray-50 dark:bg-gray-800/50">
-            <div className="flex justify-between items-center text-sm text-gray-500">
-              <div className="flex items-center gap-1">
-                <X className="w-4 h-4" />
-                <span>Not me</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Info className="w-4 h-4" />
-                <span>Details</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Check className="w-4 h-4" />
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-10 h-10 rounded-xl bg-violet-400 flex items-center justify-center">
+                  <Check className="w-5 h-5 text-black" />
+                </div>
                 <span>Me</span>
               </div>
             </div>

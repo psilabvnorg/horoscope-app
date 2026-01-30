@@ -8,14 +8,18 @@ import { Send, X, Sparkles, User, Bot } from 'lucide-react';
 
 interface ChatInterfaceProps {
   profile: UserProfile;
-  context: 'tarot' | 'couple' | 'fortune';
+  context: 'tarot' | 'couple' | 'fortune' | 'crystal-ball' | 'numerology' | 'dream';
   onClose: () => void;
+  initialMessage?: string;
 }
 
 const contextPrompts: Record<string, string> = {
   tarot: 'You are a mystical tarot reader. Help interpret cards and provide spiritual guidance based on tarot wisdom.',
   couple: 'You are a relationship astrologer. Provide insights about love compatibility and relationship advice based on zodiac signs.',
   fortune: 'You are a fortune teller. Provide mystical guidance and predictions based on astrology and cosmic energies.',
+  'crystal-ball': 'You are a mystical crystal ball oracle. Provide wisdom, guidance, and answers to any questions the seeker may have. Speak in a mystical, wise tone.',
+  numerology: 'You are a numerology expert. Provide insights based on numbers, birth dates, and numerical patterns. Help users understand their life path numbers and destiny.',
+  dream: 'You are Luna, a dream interpreter. Help users understand the meaning and symbolism behind their dreams. Provide mystical and psychological insights about dream symbols.',
 };
 
 const suggestedQuestions: Record<string, string[]> = {
@@ -37,15 +41,34 @@ const suggestedQuestions: Record<string, string[]> = {
     'How will my career develop?',
     'What should I focus on today?',
   ],
+  'crystal-ball': [
+    'What wisdom do you have for me today?',
+    'What should I focus on this week?',
+    'Tell me about my future',
+    'What guidance do you have for my career?',
+  ],
+  numerology: [
+    'What is my life path number?',
+    'What does my birth date reveal?',
+    'What numbers are lucky for me?',
+    'Tell me about master numbers',
+  ],
+  dream: [
+    'I dreamed about flying, what does it mean?',
+    'What does water symbolize in dreams?',
+    'I had a recurring dream, help me understand',
+    'What does dreaming about animals mean?',
+  ],
 };
 
-export function ChatInterface({ profile, context, onClose }: ChatInterfaceProps) {
+export function ChatInterface({ profile, context, onClose, initialMessage }: ChatInterfaceProps) {
   const { messages, isLoading, sendMessage } = useChat({
     systemPrompt: contextPrompts[context],
   });
   const [input, setInput] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const initialMessageSent = useRef(false);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -56,6 +79,14 @@ export function ChatInterface({ profile, context, onClose }: ChatInterfaceProps)
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
+
+  // Send initial message if provided
+  useEffect(() => {
+    if (initialMessage && !initialMessageSent.current) {
+      initialMessageSent.current = true;
+      sendMessage(initialMessage, profile);
+    }
+  }, [initialMessage, profile, sendMessage]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;

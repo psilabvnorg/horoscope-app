@@ -1,9 +1,9 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import type { TraitCard, SwipeDirection, UserProfile } from '@/types';
-import { traitCards, getPersonalizedDeck } from '@/data/traits';
+import { getPersonalizedDeck } from '@/data/traits';
 import { SwipeCard as SwipeCardComponent } from './SwipeCard';
 import { Button } from '@/components/ui/button';
-import { Check, X, ArrowUp, Share2, Sparkles, RotateCcw } from 'lucide-react';
+import { X, Check, ArrowUp, RotateCcw, Sparkles } from 'lucide-react';
 
 interface SwipePageProps {
   profile: UserProfile;
@@ -14,8 +14,8 @@ export function SwipePage({ profile, onSwipe }: SwipePageProps) {
   const [deck, setDeck] = useState<TraitCard[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [forcedDirection, setForcedDirection] = useState<SwipeDirection | null>(null);
 
-  // Initialize deck
   useEffect(() => {
     const initialDeck = getPersonalizedDeck(profile.acceptedTraits, profile.rejectedTraits);
     setDeck(initialDeck);
@@ -26,16 +26,16 @@ export function SwipePage({ profile, onSwipe }: SwipePageProps) {
 
   const handleSwipe = useCallback((direction: SwipeDirection) => {
     if (!currentCard || isAnimating) return;
-    
+
     setIsAnimating(true);
+    setForcedDirection(direction);
     onSwipe(currentCard.id, direction);
-    
-    // Animate card off screen
+
     setTimeout(() => {
       setCurrentIndex(prev => prev + 1);
       setIsAnimating(false);
-      
-      // Replenish deck if running low
+      setForcedDirection(null);
+
       if (currentIndex >= deck.length - 5) {
         const newCards = getPersonalizedDeck(
           [...profile.acceptedTraits, currentCard.id],
@@ -43,27 +43,8 @@ export function SwipePage({ profile, onSwipe }: SwipePageProps) {
         ).filter(c => !deck.some(d => d.id === c.id));
         setDeck(prev => [...prev, ...newCards.slice(0, 10)]);
       }
-    }, 300);
+    }, 500);
   }, [currentCard, currentIndex, deck, isAnimating, onSwipe, profile]);
-
-  const handleButtonSwipe = useCallback((direction: SwipeDirection) => {
-    handleSwipe(direction);
-  }, [handleSwipe]);
-
-  const handleShare = useCallback(async () => {
-    if (!currentCard) return;
-    
-    try {
-      await navigator.share({
-        title: `I'm ${currentCard.trait}!`,
-        text: currentCard.description,
-        url: window.location.href,
-      });
-    } catch {
-      // Fallback - copy to clipboard
-      navigator.clipboard.writeText(`I'm ${currentCard.trait}! ${currentCard.description}`);
-    }
-  }, [currentCard]);
 
   const handleReset = useCallback(() => {
     setCurrentIndex(0);
@@ -71,146 +52,90 @@ export function SwipePage({ profile, onSwipe }: SwipePageProps) {
     setDeck(newDeck);
   }, []);
 
-  const progress = useMemo(() => {
-    const total = traitCards.length;
-    const seen = profile.acceptedTraits.length + profile.rejectedTraits.length;
-    return Math.min((seen / total) * 100, 100);
-  }, [profile]);
-
   if (!currentCard) {
     return (
-      <div className="flex flex-col items-center justify-center h-full p-8 text-center space-y-6">
-        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center">
-          <Sparkles className="w-12 h-12 text-white" />
+      <div className="flex flex-col items-center justify-center h-full p-8 text-center space-y-8 bg-black">
+        <div className="w-32 h-32 rounded-2xl border border-violet-500/30 bg-violet-500/5 flex items-center justify-center shadow-[0_0_30px_rgba(139,92,246,0.15)]">
+          <Sparkles className="w-16 h-16 text-violet-400" />
         </div>
-        <div className="space-y-2">
-          <h3 className="text-2xl font-bold">You've seen all traits!</h3>
-          <p className="text-muted-foreground">
-            You've explored {profile.acceptedTraits.length + profile.rejectedTraits.length} traits
+        <div className="space-y-4 max-w-xs">
+          <h3 className="text-2xl font-semibold uppercase tracking-widest text-white">Enlightened</h3>
+          <p className="text-gray-500 text-sm">
+            You've explored {profile.swipeCount} traits. The stars are satisfied for now.
           </p>
         </div>
-        <div className="w-full max-w-xs bg-gray-200 dark:bg-gray-800 rounded-full h-2">
-          <div 
-            className="bg-gradient-to-r from-violet-500 to-purple-500 h-2 rounded-full transition-all"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-        <Button onClick={handleReset} variant="outline" className="gap-2">
+        <Button onClick={handleReset} className="rounded-full px-8 py-6 bg-violet-400 hover:bg-violet-300 text-black gap-2 uppercase tracking-widest text-xs font-semibold">
           <RotateCcw className="w-4 h-4" />
-          Start Over
+          Seek more
         </Button>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-black overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b">
-        <div>
-          <h2 className="text-lg font-semibold">Discover Yourself</h2>
-          <p className="text-sm text-muted-foreground">
-            {profile.swipeCount} traits explored
-          </p>
+      <header className="p-4 pt-6 flex justify-between items-center">
+        <h1 className="text-lg font-semibold tracking-widest uppercase text-white">Discovery</h1>
+        <div className="text-xs font-medium uppercase tracking-widest text-violet-400">
+          {currentIndex + 1} / {deck.length}
         </div>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">
-            {currentIndex + 1} / {deck.length}
-          </span>
-        </div>
-      </div>
+      </header>
 
-      {/* Card stack */}
-      <div className="flex-1 relative p-4 max-w-md mx-auto w-full min-h-0">
-        <div className="relative w-full h-full min-h-[400px] max-h-[600px]">
-          {/* Background card */}
+      {/* Card stack area */}
+      <div className="flex-1 relative px-6 py-4 flex flex-col items-center justify-center">
+        <div className="w-full max-w-md aspect-[3/4] relative">
+          {/* Next Card Preview */}
           {nextCard && (
-            <div className="absolute inset-0 scale-95 opacity-50 translate-y-4">
-              <div className="w-full h-full bg-gray-100 dark:bg-gray-800 rounded-3xl shadow-lg" />
+            <div className="absolute inset-0 scale-95 translate-y-6 opacity-20 pointer-events-none">
+              <div className="w-full h-full rounded-3xl border border-violet-500/20 bg-gray-900/50" />
             </div>
           )}
-          
-          {/* Current card */}
+
+          {/* Current Card */}
           <SwipeCardComponent
+            key={currentCard.id}
             trait={currentCard}
             onSwipe={handleSwipe}
             isTop={true}
+            forcedDirection={forcedDirection}
           />
         </div>
       </div>
 
-      {/* Action buttons */}
-      <div className="p-6 border-t bg-white/50 dark:bg-black/50 backdrop-blur-sm relative z-0">
-        <div className="flex items-center justify-center gap-4 max-w-sm mx-auto">
-          {/* Reject */}
+      {/* Control Buttons */}
+      <div className="p-6 pb-24">
+        <div className="flex items-center justify-center gap-4">
           <Button
             variant="outline"
             size="lg"
-            className="w-16 h-16 rounded-full border-2 border-red-200 hover:bg-red-50 hover:border-red-300 dark:border-red-900 dark:hover:bg-red-950"
-            onClick={() => handleButtonSwipe('left')}
+            className="w-16 h-16 rounded-2xl border-gray-800 bg-gray-900/50 hover:bg-gray-800 hover:border-violet-500/30 text-gray-400 hover:text-white p-0 transition-all"
+            onClick={() => handleSwipe('left')}
             disabled={isAnimating}
           >
-            <X className="w-8 h-8 text-red-500" />
+            <X className="w-7 h-7" />
           </Button>
 
-          {/* Share */}
           <Button
             variant="outline"
             size="lg"
-            className="w-14 h-14 rounded-full"
-            onClick={handleShare}
-          >
-            <Share2 className="w-5 h-5" />
-          </Button>
-
-          {/* Very accurate (up) */}
-          <Button
-            variant="outline"
-            size="lg"
-            className="w-14 h-14 rounded-full border-2 border-violet-200 hover:bg-violet-50 hover:border-violet-300 dark:border-violet-900 dark:hover:bg-violet-950"
-            onClick={() => handleButtonSwipe('up')}
+            className="w-14 h-14 rounded-2xl border-gray-800 bg-gray-900/50 hover:bg-gray-800 hover:border-violet-500/30 text-violet-400 p-0 transition-all"
+            onClick={() => handleSwipe('up')}
             disabled={isAnimating}
           >
-            <ArrowUp className="w-5 h-5 text-violet-500" />
+            <ArrowUp className="w-6 h-6" />
           </Button>
 
-          {/* Accept */}
           <Button
-            variant="outline"
             size="lg"
-            className="w-16 h-16 rounded-full border-2 border-green-200 hover:bg-green-50 hover:border-green-300 dark:border-green-900 dark:hover:bg-green-950"
-            onClick={() => handleButtonSwipe('right')}
+            className="w-16 h-16 rounded-2xl bg-violet-400 hover:bg-violet-300 text-black p-0 transition-all"
+            onClick={() => handleSwipe('right')}
             disabled={isAnimating}
           >
-            <Check className="w-8 h-8 text-green-500" />
+            <Check className="w-7 h-7" />
           </Button>
-        </div>
-
-        {/* Legend */}
-        <div className="flex justify-center gap-6 mt-4 text-xs text-muted-foreground">
-          <span>Swipe or tap buttons</span>
         </div>
       </div>
-
-      {/* Accepted traits summary */}
-      {profile.acceptedTraits.length > 0 && (
-        <div className="px-4 pb-4">
-          <p className="text-sm text-muted-foreground mb-2">Your traits:</p>
-          <div className="flex flex-wrap gap-2">
-            {profile.acceptedTraits.slice(-5).map(traitId => {
-              const trait = traitCards.find(t => t.id === traitId);
-              return trait ? (
-                <span 
-                  key={traitId}
-                  className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-xs"
-                >
-                  {trait.emoji} {trait.trait}
-                </span>
-              ) : null;
-            })}
-          </div>
-        </div>
-      )}
     </div>
   );
 }

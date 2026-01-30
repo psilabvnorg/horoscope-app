@@ -74,6 +74,11 @@
   }
 }
 
+/* Radial gradient utility */
+.bg-gradient-radial {
+  background: radial-gradient(circle at center, var(--tw-gradient-stops));
+}
+
 /* Custom animations */
 @keyframes float {
   0%, 100% {
@@ -176,4 +181,32 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+/* Fix for Vaul drawer portal blocking clicks */
+[data-vaul-drawer-wrapper] {
+  pointer-events: none !important;
+}
+
+[data-vaul-drawer-wrapper] > * {
+  pointer-events: auto !important;
+}
+
+/* Fix for Radix portal blocking clicks */
+[data-radix-portal] {
+  pointer-events: none !important;
+}
+
+[data-radix-portal] > * {
+  pointer-events: auto !important;
 }

@@ -74,12 +74,12 @@ function App() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Main content */}
-      <main className="flex-1 overflow-hidden">
+      <main className="flex-1 overflow-auto pb-16">
         {renderContent()}
       </main>
 
       {/* Bottom navigation */}
-      <nav className="border-t bg-background/80 backdrop-blur-lg relative z-50">
+      <nav className="fixed bottom-0 left-0 right-0 border-t bg-background/95 backdrop-blur-lg z-[100]">
         <div className="flex justify-around items-center h-16 max-w-lg mx-auto">
           {(['swipe', 'tarot', 'couple', 'fortune', 'settings'] as Tab[]).map((tab) => (
             <button

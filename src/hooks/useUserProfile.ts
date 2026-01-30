@@ -38,7 +38,10 @@ export function useUserProfile() {
   const completeOnboarding = useCallback((data: {
     name: string;
     birthday: string;
+    birthTime?: string;
+    birthLocation?: string;
     gender: 'male' | 'female' | 'other';
+    relationshipStatus?: string;
     partnerBirthday?: string;
   }) => {
     const sign = getZodiacSign(data.birthday);
@@ -48,7 +51,10 @@ export function useUserProfile() {
       ...DEFAULT_PROFILE,
       name: data.name,
       birthday: data.birthday,
+      birthTime: data.birthTime,
+      birthLocation: data.birthLocation,
       gender: data.gender,
+      relationshipStatus: data.relationshipStatus,
       sign,
       partnerBirthday: data.partnerBirthday,
       partnerSign,

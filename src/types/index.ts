@@ -3,7 +3,10 @@
 export interface UserProfile {
   name: string;
   birthday: string;
+  birthTime?: string;
+  birthLocation?: string;
   gender: 'male' | 'female' | 'other';
+  relationshipStatus?: string;
   sign: ZodiacSign;
   partnerBirthday?: string;
   partnerSign?: ZodiacSign;

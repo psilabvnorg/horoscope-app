@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import type { UserProfile, ZodiacSign } from '@/types';
 import { ZODIAC_SIGNS, ZODIAC_DATES } from '@/types';
+import { getCompatibilityText } from '@/hooks/useCompatibility';
 import { ChevronLeft } from 'lucide-react';
 
 interface LovePageProps {
@@ -48,13 +49,15 @@ function getDateRange(sign: ZodiacSign): string {
 
 export function LovePage({ profile, onBack }: LovePageProps) {
   const [selectedSign, setSelectedSign] = useState<ZodiacSign>(profile.partnerSign || 'leo');
+  const [showResult, setShowResult] = useState(false);
   const userSign = profile.sign;
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleCheckLove = () => {
-    // Navigate to compatibility result or show result
-    console.log('Checking love compatibility between', userSign, 'and', selectedSign);
+    setShowResult(true);
   };
+
+  const compatibilityText = getCompatibilityText(userSign, selectedSign);
 
   return (
     <div className="flex flex-col h-full bg-[#0a0a12] text-white overflow-y-auto overflow-x-hidden">
@@ -227,6 +230,55 @@ export function LovePage({ profile, onBack }: LovePageProps) {
           Check Love
         </button>
       </div>
+
+      {/* Compatibility Result Modal */}
+      {showResult && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="w-full max-w-md bg-[#1a1a2e] rounded-3xl border border-purple-500/20 overflow-hidden">
+            {/* Header */}
+            <div className="p-6 bg-gradient-to-br from-purple-500/20 to-pink-500/20">
+              <div className="flex items-center justify-center gap-4">
+                <div 
+                  className="w-16 h-16 rounded-full flex items-center justify-center"
+                  style={{ boxShadow: `0 0 20px ${zodiacColors[userSign].glow}` }}
+                >
+                  <ZodiacIcon sign={userSign} size={50} />
+                </div>
+                <span className="text-2xl text-pink-400">❤️</span>
+                <div 
+                  className="w-16 h-16 rounded-full flex items-center justify-center"
+                  style={{ boxShadow: `0 0 20px ${zodiacColors[selectedSign].glow}` }}
+                >
+                  <ZodiacIcon sign={selectedSign} size={50} />
+                </div>
+              </div>
+              <h2 className="text-center text-lg font-semibold text-white mt-4 capitalize">
+                {userSign} & {selectedSign}
+              </h2>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-purple-400 mb-3">
+                Compatibility
+              </h3>
+              <p className="text-white/70 text-sm leading-relaxed">
+                {compatibilityText}
+              </p>
+            </div>
+
+            {/* Close Button */}
+            <div className="p-4 pt-0">
+              <button
+                onClick={() => setShowResult(false)}
+                className="w-full py-3 rounded-full border border-white/20 text-white/70 font-medium hover:bg-white/5 transition-all"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

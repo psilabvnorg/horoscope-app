@@ -2,11 +2,14 @@ import { useState } from 'react';
 import type { UserProfile } from '@/types';
 import { ChevronLeft, MessageCircle, Mic } from 'lucide-react';
 import { ChatInterface } from '../common/ChatInterface';
+import type { PromptContext } from '@/lib/llm';
 
 interface CrystalBallPageProps {
   profile: UserProfile;
   onBack: () => void;
 }
+
+const CHAT_CONTEXT: PromptContext = 'crystal-ball';
 
 const promptTags = [
   'Illuminate My Path',
@@ -43,7 +46,7 @@ export function CrystalBallPage({ profile, onBack }: CrystalBallPageProps) {
       <div className="flex flex-col h-full bg-[#0a0a12]">
         <ChatInterface
           profile={profile}
-          context="crystal-ball"
+          context={CHAT_CONTEXT}
           onClose={() => setShowChat(false)}
           initialMessage={initialMessage}
         />

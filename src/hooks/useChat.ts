@@ -1,12 +1,12 @@
 import { useState, useCallback, useRef } from 'react';
 import type { ChatMessage, UserProfile } from '@/types';
-
-const OLLAMA_BASE_URL = import.meta.env.VITE_OLLAMA_URL || 'http://localhost:11434';
-const MODEL = 'deepseek-r1:8b';
+import { generateResponse } from '@/lib/llm';
+import { buildSystemPrompt, type PromptContext, type EnhancedContext } from '@/lib/llm';
 
 interface UseChatOptions {
-  context?: string;
+  context?: PromptContext;
   systemPrompt?: string;
+  enhancedContext?: EnhancedContext;
 }
 
 export function useChat(options: UseChatOptions = {}) {
@@ -37,31 +37,21 @@ export function useChat(options: UseChatOptions = {}) {
     abortControllerRef.current = new AbortController();
 
     try {
-      const systemPrompt = buildSystemPrompt(profile, options.systemPrompt);
-      
-      const response = await fetch(`${OLLAMA_BASE_URL}/api/generate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: MODEL,
-          prompt: `${systemPrompt}\n\nUser: ${content}\n\nAssistant:`,
-          stream: false,
-        }),
-        signal: abortControllerRef.current.signal,
-      });
+      // Build system prompt with user context and enhanced context
+      const systemPrompt = options.context
+        ? buildSystemPrompt(options.context, profile, undefined, options.enhancedContext)
+        : options.systemPrompt || buildSystemPrompt('fortune', profile, undefined, options.enhancedContext);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      const response = await generateResponse(
+        systemPrompt,
+        content,
+        abortControllerRef.current.signal
+      );
 
-      const data = await response.json();
+      let assistantContent = response.content;
       
-      // Clean up the response - remove thinking tags if present
-      let assistantContent = data.response || '';
-      assistantContent = assistantContent.replace(/<think>.*?<\/think>/gs, '').trim();
-      
-      if (!assistantContent) {
-        assistantContent = "I'm here to help guide you through the mystical realm. What would you like to know?";
+      if (!assistantContent || response.error) {
+        assistantContent = getFallbackResponse(content);
       }
 
       const assistantMessage: ChatMessage = {
@@ -92,7 +82,7 @@ export function useChat(options: UseChatOptions = {}) {
       setIsLoading(false);
       abortControllerRef.current = null;
     }
-  }, [options.systemPrompt]);
+  }, [options.context, options.systemPrompt, options.enhancedContext]);
 
   const clearMessages = useCallback(() => {
     setMessages([]);
@@ -115,26 +105,6 @@ export function useChat(options: UseChatOptions = {}) {
     clearMessages,
     stopGeneration,
   };
-}
-
-function buildSystemPrompt(profile?: UserProfile, customPrompt?: string): string {
-  let prompt = customPrompt || `You are a mystical fortune teller and astrologer. You provide guidance based on astrology, tarot, and spiritual wisdom. Be warm, encouraging, and insightful. Keep responses concise (2-3 sentences) and mystical in tone.`;
-
-  if (profile) {
-    prompt += `\n\nUser Profile:`;
-    prompt += `\n- Zodiac Sign: ${profile.sign}`;
-    prompt += `\n- Gender: ${profile.gender}`;
-    if (profile.acceptedTraits.length > 0) {
-      prompt += `\n- Traits: ${profile.acceptedTraits.join(', ')}`;
-    }
-    if (profile.partnerSign) {
-      prompt += `\n- Partner's Sign: ${profile.partnerSign}`;
-    }
-  }
-
-  prompt += `\n\nRespond as a mystical guide. Be warm, positive, and insightful.`;
-  
-  return prompt;
 }
 
 function getFallbackResponse(userMessage: string): string {

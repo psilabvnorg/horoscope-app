@@ -1,0 +1,92 @@
+{
+  "MAJOR ARCANA": {
+    "The Fool": "Symbolizes a soul at the beginning of a journey, unburdened by past experiences. Represents pure potential, excitement, innocence, and openness. Encourages trusting the universe even without clear plans. Also points to naivety, the unknown, and a willingness to break free from societal expectations.",
+    "The Magician": "Represents the power of intentional creation. The blending of spiritual and physical realities. The ability to manifest by channeling focus, skill, and willpower. Encourages awareness of one's personal resources and talents. Warns against manipulation or misuse of power.",
+    "The High Priestess": "Embodies sacred intuition, feminine mystery, and hidden truths. Represents connection to the subconscious, dreams, and spiritual insight. Encourages trusting inner knowing even without logical evidence. Indicates secrets, veiled situations, or the need to wait patiently.",
+    "The Empress": "Symbolizes nurturing, abundance, sensuality, and the natural world. Represents fertility in ideas, relationships, or literal birth. Encourages self-care, creativity, and receiving pleasure without guilt. Connects to emotional expression and unconditional support.",
+    "The Emperor": "Represents structure, discipline, control, and authority. Embodies leadership rooted in logic and order. Represents boundaries, rules, stability, and fatherly energy. Encourages responsible action but warns against rigidity or dominance.",
+    "The Hierophant": "Symbolizes traditional wisdom, institutions, spiritual teachings, and social norms. Represents guidance through established systems or mentors. Encourages alignment with moral principles, but also invites questioning outdated systems when necessary.",
+    "The Lovers": "Represents meaningful unions, choices that shape destiny, and alignment between heart and values. Symbolizes emotional, spiritual, or ethical crossroads. Encourages honest connection, vulnerability, and choosing what aligns with one's authentic self.",
+    "The Chariot": "Represents victory earned through discipline, determination, and willpower. Symbolizes controlling opposing forces within oneself and directing them toward a goal. Encourages focus and mastery but warns against forcefulness or ego-driven behavior.",
+    "Strength": "Represents inner fortitude, compassion, courage, and calm influence. Symbolizes overcoming challenges through patience and love rather than aggression. Encourages emotional resilience and self-control. Suggests gentleness as true power.",
+    "The Hermit": "Symbolizes introspection, spiritual retreat, solitude, and soul-searching. Represents the need to step back to find clarity or wisdom. Encourages inner reflection and following personal truth. Also indicates spiritual mentorship or withdrawing to heal.",
+    "Wheel of Fortune": "Represents cycles, fate, karma, and the turning points of life. Symbolizes unpredictable change—either fortunate or challenging. Encourages openness to transformation and understanding that life operates in seasons. Reminds you that nothing is permanent.",
+    "Justice": "Symbolizes truth, fairness, and cause-and-effect. Represents accountability for actions, decisions, and consequences. Encourages integrity, honesty, and balanced judgment. Reveals situations requiring clarity, fairness, or legal outcomes.",
+    "The Hanged Man": "Represents surrender to a higher perspective, letting go, or pausing progress for insight. Symbolizes sacrifice that leads to growth. Encourages acceptance and seeing things from a new angle. Indicates spiritual awakening through stillness.",
+    "Death": "Symbolizes profound transformation, endings, and rebirth. Represents clearing old cycles, releasing attachments, and embracing renewal. Encourages acceptance of necessary change. Not literal death—rather the shedding of the outdated self.",
+    "Temperance": "Represents balance, patience, healing, and blending opposing energies. Encourages moderation, emotional regulation, and harmony. Symbolizes subtle progress and divine timing. Calls for cooperation and peaceful alignment.",
+    "The Devil": "Represents temptation, desire, addiction, materialism, and mental bondage. Symbolizes illusions that keep one trapped. Encourages examining what holds power over you—fear, habits, or relationships. Also represents passion and intensity when conscious and controlled.",
+    "The Tower": "Represents sudden upheaval, revelation, or dramatic change that breaks false foundations. Symbolizes truth crashing through illusions. Although disruptive, it clears space for authenticity and liberation. Encourages rebuilding with honesty.",
+    "The Star": "Symbolizes hope, inspiration, spiritual cleansing, and renewed faith. Represents healing after difficulty. Encourages trust in higher guidance and returning to one’s authentic self. A light in the darkness that promises renewal.",
+    "The Moon": "Represents illusions, fears, subconscious patterns, dreams, and intuition clouded by emotion. Symbolizes uncertainty and the unknown. Encourages facing inner shadows and trusting intuition cautiously. Warns against deception or misunderstandings.",
+    "The Sun": "Represents clarity, joy, vitality, success, and innocence. Symbolizes pure positivity and emotional radiance. Encourages self-expression, optimism, and celebrating life. Brings truth, warmth, and confidence.",
+    "Judgment": "Represents awakening, self-evaluation, karmic lessons, and rebirth. Symbolizes answering a spiritual calling or releasing old identities. Encourages forgiveness, accountability, and transformation through truth.",
+    "The World": "Represents completion, mastery, fulfillment, and integration. Symbolizes the end of a cycle and the harmony of all elements. Encourages celebrating achievements and stepping into a new phase with wisdom."
+  }
+  ,"WANDS": {
+    "Ace of Wands": "Represents creative ignition, inspiration, courage, and new opportunities. Symbolizes a spark that leads to bold action and growth. Encourages following passion and taking initiative.",
+    "Two of Wands": "Represents planning, vision, and preparing for expansion. Symbolizes stepping beyond comfort zones and exploring broader possibilities. Encourages long-term thinking.",
+    "Three of Wands": "Represents progress, momentum, and future opportunities arriving. Symbolizes confidence in one's chosen path. Encourages patience as rewards approach.",
+    "Four of Wands": "Represents harmony, celebration, stability, and joyful milestones. Symbolizes solid foundations and supportive relationships.",
+    "Five of Wands": "Represents conflict, competition, differing opinions, and testing strengths. Encourages embracing challenges constructively.",
+    "Six of Wands": "Represents recognition, success, and visible achievement. Encourages confidence and accepting praise for your efforts.",
+    "Seven of Wands": "Represents standing firm, defending your position, and overcoming challenges. Symbolizes inner strength and perseverance.",
+    "Eight of Wands": "Represents speed, movement, messages, alignment, and rapid progress. Symbolizes events unfolding quickly and decisively.",
+    "Nine of Wands": "Represents resilience, boundaries, and persistence despite fatigue. Encourages staying strong near the finish line.",
+    "Ten of Wands": "Represents burdens, overwhelm, responsibility, and pressure. Symbolizes carrying too much alone. Encourages delegation and release.",
+    "Page of Wands": "Represents creative curiosity, enthusiasm, exploration, and new ideas. Symbolizes youthful fire and inspiration.",
+    "Knight of Wands": "Represents bold action, passion, courage, and impulsiveness. Symbolizes adventure and taking risks.",
+    "Queen of Wands": "Represents confidence, charisma, creativity, leadership, and independence. Symbolizes magnetic determination and vibrant energy.",
+    "King of Wands": "Represents vision, authority, ambition, and mastery of creative direction. A leader who inspires through action."
+  }
+  , "CUPS": {
+    "Ace of Cups": "Represents emotional renewal, spiritual connection, love, and intuitive flow. Symbolizes the opening of the heart.",
+    "Two of Cups": "Represents partnership, unity, attraction, mutual respect, and emotional bonding.",
+    "Three of Cups": "Represents friendship, celebration, joy, community, and emotional support.",
+    "Four of Cups": "Represents introspection, emotional numbness, dissatisfaction, and reevaluation. Encourages noticing blessings overlooked.",
+    "Five of Cups": "Represents grief, regret, sorrow, and emotional loss. Encourages healing by acknowledging what remains.",
+    "Six of Cups": "Represents nostalgia, innocence, comfort, memories, and emotional simplicity. Symbolizes healing through reconnecting with the past.",
+    "Seven of Cups": "Represents illusion, fantasy, choices, and dreamlike temptation. Encourages clarity and grounded decision making.",
+    "Eight of Cups": "Represents walking away, emotional withdrawal, spiritual searching, and deeper meaning.",
+    "Nine of Cups": "Represents emotional satisfaction, personal fulfillment, contentment, and wishes granted.",
+    "Ten of Cups": "Represents harmony, emotional completion, family unity, inner peace, and lasting joy.",
+    "Page of Cups": "Represents emotional openness, creativity, imagination, intuitive messages, and vulnerable expression.",
+    "Knight of Cups": "Represents romance, idealism, emotional pursuit, charm, and following dreams.",
+    "Queen of Cups": "Represents compassion, empathy, intuition, emotional depth, and healing energy.",
+    "King of Cups": "Represents emotional mastery, diplomacy, balanced heart and mind, and supportive leadership."
+  }
+  , "SWORDS": {
+    "Ace of Swords": "Represents mental clarity, truth, breakthrough, new ideas, and powerful communication.",
+    "Two of Swords": "Represents indecision, avoidance, stalemate, and emotional detachment blocking clarity.",
+    "Three of Swords": "Represents heartbreak, emotional pain, separation, sorrow, and truth cutting through illusion.",
+    "Four of Swords": "Represents rest, recovery, meditation, inner healing, and mental restoration.",
+    "Five of Swords": "Represents conflict, ego battles, tension, and hollow victories. Encourages humility.",
+    "Six of Swords": "Represents transition, healing, moving forward, and leaving behind suffering.",
+    "Seven of Swords": "Represents secrecy, strategy, deception, independence, and clever problem-solving.",
+    "Eight of Swords": "Represents fear, mental imprisonment, self-limiting beliefs, and feeling trapped.",
+    "Nine of Swords": "Represents anxiety, overthinking, nightmares, emotional stress, and inner turmoil.",
+    "Ten of Swords": "Represents painful ending, betrayal, collapse, and surrender to transformation.",
+    "Page of Swords": "Represents curiosity, alertness, communication, new ideas, and watchfulness.",
+    "Knight of Swords": "Represents swift action, ambition, assertiveness, and intellectual drive.",
+    "Queen of Swords": "Represents clarity, logic, independence, truth, and emotional honesty.",
+    "King of Swords": "Represents authority, intellect, rational leadership, strategy, and discipline."
+  }
+  , "PENTACLES": {
+    "Ace of Pentacles": "Represents new financial opportunities, prosperity, abundance, stability, and material beginnings.",
+    "Two of Pentacles": "Represents balance, adaptability, time management, and juggling multiple priorities.",
+    "Three of Pentacles": "Represents teamwork, skill-building, craftsmanship, and collaboration toward shared goals.",
+    "Four of Pentacles": "Represents security, holding on tightly, fear of loss, and the need for healthy boundaries.",
+    "Five of Pentacles": "Represents hardship, financial struggle, isolation, and seeking support or resources.",
+    "Six of Pentacles": "Represents generosity, giving and receiving, charity, fairness, and balance in exchanges.",
+    "Seven of Pentacles": "Represents patience, steady progress, reflection, investment, and long-term growth.",
+    "Eight of Pentacles": "Represents mastery, dedication, skill development, and consistent focused effort.",
+    "Nine of Pentacles": "Represents independence, self-sufficiency, comfort, luxury, and enjoying the fruits of labor.",
+    "Ten of Pentacles": "Represents legacy, long-term stability, family wealth, tradition, and shared prosperity.",
+    "Page of Pentacles": "Represents ambition, new studies, opportunity, planning, and grounded beginnings.",
+    "Knight of Pentacles": "Represents hard work, responsibility, routine, persistence, and steady progress.",
+    "Queen of Pentacles": "Represents nurturing prosperity, practicality, comfort, resourcefulness, and providing support.",
+    "King of Pentacles": "Represents wealth, stability, leadership, success, discipline, and mastery of material life."
+  }
+  
+
+}

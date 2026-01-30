@@ -39,6 +39,8 @@ function App() {
 
   const [activeTab, setActiveTab] = useState<Tab>('horoscope');
   const [readingView, setReadingView] = useState<ReadingView>('menu');
+  const [selectedReadingType, setSelectedReadingType] = useState<string | null>(null);
+  const [selectedCards, setSelectedCards] = useState<number[]>([]);
 
   if (!isOnboarded) {
     return <OnboardingFlow onComplete={completeOnboarding} />;
@@ -53,8 +55,12 @@ function App() {
           <TarotCardsPage
             onBack={() => setReadingView('menu')}
             onSelectReading={(type) => {
-              console.log('Selected reading type:', type);
-              setReadingView('tarot-selection');
+              setSelectedReadingType(type);
+              if (type === 'daily' || type === 'meanings') {
+                setReadingView('tarot-reading');
+              } else {
+                setReadingView('tarot-selection');
+              }
             }}
           />
         );
@@ -62,7 +68,7 @@ function App() {
           <TarotCardSelection
             onBack={() => setReadingView('tarot')}
             onComplete={(cards) => {
-              console.log('Selected cards:', cards);
+              setSelectedCards(cards);
               setReadingView('tarot-reading');
             }}
           />
@@ -74,23 +80,29 @@ function App() {
               <h2 className="text-sm font-bold tracking-widest uppercase">Tarot</h2>
               <div className="w-10" />
             </div>
-            <div className="flex-1 overflow-auto"><TarotPage profile={profile} /></div>
+            <div className="flex-1 overflow-auto">
+              <TarotPage
+                profile={profile}
+                readingType={selectedReadingType || undefined}
+                selectedCardIds={selectedCards.length > 0 ? selectedCards : undefined}
+              />
+            </div>
           </div>
         );
         if (readingView === 'palm') return (
-          <PalmReadingIntro 
-            onBack={() => setReadingView('menu')} 
-            onReadNow={() => setReadingView('palm-result')} 
+          <PalmReadingIntro
+            onBack={() => setReadingView('menu')}
+            onReadNow={() => setReadingView('palm-result')}
           />
         );
         if (readingView === 'palm-result') return (
-          <PalmReadingResult 
-            onBack={() => setReadingView('menu')} 
+          <PalmReadingResult
+            onBack={() => setReadingView('menu')}
           />
         );
         if (readingView === 'birth-chart') return (
-          <BirthChartReading 
-            onBack={() => setReadingView('menu')} 
+          <BirthChartReading
+            onBack={() => setReadingView('menu')}
           />
         );
         return <ReadingsPage profile={profile} onNavigate={(view) => setReadingView(view as ReadingView)} />;

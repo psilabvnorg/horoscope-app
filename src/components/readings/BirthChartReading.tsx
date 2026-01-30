@@ -173,16 +173,17 @@ export function BirthChartReading({ onBack }: BirthChartReadingProps) {
 
     return (
         <div className="flex flex-col h-full bg-[#050510] text-white overflow-hidden">
+            {/* Fixed Back Button */}
+            <button
+                onClick={onBack}
+                className="fixed top-6 left-4 z-50 flex items-center gap-1 text-violet-400 hover:text-violet-300 transition-colors"
+            >
+                <ChevronLeft className="w-5 h-5" />
+            </button>
+
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-4 pt-6">
-                <button
-                    onClick={onBack}
-                    className="flex items-center gap-1 text-violet-400 hover:text-violet-300 transition-colors"
-                >
-                    <ChevronLeft className="w-5 h-5" />
-                </button>
+            <div className="flex items-center justify-center px-4 py-4 pt-6">
                 <h1 className="text-sm font-semibold tracking-[0.15em] uppercase">Birth Chart</h1>
-                <div className="w-10" />
             </div>
 
             {/* Tabs */}

@@ -1,14 +1,12 @@
 import { useState, useRef } from 'react';
 import type { UserProfile } from '@/types';
 import { ChevronLeft, X } from 'lucide-react';
+import { generateResponse, buildSystemPrompt } from '@/lib/llm';
 
 interface DreamExplainPageProps {
   profile: UserProfile;
   onBack: () => void;
 }
-
-const OLLAMA_BASE_URL = import.meta.env.VITE_OLLAMA_URL || 'http://localhost:11434';
-const MODEL = 'deepseek-r1:8b';
 
 export function DreamExplainPage({ profile, onBack }: DreamExplainPageProps) {
   const [dreamText, setDreamText] = useState('');
@@ -23,31 +21,18 @@ export function DreamExplainPage({ profile, onBack }: DreamExplainPageProps) {
     abortControllerRef.current = new AbortController();
 
     try {
-      const systemPrompt = `You are Luna, a mystical dream interpreter. You help users understand the meaning and symbolism behind their dreams. Provide mystical and psychological insights about dream symbols. Be warm, insightful, and speak in a mystical tone. Keep your interpretation to 3-4 paragraphs.
+      const systemPrompt = buildSystemPrompt('dream', profile, 
+        'Provide a mystical dream interpretation in 3-4 paragraphs. Be insightful and warm.');
 
-User's zodiac sign: ${profile.sign}
-User's gender: ${profile.gender}`;
+      const response = await generateResponse(
+        systemPrompt,
+        `Please interpret this dream:\n"${dreamText}"`,
+        abortControllerRef.current.signal
+      );
 
-      const response = await fetch(`${OLLAMA_BASE_URL}/api/generate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: MODEL,
-          prompt: `${systemPrompt}\n\nPlease interpret this dream:\n"${dreamText}"\n\nDream Interpretation:`,
-          stream: false,
-        }),
-        signal: abortControllerRef.current.signal,
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      let result = data.response || '';
-      result = result.replace(/<think>.*?<\/think>/gs, '').trim();
+      let result = response.content;
       
-      if (!result) {
+      if (!result || response.error) {
         result = "Your dream carries deep symbolism from the subconscious realm. The images you've described suggest a period of transformation and self-discovery. Trust in the messages your inner self is sending you through these nocturnal visions.";
       }
 

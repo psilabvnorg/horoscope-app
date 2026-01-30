@@ -82,6 +82,33 @@ export const ZODIAC_DATES: Record<ZodiacSign, { start: [number, number]; end: [n
   pisces: { start: [2, 19], end: [3, 20] }
 };
 
+// Data types for JSON imports
+export interface ZodiacDescription {
+  [sign: string]: string;
+}
+
+export interface LoveCompatibility {
+  [sign: string]: {
+    [partnerSign: string]: string;
+  };
+}
+
+export interface MonthlyEnergy {
+  [sign: string]: {
+    [month: string]: string;
+  };
+}
+
+export interface TarotMeanings {
+  'MAJOR ARCANA': { [card: string]: string };
+  'WANDS': { [card: string]: string };
+  'CUPS': { [card: string]: string };
+  'SWORDS': { [card: string]: string };
+  'PENTACLES': { [card: string]: string };
+}
+
+export type EnergyStatus = 'aligned' | 'compatible' | 'challenging';
+
 export function getZodiacSign(dateStr: string): ZodiacSign {
   const date = new Date(dateStr);
   const month = date.getMonth() + 1;

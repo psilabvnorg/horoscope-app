@@ -1,6 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { UserProfile, TarotReading } from '@/types';
 import { useTarot } from '@/hooks/useTarot';
+import { getEnhancedMeaning } from '@/hooks/useTarotMeanings';
+import { buildTarotContext } from '@/lib/llm';
 import { TarotCardComponent } from './TarotCard';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -10,9 +12,11 @@ import { ChatInterface } from '../common/ChatInterface';
 
 interface TarotPageProps {
   profile: UserProfile;
+  readingType?: string;
+  selectedCardIds?: number[];
 }
 
-export function TarotPage({ profile }: TarotPageProps) {
+export function TarotPage({ profile, readingType, selectedCardIds }: TarotPageProps) {
   const {
     dailyReading,
     history,
@@ -20,20 +24,44 @@ export function TarotPage({ profile }: TarotPageProps) {
     getThreeCardSpread,
     getPastPresentFuture,
     getRelationshipReading,
+    getCardById,
   } = useTarot();
 
   const [activeTab, setActiveTab] = useState('daily');
   const [currentReading, setCurrentReading] = useState<TarotReading | null>(null);
   const [showChat, setShowChat] = useState(false);
+  const [_expandedCard, _setExpandedCard] = useState<number | null>(null);
 
   useEffect(() => {
-    if (!dailyReading) {
+    if (selectedCardIds && readingType && readingType !== 'meanings') {
+      const cards = selectedCardIds.map(id => ({
+        card: getCardById(id)!,
+        position: readingType === 'near-future' ? 'The Path' : 'Position',
+        reversed: Math.random() > 0.7
+      }));
+
+      const reading: TarotReading = {
+        id: `custom-${Date.now()}`,
+        type: readingType as any,
+        cards,
+        interpretation: 'Your custom reading is being channeled...',
+        date: new Date().toISOString()
+      };
+      setCurrentReading(reading);
+      setActiveTab(readingType === 'near-future' ? 'three' : 'daily');
+    } else if (readingType === 'meanings') {
+      setActiveTab('library');
+    } else if (readingType === 'daily') {
+      const reading = getDailyCard(profile.sign);
+      setCurrentReading(reading);
+      setActiveTab('daily');
+    } else if (!dailyReading) {
       const reading = getDailyCard(profile.sign);
       setCurrentReading(reading);
     } else {
       setCurrentReading(dailyReading);
     }
-  }, [dailyReading, getDailyCard, profile.sign]);
+  }, [dailyReading, getDailyCard, profile.sign, readingType, selectedCardIds, getCardById]);
 
   const handleThreeCard = useCallback(() => {
     const reading = getThreeCardSpread(profile.sign);
@@ -51,6 +79,14 @@ export function TarotPage({ profile }: TarotPageProps) {
       setCurrentReading(reading);
     }
   }, [getRelationshipReading, profile.sign, profile.partnerSign]);
+
+  // Build enhanced context for chat with current tarot reading
+  const tarotChatContext = useMemo(() => {
+    if (!currentReading) return undefined;
+    return {
+      tarotCards: buildTarotContext(currentReading.cards),
+    };
+  }, [currentReading]);
 
   const renderCardSpread = () => {
     if (!currentReading) return null;
@@ -79,26 +115,100 @@ export function TarotPage({ profile }: TarotPageProps) {
           ))}
         </div>
 
-        {/* Interpretation */}
-        <div className="glass-card p-6 rounded-[2rem] space-y-4 border border-violet-500/20">
-          <h4 className="text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-2 text-violet-400">
-            <Sparkles className="w-3 h-3" />
-            Arcane Wisdom
-          </h4>
-          <p className="text-sm text-white/80 leading-relaxed font-medium italic">
-            "{currentReading.interpretation}"
-          </p>
+        {/* Enhanced Meaning Sections */}
+        <div className="space-y-6">
+          {currentReading.cards.map((cardData, index) => {
+            const enhancedMeaning = getEnhancedMeaning(cardData.card);
 
-          <div className="flex flex-wrap gap-2 pt-2">
-            {currentReading.cards.flatMap(c => c.card.keywords).slice(0, 6).map((keyword, i) => (
-              <span
+            return (
+              <div key={index} className="glass-card p-6 rounded-[2rem] space-y-4 border border-violet-500/20">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.3em] flex items-center gap-2 text-violet-400">
+                    <Sparkles className="w-3 h-3" />
+                    {cardData.position}: {cardData.card.name}
+                  </h4>
+                  {cardData.card.arcana === 'major' && (
+                    <span className="text-[8px] px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-300 font-bold uppercase tracking-wider">
+                      Major Arcana
+                    </span>
+                  )}
+                </div>
+
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-white/40">Basic Meaning</p>
+                    <p className="text-sm text-white/80 leading-relaxed font-medium">
+                      {cardData.reversed ? cardData.card.meaning.reversed : cardData.card.meaning.upright}
+                    </p>
+                  </div>
+
+                  {enhancedMeaning && (
+                    <div className="space-y-2 pt-2 border-t border-white/5">
+                      <p className="text-[9px] font-black uppercase tracking-widest text-violet-400/60">Enhanced Wisdom</p>
+                      <p className="text-sm text-white/70 leading-relaxed italic">
+                        "{enhancedMeaning}"
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {cardData.card.keywords.map((keyword, i) => (
+                    <span
+                      key={i}
+                      className="px-3 py-1 bg-white/5 border border-white/10 text-[9px] font-black uppercase tracking-widest text-muted-foreground rounded-full"
+                    >
+                      {keyword}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
+  const renderLibrary = () => {
+    // We would need to import all cards here, but useTarot provides some.
+    // In a real app we'd fetch all 78. For now let's use what's in data.
+    return (
+      <div className="space-y-6 animate-in fade-in duration-500">
+        <div className="text-center mb-8">
+          <h3 className="text-2xl font-black uppercase tracking-widest italic">Arcane Library</h3>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mt-1">Explore all 78 card meanings</p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          {/* This is a simplified library view */}
+          {history.length > 0 ? (
+            history.flatMap(r => r.cards).map((c, i) => (
+              <div
                 key={i}
-                className="px-3 py-1 bg-white/5 border border-white/10 text-[9px] font-black uppercase tracking-widest text-muted-foreground rounded-full"
+                className="glass-card p-4 rounded-2xl border border-white/5 text-center cursor-pointer hover:border-violet-500/30 transition-colors"
+                onClick={() => {
+                  setCurrentReading({
+                    id: 'library-preview',
+                    type: 'daily',
+                    cards: [c],
+                    interpretation: '',
+                    date: new Date().toISOString()
+                  });
+                  setActiveTab('daily');
+                }}
               >
-                {keyword}
-              </span>
-            ))}
-          </div>
+                <div className="text-2xl mb-2">
+                  {c.card.arcana === 'major' ? '🔮' : '💧'}
+                </div>
+                <div className="text-xs font-bold text-white truncate">{c.card.name}</div>
+              </div>
+            ))
+          ) : (
+            <div className="col-span-2 text-center py-12 text-white/40 italic text-sm">
+              Perform a reading to unlock cards in your record...
+            </div>
+          )}
         </div>
       </div>
     );
@@ -115,6 +225,7 @@ export function TarotPage({ profile }: TarotPageProps) {
             profile={profile}
             context="tarot"
             onClose={() => setShowChat(false)}
+            enhancedContext={tarotChatContext}
           />
         </div>
       )}
@@ -122,22 +233,28 @@ export function TarotPage({ profile }: TarotPageProps) {
       <ScrollArea className="flex-1">
         <div className="p-4 space-y-8 pb-20 max-w-md mx-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid grid-cols-4 w-full bg-white/5 border border-white/5 rounded-full p-1 h-12">
-              <TabsTrigger value="daily" className="rounded-full data-[state=active]:bg-violet-600 data-[state=active]:text-white text-[10px] uppercase font-bold tracking-widest">
-                Daily
+            <TabsList className="grid grid-cols-5 w-full bg-white/5 border border-white/5 rounded-full p-1 h-12">
+              <TabsTrigger value="daily" className="rounded-full data-[state=active]:bg-violet-600 data-[state=active]:text-white text-[9px] uppercase font-bold tracking-widest">
+                Card
               </TabsTrigger>
-              <TabsTrigger value="three" className="rounded-full data-[state=active]:bg-violet-600 data-[state=active]:text-white text-[10px] uppercase font-bold tracking-widest">
+              <TabsTrigger value="three" className="rounded-full data-[state=active]:bg-violet-600 data-[state=active]:text-white text-[9px] uppercase font-bold tracking-widest">
                 Spread
               </TabsTrigger>
-              <TabsTrigger value="ppf" className="rounded-full data-[state=active]:bg-violet-600 data-[state=active]:text-white text-[10px] uppercase font-bold tracking-widest">
+              <TabsTrigger value="ppf" className="rounded-full data-[state=active]:bg-violet-600 data-[state=active]:text-white text-[9px] uppercase font-bold tracking-widest">
                 PPF
               </TabsTrigger>
-              <TabsTrigger value="relationship" disabled={!profile.partnerSign} className="rounded-full data-[state=active]:bg-violet-600 data-[state=active]:text-white text-[10px] uppercase font-bold tracking-widest">
+              <TabsTrigger value="relationship" disabled={!profile.partnerSign} className="rounded-full data-[state=active]:bg-violet-600 data-[state=active]:text-white text-[9px] uppercase font-bold tracking-widest">
                 Love
+              </TabsTrigger>
+              <TabsTrigger value="library" className="rounded-full data-[state=active]:bg-violet-600 data-[state=active]:text-white text-[9px] uppercase font-bold tracking-widest">
+                Library
               </TabsTrigger>
             </TabsList>
 
             <div className="mt-8">
+              <TabsContent value="library" className="mt-0 focus-visible:outline-none">
+                {renderLibrary()}
+              </TabsContent>
               <TabsContent value="daily" className="mt-0 focus-visible:outline-none">
                 <div className="text-center mb-8">
                   <h3 className="text-2xl font-black uppercase tracking-widest italic">Today's Pulse</h3>

@@ -29,14 +29,16 @@ export function TarotCardSelection({ onBack, onComplete }: TarotCardSelectionPro
 
   return (
     <div className="flex flex-col h-full bg-[#0a0a1a] text-white overflow-hidden">
+      {/* Fixed Back Button */}
+      <button
+        onClick={onBack}
+        className="fixed top-6 left-4 z-50 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+      >
+        <ChevronLeft className="w-5 h-5" />
+      </button>
+
       {/* Header */}
-      <header className="p-4 pt-6 flex items-center gap-3">
-        <button
-          onClick={onBack}
-          className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
+      <header className="p-4 pt-6 flex items-center justify-center">
         <h1 className="text-lg font-light tracking-[0.15em] uppercase text-white/90">
           Card Selection
         </h1>

@@ -60,21 +60,22 @@ New opportunities may arise today. Be open to change and don't be afraid to step
 
     return (
         <div className="flex flex-col h-full bg-[#050510] text-white overflow-hidden">
+            {/* Fixed Back Button */}
+            <button
+                onClick={onBack}
+                className="fixed top-4 left-4 z-50 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center"
+            >
+                <ChevronLeft className="w-4 h-4 text-white" />
+            </button>
+
             {/* Header */}
-            <header className="flex items-center justify-between px-4 py-4">
-                <button
-                    onClick={onBack}
-                    className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center"
-                >
-                    <ChevronLeft className="w-4 h-4 text-white" />
-                </button>
-                
+            <header className="flex items-center justify-center px-4 py-4">
                 <div className="flex items-center gap-2">
                     <span className="text-sm font-medium tracking-[0.15em] uppercase">Palm Reading</span>
                 </div>
                 
-                {/* Hand icon */}
-                <div className="w-10 h-12">
+                {/* Hand icon - positioned absolutely to the right */}
+                <div className="absolute right-4 w-10 h-12">
                     <svg viewBox="0 0 40 48" fill="none" className="w-full h-full">
                         <path d="M12 32 Q10 24 12 16 L14 10 Q15 8 17 9 L18 18 
                                  L19 7 Q20 5 22 6 L23 18

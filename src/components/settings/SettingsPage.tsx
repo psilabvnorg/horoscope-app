@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import type { UserProfile, ZodiacSign } from '@/types';
 import { getZodiacSign } from '@/types';
+import { zodiacData } from '@/data';
 import { 
   User, 
   Calendar, 
@@ -9,7 +10,8 @@ import {
   ChevronRight,
   Sparkles,
   X,
-  Star
+  Star,
+  Info
 } from 'lucide-react';
 
 interface SettingsPageProps {
@@ -38,6 +40,7 @@ export function SettingsPage({
   const [editingField, setEditingField] = useState<string | null>(null);
   const [tempValue, setTempValue] = useState('');
   const [showConfirmDialog, setShowConfirmDialog] = useState<'clear' | 'delete' | null>(null);
+  const [showZodiacInfo, setShowZodiacInfo] = useState(false);
   
   // Date picker state
   const [birthDay, setBirthDay] = useState(1);
@@ -79,6 +82,12 @@ export function SettingsPage({
   const getPreviewSign = () => {
     const dateStr = `${birthYear}-${String(birthMonth).padStart(2, '0')}-${String(birthDay).padStart(2, '0')}`;
     return getZodiacSign(dateStr);
+  };
+
+  // Get zodiac description
+  const getZodiacDescription = (sign: ZodiacSign) => {
+    const signKey = sign.charAt(0).toUpperCase() + sign.slice(1) as keyof typeof zodiacData;
+    return zodiacData[signKey] || '';
   };
 
   // Edit Dialog
@@ -300,10 +309,14 @@ export function SettingsPage({
             
             <div className="flex-1">
               <h2 className="text-xl font-semibold text-white">{profile.name}</h2>
-              <p className="text-purple-400 capitalize flex items-center gap-2 mt-1">
+              <button 
+                onClick={() => setShowZodiacInfo(true)}
+                className="text-purple-400 capitalize flex items-center gap-2 mt-1 hover:text-purple-300 transition-colors"
+              >
                 <span className="text-lg">{zodiacSymbols[profile.sign]}</span>
                 {profile.sign}
-              </p>
+                <Info className="w-3 h-3" />
+              </button>
               <p className="text-white/40 text-sm mt-1">{formatDate(profile.birthday)}</p>
             </div>
           </div>
@@ -480,6 +493,43 @@ export function SettingsPage({
 
       {renderEditDialog()}
       {renderConfirmDialog()}
+
+      {/* Zodiac Info Modal */}
+      {showZodiacInfo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="w-full max-w-md max-h-[80vh] bg-[#1a1a2e] rounded-3xl border border-purple-500/20 overflow-hidden flex flex-col">
+            {/* Header */}
+            <div className="p-6 bg-gradient-to-br from-purple-500/20 to-pink-500/20 relative">
+              <button 
+                onClick={() => setShowZodiacInfo(false)}
+                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/30 flex items-center justify-center hover:bg-black/50 transition-all"
+              >
+                <X className="w-4 h-4 text-white" />
+              </button>
+              
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center text-4xl">
+                  {zodiacSymbols[profile.sign]}
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-white capitalize">{profile.sign}</h2>
+                  <p className="text-white/60 text-sm">Your Zodiac Sign</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto p-6">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-purple-400 mb-3">
+                Personality Profile
+              </h3>
+              <p className="text-white/70 text-sm leading-relaxed">
+                {getZodiacDescription(profile.sign)}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

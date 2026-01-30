@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import type { UserProfile } from '@/types';
 import { useChat } from '@/hooks/useChat';
+import type { PromptContext, EnhancedContext } from '@/lib/llm';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -8,21 +9,13 @@ import { Send, X, Sparkles, User, Bot } from 'lucide-react';
 
 interface ChatInterfaceProps {
   profile: UserProfile;
-  context: 'tarot' | 'couple' | 'fortune' | 'crystal-ball' | 'numerology' | 'dream';
+  context: PromptContext;
   onClose: () => void;
   initialMessage?: string;
+  enhancedContext?: EnhancedContext;
 }
 
-const contextPrompts: Record<string, string> = {
-  tarot: 'You are a mystical tarot reader. Help interpret cards and provide spiritual guidance based on tarot wisdom.',
-  couple: 'You are a relationship astrologer. Provide insights about love compatibility and relationship advice based on zodiac signs.',
-  fortune: 'You are a fortune teller. Provide mystical guidance and predictions based on astrology and cosmic energies.',
-  'crystal-ball': 'You are a mystical crystal ball oracle. Provide wisdom, guidance, and answers to any questions the seeker may have. Speak in a mystical, wise tone.',
-  numerology: 'You are a numerology expert. Provide insights based on numbers, birth dates, and numerical patterns. Help users understand their life path numbers and destiny.',
-  dream: 'You are Luna, a dream interpreter. Help users understand the meaning and symbolism behind their dreams. Provide mystical and psychological insights about dream symbols.',
-};
-
-const suggestedQuestions: Record<string, string[]> = {
+const suggestedQuestions: Record<PromptContext, string[]> = {
   tarot: [
     'What does my daily card mean?',
     'How should I interpret reversed cards?',
@@ -61,10 +54,8 @@ const suggestedQuestions: Record<string, string[]> = {
   ],
 };
 
-export function ChatInterface({ profile, context, onClose, initialMessage }: ChatInterfaceProps) {
-  const { messages, isLoading, sendMessage } = useChat({
-    systemPrompt: contextPrompts[context],
-  });
+export function ChatInterface({ profile, context, onClose, initialMessage, enhancedContext }: ChatInterfaceProps) {
+  const { messages, isLoading, sendMessage } = useChat({ context, enhancedContext });
   const [input, setInput] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -106,6 +97,8 @@ export function ChatInterface({ profile, context, onClose, initialMessage }: Cha
     sendMessage(question, profile);
   };
 
+  const questions = suggestedQuestions[context] || suggestedQuestions.fortune;
+
   return (
     <div className="flex flex-col h-[500px] bg-background">
       {/* Header */}
@@ -116,7 +109,7 @@ export function ChatInterface({ profile, context, onClose, initialMessage }: Cha
           </div>
           <div>
             <h4 className="font-medium text-sm">Mystic Guide</h4>
-            <p className="text-xs text-muted-foreground">Ask anything about {context}</p>
+            <p className="text-xs text-muted-foreground">Ask anything about {context.replace('-', ' ')}</p>
           </div>
         </div>
         <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8">
@@ -133,7 +126,7 @@ export function ChatInterface({ profile, context, onClose, initialMessage }: Cha
                 Suggested questions:
               </p>
               <div className="flex flex-wrap gap-2">
-                {suggestedQuestions[context].map((question, index) => (
+                {questions.map((question, index) => (
                   <button
                     key={index}
                     onClick={() => handleSuggestedQuestion(question)}

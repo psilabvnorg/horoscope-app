@@ -71,16 +71,8 @@ export const traitCards: TraitCard[] = [
   { id: 'challenge-dramatic', trait: 'Dramatic', description: 'Life is never boring with you. Emotions run high and loud.', category: 'challenge', emoji: '🎬' },
 ];
 
-export function getTraitsByCategory(category: string): TraitCard[] {
-  return traitCards.filter(t => t.category === category);
-}
-
-export function getTraitById(id: string): TraitCard | undefined {
+function getTraitById(id: string): TraitCard | undefined {
   return traitCards.find(t => t.id === id);
-}
-
-export function getShuffledTraits(): TraitCard[] {
-  return [...traitCards].sort(() => Math.random() - 0.5);
 }
 
 export function getPersonalizedDeck(acceptedTraits: string[], rejectedTraits: string[]): TraitCard[] {

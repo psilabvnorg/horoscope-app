@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { UserProfile, ZodiacSign } from '@/types';
+import { getZodiacSign } from '@/types';
 import { 
   User, 
   Calendar, 
@@ -25,6 +26,8 @@ const zodiacSymbols: Record<ZodiacSign, string> = {
   sagittarius: '♐', capricorn: '♑', aquarius: '♒', pisces: '♓'
 };
 
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
 export function SettingsPage({ 
   profile, 
   onUpdateProfile, 
@@ -35,13 +38,21 @@ export function SettingsPage({
   const [editingField, setEditingField] = useState<string | null>(null);
   const [tempValue, setTempValue] = useState('');
   const [showConfirmDialog, setShowConfirmDialog] = useState<'clear' | 'delete' | null>(null);
+  
+  // Date picker state
+  const [birthDay, setBirthDay] = useState(1);
+  const [birthMonth, setBirthMonth] = useState(1);
+  const [birthYear, setBirthYear] = useState(2000);
 
   const handleSave = () => {
-    if (editingField && tempValue) {
+    if (editingField === 'name' && tempValue) {
       onUpdateProfile({ [editingField]: tempValue });
-      setEditingField(null);
-      setTempValue('');
+    } else if (editingField === 'birthday' || editingField === 'partnerBirthday') {
+      const dateStr = `${birthYear}-${String(birthMonth).padStart(2, '0')}-${String(birthDay).padStart(2, '0')}`;
+      onUpdateProfile({ [editingField]: dateStr });
     }
+    setEditingField(null);
+    setTempValue('');
   };
 
   const formatDate = (dateStr: string) => {
@@ -50,18 +61,137 @@ export function SettingsPage({
     return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   };
 
+  const openDateEditor = (field: string, dateStr?: string) => {
+    setEditingField(field);
+    if (dateStr) {
+      const date = new Date(dateStr);
+      setBirthDay(date.getDate());
+      setBirthMonth(date.getMonth() + 1);
+      setBirthYear(date.getFullYear());
+    } else {
+      setBirthDay(15);
+      setBirthMonth(6);
+      setBirthYear(1995);
+    }
+  };
+
+  // Get preview zodiac sign based on current selection
+  const getPreviewSign = () => {
+    const dateStr = `${birthYear}-${String(birthMonth).padStart(2, '0')}-${String(birthDay).padStart(2, '0')}`;
+    return getZodiacSign(dateStr);
+  };
+
   // Edit Dialog
   const renderEditDialog = () => {
     if (!editingField) return null;
 
     const titles: Record<string, string> = {
       name: 'Edit Name',
-      birthday: 'Edit Birthday',
+      birthday: 'Date of Birth',
       partnerBirthday: 'Partner Birthday',
     };
 
-    const isDate = editingField.includes('birthday');
+    const isDateField = editingField === 'birthday' || editingField === 'partnerBirthday';
 
+    if (isDateField) {
+      const previewSign = getPreviewSign();
+      const currentYear = new Date().getFullYear();
+      
+      return (
+        <div className="fixed inset-0 z-50 flex flex-col bg-black">
+          {/* Header */}
+          <div className="px-4 pt-6 pb-4">
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => setEditingField(null)} 
+                className="p-2 -ml-2 text-white/70 hover:text-white"
+              >
+                <X className="w-6 h-6" />
+              </button>
+              <h1 className="text-white text-lg font-semibold tracking-wide uppercase">
+                {titles[editingField]}
+              </h1>
+            </div>
+          </div>
+
+          {/* Description */}
+          <p className="text-gray-400 text-center text-sm px-6">
+            Date is important for determining sun sign, numerology and compatibility.
+          </p>
+
+          {/* Zodiac wheel illustration */}
+          <div className="flex-1 flex items-center justify-center px-6 py-4">
+            <div className="relative w-64 h-64">
+              {/* Moon phases circle */}
+              {[...Array(12)].map((_, i) => {
+                const angle = (i * 30 - 90) * (Math.PI / 180);
+                const x = 50 + 42 * Math.cos(angle);
+                const y = 50 + 42 * Math.sin(angle);
+                return (
+                  <div
+                    key={i}
+                    className="absolute w-6 h-6 rounded-full bg-gradient-to-br from-violet-300 to-violet-600"
+                    style={{
+                      left: `${x}%`,
+                      top: `${y}%`,
+                      transform: 'translate(-50%, -50%)',
+                    }}
+                  />
+                );
+              })}
+              {/* Center zodiac */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center shadow-lg shadow-red-500/30">
+                  <span className="text-4xl">{zodiacSymbols[previewSign]}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Date picker */}
+          <div className="px-6 pb-4">
+            <div className="flex justify-center gap-2 py-4">
+              <ScrollPicker
+                values={Array.from({ length: 31 }, (_, i) => i + 1)}
+                selected={birthDay}
+                onChange={setBirthDay}
+                width="w-16"
+              />
+              <ScrollPicker
+                values={MONTHS}
+                selected={MONTHS[birthMonth - 1]}
+                onChange={(v) => setBirthMonth(MONTHS.indexOf(v) + 1)}
+                width="w-28"
+              />
+              <ScrollPicker
+                values={Array.from({ length: 100 }, (_, i) => currentYear - i)}
+                selected={birthYear}
+                onChange={setBirthYear}
+                width="w-20"
+              />
+            </div>
+          </div>
+
+          {/* Buttons */}
+          <div className="px-6 pb-8 flex gap-3">
+            <button
+              onClick={() => setEditingField(null)}
+              className="flex-1 py-4 rounded-full border border-gray-600 text-white font-semibold transition-all hover:bg-gray-800"
+            >
+              CANCEL
+            </button>
+            <button
+              onClick={handleSave}
+              className="flex-1 py-4 rounded-full bg-violet-300 text-black font-semibold transition-all hover:bg-violet-400"
+            >
+              SAVE
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // Name edit dialog (simple text input)
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
         <div className="w-full max-w-sm bg-[#1a1a2e] rounded-3xl p-6 border border-purple-500/20">
@@ -76,12 +206,11 @@ export function SettingsPage({
           </div>
           
           <input
-            type={isDate ? 'date' : 'text'}
+            type="text"
             value={tempValue}
             onChange={(e) => setTempValue(e.target.value)}
-            placeholder={`Enter ${editingField}`}
+            placeholder="Enter name"
             className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-purple-500/50 mb-6"
-            style={{ colorScheme: 'dark' }}
           />
           
           <div className="flex gap-3">
@@ -223,7 +352,7 @@ export function SettingsPage({
 
           {/* Birthday */}
           <button 
-            onClick={() => { setEditingField('birthday'); setTempValue(profile.birthday); }}
+            onClick={() => openDateEditor('birthday', profile.birthday)}
             className="w-full flex items-center justify-between p-4 bg-[#1a1a2e]/60 rounded-2xl border border-white/5 hover:border-purple-500/30 transition-all"
           >
             <div className="flex items-center gap-3">
@@ -273,7 +402,7 @@ export function SettingsPage({
         {profile.partnerSign ? (
           <div className="space-y-3">
             <button 
-              onClick={() => { setEditingField('partnerBirthday'); setTempValue(profile.partnerBirthday || ''); }}
+              onClick={() => openDateEditor('partnerBirthday', profile.partnerBirthday)}
               className="w-full flex items-center justify-between p-4 bg-[#1a1a2e]/60 rounded-2xl border border-white/5 hover:border-pink-500/30 transition-all"
             >
               <div className="flex items-center gap-3">
@@ -307,7 +436,7 @@ export function SettingsPage({
             </div>
             <p className="text-white/40 text-sm mb-4">No partner added yet</p>
             <button 
-              onClick={() => { setEditingField('partnerBirthday'); setTempValue(''); }}
+              onClick={() => openDateEditor('partnerBirthday', undefined)}
               className="px-6 py-2 rounded-full border border-pink-500/30 text-pink-400 font-medium hover:bg-pink-500/10 transition-all"
             >
               Add Partner
@@ -351,6 +480,98 @@ export function SettingsPage({
 
       {renderEditDialog()}
       {renderConfirmDialog()}
+    </div>
+  );
+}
+
+// Scroll Picker Component
+function ScrollPicker<T extends string | number>({
+  values,
+  selected,
+  onChange,
+  width = 'w-20',
+  format = (v: T) => String(v),
+}: {
+  values: readonly T[];
+  selected: T;
+  onChange: (v: T) => void;
+  width?: string;
+  format?: (v: T) => string;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const selectedIndex = values.indexOf(selected);
+  const itemHeight = 40;
+  const visibleItems = 5;
+  const containerHeight = itemHeight * visibleItems;
+
+  useEffect(() => {
+    if (containerRef.current) {
+      const scrollTop = selectedIndex * itemHeight;
+      containerRef.current.scrollTo({ top: scrollTop, behavior: 'smooth' });
+    }
+  }, [selectedIndex]);
+
+  const handleScrollEnd = () => {
+    if (containerRef.current) {
+      const scrollTop = containerRef.current.scrollTop;
+      const nearestIndex = Math.round(scrollTop / itemHeight);
+      const clampedIndex = Math.max(0, Math.min(nearestIndex, values.length - 1));
+      
+      if (clampedIndex !== selectedIndex) {
+        onChange(values[clampedIndex]);
+      }
+      
+      containerRef.current.scrollTo({ 
+        top: clampedIndex * itemHeight, 
+        behavior: 'smooth' 
+      });
+    }
+  };
+
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const handleScroll = () => {
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+    }
+    scrollTimeoutRef.current = setTimeout(handleScrollEnd, 100);
+  };
+
+  return (
+    <div className={`${width} relative`}>
+      <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" />
+      
+      <div 
+        className="absolute inset-x-0 z-5 border-t border-b border-gray-600 pointer-events-none"
+        style={{ top: `${itemHeight * 2}px`, height: `${itemHeight}px` }}
+      />
+      
+      <div
+        ref={containerRef}
+        className="overflow-y-auto scrollbar-hide touch-pan-y"
+        style={{ height: `${containerHeight}px` }}
+        onScroll={handleScroll}
+      >
+        <div style={{ height: `${itemHeight * 2}px` }} />
+        
+        {values.map((val, i) => {
+          const isSelected = i === selectedIndex;
+          return (
+            <div
+              key={i}
+              onClick={() => onChange(val)}
+              className={`flex items-center justify-center cursor-pointer transition-all duration-150 ${
+                isSelected ? 'text-white text-xl font-semibold' : 'text-gray-500 text-base'
+              }`}
+              style={{ height: `${itemHeight}px` }}
+            >
+              {format(val)}
+            </div>
+          );
+        })}
+        
+        <div style={{ height: `${itemHeight * 2}px` }} />
+      </div>
     </div>
   );
 }

@@ -127,12 +127,12 @@ export function SwipeCard({ trait, onSwipe, isTop, forcedDirection }: SwipeCardP
     return null;
   };
 
-  const getCategoryTheme = (_category: string) => {
+  const getCategoryTheme = () => {
     // All categories use the same violet theme for consistency
     return { gradient: 'from-violet-600/20 to-violet-900/40', accent: 'text-violet-400' };
   };
 
-  const theme = getCategoryTheme(trait.category);
+  const theme = getCategoryTheme();
 
   return (
     <div

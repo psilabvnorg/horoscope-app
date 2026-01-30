@@ -11,11 +11,8 @@ interface CrystalBallPageProps {
 const promptTags = [
   'Illuminate My Path',
   'Reveal My Destiny',
-  'Reveal my fortune',
-  'Reveal My Destiny',
+  'Reveal My Fortune',
   'Call Upon the Spirits',
-  'Illuminate My Path',
-  'Illuminate My Path',
   'Summon the Stars',
   'Summon My Future',
   'Channel the Cosmos',

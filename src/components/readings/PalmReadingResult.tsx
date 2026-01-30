@@ -141,16 +141,6 @@ New opportunities may arise today. Be open to change and don't be afraid to step
                     ))}
                 </div>
             </ScrollArea>
-
-            {/* Back to Home button */}
-            <div className="absolute bottom-24 left-4 right-4">
-                <button
-                    onClick={onBack}
-                    className="w-full py-3.5 rounded-full border border-violet-500/50 bg-violet-600/20 text-white font-medium text-sm uppercase tracking-widest hover:bg-violet-600/30 transition-colors"
-                >
-                    Back to Home
-                </button>
-            </div>
         </div>
     );
 }

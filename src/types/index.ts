@@ -22,20 +22,6 @@ export type ZodiacSign =
   | 'leo' | 'virgo' | 'libra' | 'scorpio' 
   | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
 
-export interface HoroscopeContent {
-  id: string;
-  type: 'today' | 'love' | 'career' | 'money' | 'trait';
-  sign: ZodiacSign;
-  gender: string;
-  partnerSign?: ZodiacSign;
-  title: string;
-  short: string;
-  deep: string;
-  score?: number;
-  tags: string[];
-  variants: string[];
-}
-
 export interface TraitCard {
   id: string;
   trait: string;
@@ -66,23 +52,6 @@ export interface TarotReading {
   date: string;
 }
 
-export interface CoupleCompatibility {
-  signA: ZodiacSign;
-  signB: ZodiacSign;
-  score: number;
-  strengths: string[];
-  weaknesses: string[];
-  dailyMessage: string;
-  tarotReading: TarotReading;
-}
-
-export interface Fortune {
-  id: string;
-  topic: 'future' | 'love' | 'career' | 'money' | 'life';
-  content: string;
-  date: string;
-}
-
 export interface ChatMessage {
   id: string;
   role: 'user' | 'assistant';
@@ -91,12 +60,6 @@ export interface ChatMessage {
 }
 
 export type SwipeDirection = 'left' | 'right' | 'up';
-
-export interface SwipeAction {
-  traitId: string;
-  direction: SwipeDirection;
-  timestamp: number;
-}
 
 export const ZODIAC_SIGNS: ZodiacSign[] = [
   'aries', 'taurus', 'gemini', 'cancer',

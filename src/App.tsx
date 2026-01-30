@@ -116,7 +116,7 @@ function App() {
   };
 
   const getTabIcon = (tab: Tab) => {
-    const icons = {
+    const icons: Record<Tab, typeof Moon> = {
       horoscope: Moon,
       readings: Settings2,
       love: Heart,
@@ -124,8 +124,7 @@ function App() {
       profile: User,
       swipe: Star,
     };
-    // @ts-ignore
-    const Icon = icons[tab] || Star;
+    const Icon = icons[tab];
     return <Icon className={`w-5 h-5 ${activeTab === tab ? 'filter drop-shadow-[0_0_5px_currentColor]' : ''}`} />;
   };
 

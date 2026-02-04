@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { UserProfile } from '@/types';
 import { ChevronLeft, MessageCircle, Mic } from 'lucide-react';
 import { ChatInterface } from '../common/ChatInterface';
@@ -11,19 +12,20 @@ interface CrystalBallPageProps {
 
 const CHAT_CONTEXT: PromptContext = 'crystal-ball';
 
-const promptTags = [
-  'Illuminate My Path',
-  'Reveal My Destiny',
-  'Reveal My Fortune',
-  'Call Upon the Spirits',
-  'Summon the Stars',
-  'Summon My Future',
-  'Channel the Cosmos',
-];
-
 export function CrystalBallPage({ profile, onBack }: CrystalBallPageProps) {
+  const { t } = useTranslation();
   const [showChat, setShowChat] = useState(false);
   const [initialMessage, setInitialMessage] = useState<string | undefined>();
+
+  const promptTags = [
+    t('fortune.illuminatePath'),
+    t('fortune.revealDestiny'),
+    t('fortune.revealFortune'),
+    t('fortune.callSpirits'),
+    t('fortune.summonStars'),
+    t('fortune.summonFuture'),
+    t('fortune.channelCosmos'),
+  ];
 
   const handleTagClick = (tag: string) => {
     setInitialMessage(tag);
@@ -64,7 +66,7 @@ export function CrystalBallPage({ profile, onBack }: CrystalBallPageProps) {
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        <h1 className="text-xl font-light tracking-[0.15em] uppercase">Crystal Ball</h1>
+        <h1 className="text-xl font-light tracking-[0.15em] uppercase">{t('fortune.crystalBall')}</h1>
       </header>
 
       {/* Scrolling Tags - Row 1 */}
@@ -145,8 +147,8 @@ export function CrystalBallPage({ profile, onBack }: CrystalBallPageProps) {
         </div>
 
         {/* Text */}
-        <h2 className="mt-8 text-xl font-semibold text-yellow-500 tracking-wide">SEEKING WISDOM?</h2>
-        <p className="mt-2 text-white/50 text-sm">Tap to ask or speak directly</p>
+        <h2 className="mt-8 text-xl font-semibold text-yellow-500 tracking-wide">{t('fortune.seekWisdom').toUpperCase()}</h2>
+        <p className="mt-2 text-white/50 text-sm">{t('fortune.tapToAsk')}</p>
       </div>
 
       {/* Bottom Buttons */}
@@ -156,7 +158,7 @@ export function CrystalBallPage({ profile, onBack }: CrystalBallPageProps) {
           className="flex-1 py-4 rounded-full border border-yellow-600/50 bg-yellow-900/20 flex items-center justify-center gap-2 hover:bg-yellow-900/30 transition-all active:scale-[0.98]"
         >
           <MessageCircle className="w-5 h-5 text-yellow-500" />
-          <span className="text-yellow-500 font-medium tracking-wider text-sm">START A CHAT</span>
+          <span className="text-yellow-500 font-medium tracking-wider text-sm">{t('fortune.startChat').toUpperCase()}</span>
         </button>
         
         <button
@@ -164,7 +166,7 @@ export function CrystalBallPage({ profile, onBack }: CrystalBallPageProps) {
           className="flex-1 py-4 rounded-full border border-yellow-600/50 bg-yellow-900/20 flex items-center justify-center gap-2 hover:bg-yellow-900/30 transition-all active:scale-[0.98]"
         >
           <Mic className="w-5 h-5 text-yellow-500" />
-          <span className="text-yellow-500 font-medium tracking-wider text-sm">SPEAK</span>
+          <span className="text-yellow-500 font-medium tracking-wider text-sm">{t('fortune.speak').toUpperCase()}</span>
         </button>
       </div>
 

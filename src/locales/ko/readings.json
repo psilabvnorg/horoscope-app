@@ -1,0 +1,53 @@
+{
+  "title": "운명 탐험",
+  "subtitle": "타로, 조디악, 손상학 등 다양한 예언 방법을 탐색하세요",
+  "birthChart": {
+    "title": "생애운명도",
+    "subtitle": "당신의 천체운도를 발견하세요",
+    "analyzing": "당신의 탄생도를 분석 중...",
+    "enterDetails": "생년월일 정보를 입력하세요",
+    "name": "이름",
+    "dateOfBirth": "생년월일",
+    "timeOfBirth": "출생 시간",
+    "placeOfBirth": "출생 장소",
+    "compatibility": "운명 호환성 분석",
+    "addPartner": "상대방 정보 추가"
+  },
+  "palmReading": {
+    "title": "손상학",
+    "subtitle": "손상학으로 당신의 운명을 밝아보세요",
+    "instructions": "명확한 손바닥 사진을 찍어주세요",
+    "uploadPhoto": "사진 업로드",
+    "analyzing": "당신의 손상을 분석 중...",
+    "lines": {
+      "heart": "심장선",
+      "head": "인생선",
+      "life": "생명선",
+      "fate": "운명선"
+    }
+  },
+  "numerology": {
+    "title": "숫자운명학",
+    "subtitle": "숫자의 힘을 발견하세요",
+    "lifePath": "인생의 길",
+    "destiny": "운명의 숫자",
+    "soul": "영혼의 숫자",
+    "personality": "성격의 숫자",
+    "calculate": "당신의 숫자를 계산해 드리겠습니다"
+  },
+  "dreamExplain": {
+    "title": "몽상해석",
+    "subtitle": "당신의 꿈의 의미를 이해해보세요",
+    "describeDream": "당신의 꿈을 설명해 주세요",
+    "analyze": "몽상 분석",
+    "symbols": "몽상 상징",
+    "meaning": "해석"
+  },
+  "crystalBall": {
+    "title": "유리공",
+    "subtitle": "미래를 응시하세요",
+    "askQuestion": "궁금한 질문을 남겨주세요",
+    "gazing": "유리공 속을 응시 중...",
+    "vision": "당신의 비전"
+  }
+}

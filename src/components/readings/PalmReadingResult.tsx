@@ -1,11 +1,14 @@
 import { ChevronLeft, Moon, Heart, Activity, Briefcase } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useTranslation } from 'react-i18next';
 
 interface PalmReadingResultProps {
     onBack: () => void;
 }
 
 export function PalmReadingResult({ onBack }: PalmReadingResultProps) {
+    const { t } = useTranslation();
+    
     const getCurrentDate = () => {
         const date = new Date();
         return date.toLocaleDateString('en-US', { 
@@ -18,43 +21,35 @@ export function PalmReadingResult({ onBack }: PalmReadingResultProps) {
     const readings = [
         {
             icon: Moon,
-            title: 'YOUR DAY',
+            title: t('readings.palmReadingResult.yourDay'),
             subtitle: getCurrentDate(),
             progress: null,
             progressLabel: null,
-            content: `Don't be afraid to take a leap of faith and follow your heart today. Sometimes the best decisions are the ones that scare us a little. Trust your instincts and don't be afraid to take risks.
-
-Even if you don't get the results you want right away, you will learn valuable lessons that will help you in the future. Don't be discouraged if things don't go as planned. Keep pushing forward and you will eventually reach your goals.`
+            content: t('readings.palmReadingResult.dayContent')
         },
         {
             icon: Heart,
-            title: 'LOVE',
+            title: t('readings.palmReadingResult.love'),
             subtitle: null,
             progress: 92,
-            progressLabel: '92% success',
-            content: `This is a great day to express your feelings to someone special. If you've been holding back, now is the time to let them know how you feel. Your charm and charisma are at an all-time high today.
-
-Continue to be open and honest with your partner. Communication is key to a healthy relationship. If you're single, don't be afraid to put yourself out there. You never know who you might meet.`
+            progressLabel: `92% ${t('readings.palmReadingResult.success')}`,
+            content: t('readings.palmReadingResult.loveContent')
         },
         {
             icon: Activity,
-            title: 'HEALTH',
+            title: t('readings.palmReadingResult.health'),
             subtitle: null,
             progress: 88,
-            progressLabel: '88% success',
-            content: `Your energy levels are high today, making it a great time to start a new exercise routine or try a new healthy recipe. Listen to your body and give it what it needs.
-
-Take time to rest and recharge when needed. Don't push yourself too hard. Balance is key to maintaining good health. Consider meditation or yoga to help reduce stress and improve mental clarity.`
+            progressLabel: `88% ${t('readings.palmReadingResult.success')}`,
+            content: t('readings.palmReadingResult.healthContent')
         },
         {
             icon: Briefcase,
-            title: 'LIFE / CAREER',
+            title: t('readings.palmReadingResult.lifeCareer'),
             subtitle: null,
             progress: 90,
-            progressLabel: '90% success',
-            content: `Your hard work is about to pay off. Stay focused on your goals and don't let distractions get in the way. This is a great time to take on new challenges and showcase your skills.
-
-New opportunities may arise today. Be open to change and don't be afraid to step outside your comfort zone. Your dedication and perseverance will lead to success.`
+            progressLabel: `90% ${t('readings.palmReadingResult.success')}`,
+            content: t('readings.palmReadingResult.careerContent')
         }
     ];
 
@@ -71,7 +66,7 @@ New opportunities may arise today. Be open to change and don't be afraid to step
             {/* Header */}
             <header className="flex items-center justify-center px-4 py-4">
                 <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium tracking-[0.15em] uppercase">Palm Reading</span>
+                    <span className="text-sm font-medium tracking-[0.15em] uppercase">{t('readings.palmReadingResult.title')}</span>
                 </div>
                 
                 {/* Hand icon - positioned absolutely to the right */}
@@ -92,10 +87,10 @@ New opportunities may arise today. Be open to change and don't be afraid to step
             {/* Tabs */}
             <div className="flex mx-4 mb-4">
                 <button className="flex-1 py-2 text-xs tracking-widest text-white border-b border-violet-500">
-                    Today's Result
+                    {t('readings.palmReadingResult.todayResult')}
                 </button>
                 <button className="flex-1 py-2 text-xs tracking-widest text-white/40 border-b border-white/10">
-                    History
+                    {t('readings.palmReadingResult.history')}
                 </button>
             </div>
 

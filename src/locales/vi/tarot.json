@@ -1,0 +1,39 @@
+{
+  "title": "Đọc Tarot",
+  "subtitle": "Khám phá những hiểu biết sâu sắc qua nghệ thuật tarot cổ xưa",
+  "dailyReading": "Đọc Tarot Hằng ngày",
+  "threeCardSpread": "Bài Ba",
+  "celticCross": "Celtic Cross",
+  "selectCards": "Chọn Lá Bài Của Bạn",
+  "cardSelected": "Lá Bài Đã Được Chọn",
+  "cardLibrary": "Kho Lá Bài",
+  "meanings": {
+    "upright": "Ý nghĩa trực tiếp",
+    "reversed": "Ý nghĩa lật ngược",
+    "general": "Tổng quan",
+    "love": "Tình yêu",
+    "career": "Công việc",
+    "finances": "Tài chính"
+  },
+  "spread": {
+    "past": "Quá khứ",
+    "present": "Hiện tại",
+    "future": "Tương lai",
+    "situation": "Tình huống hiện tại",
+    "challenge": "Thách thức",
+    "advice": "Lời khuyên"
+  },
+  "instructions": {
+    "shuffle": "Trộn bài và tập trung vào câu hỏi của bạn",
+    "select": "Chọn {{count}} lá bài từ bộ bài",
+    "reveal": "Ấn để hiện ra lá bài của bạn"
+  },
+  "arcana": {
+    "major": "Arcana Chính",
+    "minor": "Arcana Phụ",
+    "cups": "Cups",
+    "wands": "Wands",
+    "swords": "Swords",
+    "pentacles": "Pentacles"
+  }
+}

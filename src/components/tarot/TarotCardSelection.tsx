@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChevronLeft } from 'lucide-react';
 
 interface TarotCardSelectionProps {
@@ -9,6 +10,7 @@ interface TarotCardSelectionProps {
 const TOTAL_CARDS_TO_SELECT = 3;
 
 export function TarotCardSelection({ onBack, onComplete }: TarotCardSelectionProps) {
+  const { t } = useTranslation();
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
   const cardsLeft = TOTAL_CARDS_TO_SELECT - selectedCards.length;
 
@@ -40,7 +42,7 @@ export function TarotCardSelection({ onBack, onComplete }: TarotCardSelectionPro
       {/* Header */}
       <header className="p-4 pt-6 flex items-center justify-center">
         <h1 className="text-lg font-light tracking-[0.15em] uppercase text-white/90">
-          Card Selection
+          {t('tarot.cardSelection')}
         </h1>
       </header>
 
@@ -83,7 +85,7 @@ export function TarotCardSelection({ onBack, onComplete }: TarotCardSelectionPro
           ))}
         </div>
         <span className="text-white/70 text-sm">
-          {cardsLeft} card{cardsLeft !== 1 ? 's' : ''} left
+          {cardsLeft} {cardsLeft === 1 ? t('tarot.cardLeft', { count: cardsLeft }) : t('tarot.cardsLeft', { count: cardsLeft })}
         </span>
       </div>
 

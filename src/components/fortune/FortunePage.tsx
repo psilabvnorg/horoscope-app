@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { UserProfile } from '@/types';
 import { CrystalBallPage } from './CrystalBallPage';
 import { NumerologyPage } from './NumerologyPage';
@@ -9,6 +10,7 @@ interface FortunePageProps {
 }
 
 export function FortunePage({ profile }: FortunePageProps) {
+  const { t } = useTranslation();
   const [view, setView] = useState<'menu' | 'crystal-ball' | 'numerology' | 'dream'>('menu');
 
   const handleCardClick = (cardType: 'crystal-ball' | 'numerology' | 'dream-explain') => {
@@ -37,7 +39,7 @@ export function FortunePage({ profile }: FortunePageProps) {
     <div className="flex flex-col h-full bg-[#0a0a12] text-white overflow-y-auto pb-20">
       {/* Header */}
       <header className="p-4 pt-6">
-        <h1 className="text-2xl font-light tracking-[0.15em] uppercase text-purple-400">Guidance</h1>
+        <h1 className="text-2xl font-light tracking-[0.15em] uppercase text-purple-400">{t('fortune.guidance')}</h1>
       </header>
 
       {/* Cards Container */}
@@ -66,8 +68,8 @@ export function FortunePage({ profile }: FortunePageProps) {
                 }}
               />
             </div>
-            <h2 className="text-xl font-semibold text-yellow-400 mb-1">Crystal Ball</h2>
-            <p className="text-sm text-white/60">Seek wisdom and ask any thing to learn</p>
+            <h2 className="text-xl font-semibold text-yellow-400 mb-1">{t('fortune.crystalBall')}</h2>
+            <p className="text-sm text-white/60">{t('fortune.crystalBallDesc')}</p>
           </div>
         </button>
 
@@ -84,8 +86,8 @@ export function FortunePage({ profile }: FortunePageProps) {
                 <span className="text-3xl font-bold text-white">3</span>
               </div>
             </div>
-            <h2 className="text-xl font-semibold text-pink-400 mb-1">Numerology</h2>
-            <p className="text-sm text-pink-400/70">304 Reports delivered today</p>
+            <h2 className="text-xl font-semibold text-pink-400 mb-1">{t('fortune.numerology')}</h2>
+            <p className="text-sm text-pink-400/70">{t('fortune.numerologyDesc', { count: 304 })}</p>
           </div>
         </button>
 
@@ -113,8 +115,8 @@ export function FortunePage({ profile }: FortunePageProps) {
           </div>
           
           <div className="relative z-20 p-5 flex flex-col justify-end h-full min-h-[200px]">
-            <h2 className="text-xl font-semibold text-purple-400 mb-1">Dream Explain</h2>
-            <p className="text-sm text-white/60">Let Luna explain your dream</p>
+            <h2 className="text-xl font-semibold text-purple-400 mb-1">{t('fortune.dreamExplain')}</h2>
+            <p className="text-sm text-white/60">{t('fortune.dreamExplainDesc')}</p>
           </div>
         </button>
       </div>

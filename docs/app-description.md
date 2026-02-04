@@ -75,54 +75,6 @@ app/
 └── dist/                   # Build output
 ```
 
-## Setup Instructions
-
-### Frontend Only (Static)
-
-1. Build the app:
-```bash
-cd app
-npm install
-npm run build
-```
-
-2. Serve the `dist` folder with any static server.
-
-### With Backend (Ollama Integration)
-
-1. Install Ollama: https://ollama.ai
-
-2. Pull the deepseek model:
-```bash
-ollama pull deepseek-r1:8b
-```
-
-3. Start Ollama:
-```bash
-ollama serve
-```
-
-4. Install and start the backend:
-```bash
-cd app/server
-npm install
-npm start
-```
-
-5. Build and serve the frontend:
-```bash
-cd app
-npm run build
-# Serve dist folder
-```
-
-## Environment Variables
-
-Create `.env` in the app root:
-```
-VITE_OLLAMA_URL=http://localhost:11434
-```
-
 ## User Model
 
 ```typescript
@@ -150,18 +102,6 @@ VITE_OLLAMA_URL=http://localhost:11434
 | Left | "Not me" | Discard (add to rejectedTraits) |
 | Tap | "View details" | No effect |
 
-## API Endpoints (Backend)
-
-- `GET /api/health` - Health check
-- `POST /api/chat` - Ollama proxy
-- `GET /api/ollama/status` - Check Ollama availability
-- `GET /api/content/:type/:sign/:gender/:day` - Get horoscope content
-- `GET /api/deck` - Get personalized trait deck
-- `POST /api/swipe` - Record swipe action
-- `GET /api/tarot/daily` - Get daily tarot card
-- `GET /api/couple/:signA/:signB` - Get compatibility
-- `GET /api/fortune/:topic` - Get fortune
-
 ## Non-Functional Requirements
 
 - ✅ Offline first (LocalStorage)
@@ -172,7 +112,3 @@ VITE_OLLAMA_URL=http://localhost:11434
 - ✅ No login required
 - ✅ Privacy friendly
 - ✅ Non-blocking UI
-
-## License
-
-MIT

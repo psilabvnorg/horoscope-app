@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { UserProfile } from '@/types';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { MonthlyEnergy } from './MonthlyEnergy';
 import { ZodiacDetail } from '@/components/zodiac/ZodiacDetail';
-import { zodiacData } from '@/data';
+import { useZodiacData, useLoveData } from '@/hooks/useTranslatedData';
 import { ZODIAC_SIGNS, type ZodiacSign } from '@/types';
 import { getCompatibilityText } from '@/hooks/useCompatibility';
 import { X } from 'lucide-react';
@@ -29,6 +30,9 @@ interface HomePageProps {
 type TimeRange = 'today' | 'tomorrow' | 'week' | 'month';
 
 export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
+    const { t } = useTranslation();
+    const zodiacData = useZodiacData();
+    const loveData = useLoveData();
     const [timeRange, setTimeRange] = useState<TimeRange>('today');
     const [showZodiacDetail, setShowZodiacDetail] = useState(false);
     const [selectedMatch, setSelectedMatch] = useState<ZodiacSign | null>(null);
@@ -80,14 +84,14 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
         const today = new Date();
         const dayOfMonth = today.getDate();
         const phases = [
-            'New Moon',
-            'Waxing Crescent', 
-            'First Quarter',
-            'Waxing Gibbous',
-            'Full Moon',
-            'Waning Gibbous',
-            'Last Quarter',
-            'Waning Crescent'
+            t('home.moonPhases.newMoon'),
+            t('home.moonPhases.waxingCrescent'), 
+            t('home.moonPhases.firstQuarter'),
+            t('home.moonPhases.waxingGibbous'),
+            t('home.moonPhases.fullMoon'),
+            t('home.moonPhases.waningGibbous'),
+            t('home.moonPhases.lastQuarter'),
+            t('home.moonPhases.waningCrescent')
         ];
         // Approximate 29.5 day lunar cycle
         const phaseIndex = Math.floor((dayOfMonth % 29.5) / 3.69);
@@ -136,7 +140,7 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
         <div className="flex flex-col h-full bg-[#0a0a0f] text-foreground overflow-hidden">
             {/* Top Header */}
             <header className="p-4 flex justify-between items-center">
-                <h1 className="text-lg font-bold tracking-[0.2em] uppercase">Horoscope</h1>
+                <h1 className="text-lg font-bold tracking-[0.2em] uppercase">{t('home.horoscope')}</h1>
                 <Menu className="w-5 h-5 text-white/70" />
             </header>
 
@@ -150,7 +154,7 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
                             className={`text-[11px] uppercase font-semibold tracking-widest transition-all relative py-2 ${timeRange === range ? 'text-white' : 'text-white/40 hover:text-white/60'
                                 }`}
                         >
-                            {range}
+                            {t(`common.${range}`)}
                             {timeRange === range && (
                                 <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-violet-500 rounded-full" />
                             )}
@@ -166,7 +170,7 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
                         <div className="space-y-1 relative z-10">
                             <h2 className="text-xl font-semibold tracking-wide">{profile.name || 'Tiffany Watson'}</h2>
                             <p className="text-[11px] uppercase tracking-widest text-white/50">
-                                You • {profile.birthday}
+                                {t('home.you')} • {profile.birthday}
                             </p>
                         </div>
 
@@ -191,29 +195,29 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
                             {/* Sun - Top Left */}
                             <div className="absolute top-4 left-4 flex flex-col items-center gap-1 bg-white/5 backdrop-blur-sm px-3 py-2 rounded-xl border border-white/10">
                                 <Sun className="w-4 h-4 text-amber-400" />
-                                <span className="text-[8px] font-medium uppercase tracking-wider text-white/50">Sun</span>
+                                <span className="text-[8px] font-medium uppercase tracking-wider text-white/50">{t('home.sun')}</span>
                                 <span className="text-[10px] font-semibold text-white uppercase">{profile.sign}</span>
                             </div>
 
                             {/* Moon - Top Right */}
                             <div className="absolute top-4 right-4 flex flex-col items-center gap-1 bg-white/5 backdrop-blur-sm px-3 py-2 rounded-xl border border-white/10">
                                 <Moon className="w-4 h-4 text-violet-400" />
-                                <span className="text-[8px] font-medium uppercase tracking-wider text-white/50">Moon</span>
+                                <span className="text-[8px] font-medium uppercase tracking-wider text-white/50">{t('home.moon')}</span>
                                 <span className="text-[10px] font-semibold text-white uppercase">Aquarius</span>
                             </div>
 
                             {/* Ascendant - Bottom Left */}
                             <div className="absolute bottom-8 left-4 flex flex-col items-center gap-1 bg-white/5 backdrop-blur-sm px-3 py-2 rounded-xl border border-white/10">
                                 <ArrowUp className="w-4 h-4 text-rose-400" />
-                                <span className="text-[8px] font-medium uppercase tracking-wider text-white/50">Ascendant</span>
+                                <span className="text-[8px] font-medium uppercase tracking-wider text-white/50">{t('home.ascendant')}</span>
                                 <span className="text-[10px] font-semibold text-white uppercase">Pisces</span>
                             </div>
 
                             {/* Element - Bottom Right */}
                             <div className="absolute bottom-8 right-4 flex flex-col items-center gap-1 bg-white/5 backdrop-blur-sm px-3 py-2 rounded-xl border border-white/10">
                                 <Droplets className="w-4 h-4 text-cyan-400" />
-                                <span className="text-[8px] font-medium uppercase tracking-wider text-white/50">Element</span>
-                                <span className="text-[10px] font-semibold text-white uppercase">Water</span>
+                                <span className="text-[8px] font-medium uppercase tracking-wider text-white/50">{t('home.element')}</span>
+                                <span className="text-[10px] font-semibold text-white uppercase">{t('home.water')}</span>
                             </div>
 
                             {/* Sign label at bottom */}
@@ -244,20 +248,20 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
                     {/* Affirmation Card */}
                     <section className="bg-white/5 backdrop-blur-sm rounded-2xl p-5 space-y-2 relative overflow-hidden border border-white/10">
                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-violet-500" />
-                        <h3 className="text-[11px] font-semibold uppercase tracking-widest text-white/60">Affirmation</h3>
+                        <h3 className="text-[11px] font-semibold uppercase tracking-widest text-white/60">{t('home.affirmation')}</h3>
                         <p className="text-base font-medium leading-snug text-white/90">
-                            I can be a masterpiece and a work in progress at the same time.
+                            {t('home.affirmationText')}
                         </p>
                     </section>
 
                     {/* Daily Horoscope */}
                     <section className="space-y-4">
-                        <h3 className="text-sm font-semibold text-white/90">Your today's horoscope</h3>
+                        <h3 className="text-sm font-semibold text-white/90">{t('home.yourHoroscope')}</h3>
                         <p className="text-sm text-white/50 leading-relaxed">
-                            Today, you can see how your daily routine has changed your life. Your physical and mental health is directly related to your personal transformation. Making sure that you are taken care of - body and mind - should be part of your schedule. That is just...
+                            {t('home.horoscopeText')}
                         </p>
                         <button className="text-[11px] text-violet-400 font-medium flex items-center gap-1">
-                            Read more <ChevronRight className="w-3 h-3" />
+                            {t('actions.readMore')} <ChevronRight className="w-3 h-3" />
                         </button>
                     </section>
 
@@ -269,7 +273,7 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
                     {/* Daily Tips */}
                     <section className="space-y-4">
                         <h3 className="text-sm font-semibold uppercase tracking-wider text-white/90">
-                            Daily tips for <span className="text-violet-400">{profile.sign}</span>
+                            {t('home.dailyTips', { sign: profile.sign })}
                         </h3>
                         <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
                             <div className="min-w-[180px] bg-white/5 backdrop-blur-sm p-4 rounded-2xl space-y-3 border border-white/10">
@@ -277,10 +281,10 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
                                     <div className="w-7 h-7 rounded-lg bg-rose-500/20 flex items-center justify-center">
                                         <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400" />
                                     </div>
-                                    <span className="text-[11px] font-semibold text-white">Love</span>
+                                    <span className="text-[11px] font-semibold text-white">{t('home.love')}</span>
                                 </div>
                                 <p className="text-[11px] text-white/50 leading-relaxed">
-                                    Remember, the brain is higher than the heart. Don't let your emotions cloud your judgement.
+                                    {t('home.loveTip')}
                                 </p>
                             </div>
                             <div className="min-w-[180px] bg-white/5 backdrop-blur-sm p-4 rounded-2xl space-y-3 border border-white/10">
@@ -288,10 +292,10 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
                                     <div className="w-7 h-7 rounded-lg bg-amber-500/20 flex items-center justify-center">
                                         <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
                                     </div>
-                                    <span className="text-[11px] font-semibold text-white">Warning</span>
+                                    <span className="text-[11px] font-semibold text-white">{t('home.warning')}</span>
                                 </div>
                                 <p className="text-[11px] text-white/50 leading-relaxed">
-                                    Before trusting people with all your heart, know who they are.
+                                    {t('home.warningTip')}
                                 </p>
                             </div>
                         </div>
@@ -299,7 +303,7 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
 
                     {/* Today's Matches */}
                     <section className="space-y-4">
-                        <h3 className="text-sm font-semibold uppercase tracking-wider text-rose-400 italic">Today's Matches</h3>
+                        <h3 className="text-sm font-semibold uppercase tracking-wider text-rose-400 italic">{t('home.todaysMatches')}</h3>
                         <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/10 space-y-5">
                             <div className="grid grid-cols-2 gap-4">
                                 {dailyMatches.map((matchSign, idx) => (
@@ -320,7 +324,7 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
                                                     className="h-auto p-0 text-[9px] text-white/40 uppercase hover:text-white/60"
                                                     onClick={() => setSelectedMatch(matchSign)}
                                                 >
-                                                    View Compatibility
+                                                    {t('actions.viewCompatibility')}
                                                 </Button>
                                             </div>
                                         </div>
@@ -342,7 +346,7 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
 
                     {/* Lunar Calendar */}
                     <section className="space-y-4">
-                        <h3 className="text-sm font-semibold uppercase tracking-wider text-white/90">Lunar Calendar</h3>
+                        <h3 className="text-sm font-semibold uppercase tracking-wider text-white/90">{t('home.lunarCalendar')}</h3>
                         <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/10 space-y-6">
                             <div className="flex items-center gap-4">
                                 <div className="w-20 h-20 rounded-full overflow-hidden">
@@ -357,7 +361,7 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
                                     <p className="text-[10px] uppercase tracking-wider text-white/50">{moonPhaseRange}</p>
                                     <div className="flex items-center gap-1 pt-1">
                                         <Moon className="w-3 h-3 text-rose-400" />
-                                        <span className="text-[10px] text-rose-400 capitalize">Moon in {currentMoonSign}</span>
+                                        <span className="text-[10px] text-rose-400 capitalize">{t('home.moonIn', { sign: currentMoonSign })}</span>
                                     </div>
                                 </div>
                             </div>
@@ -375,15 +379,15 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
                             {/* Do / Don't */}
                             <div className="space-y-3">
                                 <div className="flex gap-3 items-start bg-violet-500/10 p-3 rounded-xl">
-                                    <span className="text-[10px] font-semibold text-violet-400">Do</span>
+                                    <span className="text-[10px] font-semibold text-violet-400">{t('home.do')}</span>
                                     <p className="text-[11px] text-white/60 leading-relaxed">
-                                        A good time to change your image. All the most daring ideas will be successful.
+                                        {t('home.doAdvice')}
                                     </p>
                                 </div>
                                 <div className="flex gap-3 items-start bg-rose-500/10 p-3 rounded-xl">
-                                    <span className="text-[10px] font-semibold text-rose-400">Don't</span>
+                                    <span className="text-[10px] font-semibold text-rose-400">{t('home.dont')}</span>
                                     <p className="text-[11px] text-white/60 leading-relaxed">
-                                        Most likely, money with the moon in Aquarius will be wasted. Prudence in finance is not your strong point.
+                                        {t('home.dontAdvice')}
                                     </p>
                                 </div>
                             </div>
@@ -398,11 +402,11 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
 
                     {/* Today's Features */}
                     <section className="space-y-4">
-                        <h3 className="text-sm font-semibold uppercase tracking-wider text-white/90">Today's features</h3>
+                        <h3 className="text-sm font-semibold uppercase tracking-wider text-white/90">{t('home.todaysFeatures')}</h3>
                         <div className="grid grid-cols-3 gap-3">
                             <div className="bg-white/5 backdrop-blur-sm p-4 rounded-2xl flex flex-col items-center justify-center gap-3 h-32 border border-white/10">
                                 <span className="text-3xl font-bold text-white">29</span>
-                                <span className="text-[8px] uppercase tracking-wider text-white/40">Lucky number</span>
+                                <span className="text-[8px] uppercase tracking-wider text-white/40">{t('home.luckyNumber')}</span>
                             </div>
                             <div className="bg-white/5 backdrop-blur-sm p-4 rounded-2xl flex flex-col items-center justify-center gap-3 h-32 border border-white/10 relative overflow-hidden">
                                 <img
@@ -410,14 +414,14 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
                                     alt="Lucky Color"
                                     className="w-12 h-12 rounded-full object-cover"
                                 />
-                                <span className="text-[8px] uppercase tracking-wider text-white/40">Lucky color</span>
+                                <span className="text-[8px] uppercase tracking-wider text-white/40">{t('home.luckyColor')}</span>
                             </div>
                             <div className="bg-white/5 backdrop-blur-sm p-4 rounded-2xl flex flex-col items-center justify-center gap-3 h-32 border border-white/10">
                                 <div className="text-center">
                                     <p className="text-xs font-medium text-white">7:20 am</p>
                                     <p className="text-xs font-medium text-white">9:42 pm</p>
                                 </div>
-                                <span className="text-[8px] uppercase tracking-wider text-white/40">Lucky time</span>
+                                <span className="text-[8px] uppercase tracking-wider text-white/40">{t('home.luckyTime')}</span>
                             </div>
                         </div>
                     </section>
@@ -460,11 +464,11 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
                                     <h2 className="text-lg font-bold text-white uppercase tracking-wider">
                                         {profile.sign} + {selectedMatch}
                                     </h2>
-                                    <p className="text-[10px] text-white/40 uppercase tracking-widest">Love Match</p>
+                                    <p className="text-[10px] text-white/40 uppercase tracking-widest">{t('home.loveMatch')}</p>
                                 </div>
                             </div>
                             <p className="text-white/70 text-sm leading-relaxed italic">
-                                "{getCompatibilityText(profile.sign, selectedMatch)}"
+                                "{getCompatibilityText(profile.sign, selectedMatch, loveData)}"
                             </p>
                         </div>
                         <div className="p-4 bg-white/5 border-t border-white/5 flex justify-center">
@@ -473,7 +477,7 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
                                 className="text-xs uppercase tracking-widest text-white/60 hover:text-white hover:bg-transparent"
                                 onClick={() => setSelectedMatch(null)}
                             >
-                                Close
+                                {t('actions.close')}
                             </Button>
                         </div>
                     </div>

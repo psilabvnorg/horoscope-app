@@ -1,0 +1,53 @@
+{
+  "title": "占い",
+  "subtitle": "異なる占いの方法を探求する",
+  "birthChart": {
+    "title": "生辰図",
+    "subtitle": "あなたの宇宙の計画図を発見する",
+    "analyzing": "生辰図を分析中...",
+    "enterDetails": "あなたの生まれた時刻を入力してください",
+    "name": "名前",
+    "dateOfBirth": "生まれた日付",
+    "timeOfBirth": "生まれた時刻",
+    "placeOfBirth": "生まれた場所",
+    "compatibility": "相性分析",
+    "addPartner": "相手の情報を追加"
+  },
+  "palmReading": {
+    "title": "手相",
+    "subtitle": "手相で運命を明かす",
+    "instructions": "手の平を明るく撮影してください",
+    "uploadPhoto": "画像をアップロード",
+    "analyzing": "手相を分析中...",
+    "lines": {
+      "heart": "愛の線",
+      "head": "知性の線",
+      "life": "生命の線",
+      "fate": "運命の線"
+    }
+  },
+  "numerology": {
+    "title": "数秘術",
+    "subtitle": "数字の力を発見する",
+    "lifePath": "生命のパスナンバー",
+    "destiny": "運命のナンバー",
+    "soul": "魂のナンバー",
+    "personality": "性格のナンバー",
+    "calculate": "あなたの数字を計算"
+  },
+  "dreamExplain": {
+    "title": "夢解釈",
+    "subtitle": "夢の意味を理解する",
+    "describeDream": "夢を記述してください",
+    "analyze": "夢を分析",
+    "symbols": "夢の象徴",
+    "meaning": "解釈"
+  },
+  "crystalBall": {
+    "title": "水晶球",
+    "subtitle": "未来を見つめよ",
+    "askQuestion": "ご質問を入力",
+    "gazing": "水晶球を見つめている...",
+    "vision": "あなたのビジョン"
+  }
+}

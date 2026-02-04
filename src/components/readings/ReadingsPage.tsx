@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { UserProfile } from '@/types';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
@@ -7,10 +8,12 @@ interface ReadingsPageProps {
 }
 
 export function ReadingsPage({ onNavigate }: ReadingsPageProps) {
+    const { t } = useTranslation();
+    
     return (
         <div className="flex flex-col h-full bg-black text-foreground overflow-hidden">
             <header className="p-4 pt-6">
-                <h1 className="text-xl font-light tracking-[0.2em] uppercase text-white/90">Readings</h1>
+                <h1 className="text-xl font-light tracking-[0.2em] uppercase text-white/90">{t('readings.title')}</h1>
             </header>
 
             <ScrollArea className="flex-1 px-4 py-4">
@@ -42,8 +45,8 @@ export function ReadingsPage({ onNavigate }: ReadingsPageProps) {
                                 </svg>
                             </div>
                             
-                            <h2 className="text-lg font-semibold text-white mb-1">Palm Reading</h2>
-                            <p className="text-sm text-white/50">Read your palm to know your fortune</p>
+                            <h2 className="text-lg font-semibold text-white mb-1">{t('readings.palmReading')}</h2>
+                            <p className="text-sm text-white/50">{t('readings.palmReadingDesc')}</p>
                         </div>
                     </button>
 
@@ -75,8 +78,8 @@ export function ReadingsPage({ onNavigate }: ReadingsPageProps) {
                                 </div>
                             </div>
                             
-                            <h2 className="text-lg font-semibold text-white mb-1">Birth Chart Reading</h2>
-                            <p className="text-sm text-white/50">Learn more about your birth-chart</p>
+                            <h2 className="text-lg font-semibold text-white mb-1">{t('readings.birthChart')}</h2>
+                            <p className="text-sm text-white/50">{t('readings.birthChartDesc')}</p>
                         </div>
                     </button>
 
@@ -113,8 +116,8 @@ export function ReadingsPage({ onNavigate }: ReadingsPageProps) {
                                 </div>
                             </div>
                             
-                            <h2 className="text-lg font-semibold text-white mb-1">Tarot Card Reading</h2>
-                            <p className="text-sm text-white/50">Learn more about your birth-chart</p>
+                            <h2 className="text-lg font-semibold text-white mb-1">{t('readings.tarotCards')}</h2>
+                            <p className="text-sm text-white/50">{t('readings.tarotCardsDesc')}</p>
                         </div>
                     </button>
                 </div>

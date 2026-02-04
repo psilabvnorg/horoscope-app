@@ -1,0 +1,37 @@
+{
+  "title": "星座",
+  "yourSign": "あなたの星座",
+  "compatibility": "相性",
+  "dailyHoroscope": "日課の運命",
+  "weeklyHoroscope": "週間の運命",
+  "monthlyHoroscope": "月間の運命",
+  "signs": {
+    "aries": "牡羊座",
+    "taurus": "牡牛座",
+    "gemini": "双子座",
+    "cancer": "蟹座",
+    "leo": "獅子座",
+    "virgo": "乙女座",
+    "libra": "天秤座",
+    "scorpio": "蠍座",
+    "sagittarius": "射手座",
+    "capricorn": "山羊座",
+    "aquarius": "水瓶座",
+    "pisces": "魚座"
+  },
+  "elements": {
+    "fire": "炎",
+    "earth": "土",
+    "air": "風",
+    "water": "水"
+  },
+  "traits": {
+    "strengths": "長所",
+    "weaknesses": "短所",
+    "likes": "好み",
+    "dislikes": "嫌い"
+  },
+  "dates": "{{startDate}} - {{endDate}}",
+  "element": "元素：{{element}}",
+  "rulingPlanet": "支配する惑星：{{planet}}"
+}

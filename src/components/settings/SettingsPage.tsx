@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import type { UserProfile, ZodiacSign } from '@/types';
 import { getZodiacSign } from '@/types';
-import { zodiacData } from '@/data';
+import { useZodiacData } from '@/hooks/useTranslatedData';
 import { 
   User, 
   Calendar, 
@@ -11,8 +11,10 @@ import {
   Sparkles,
   X,
   Star,
-  Info
+  Info,
+  Globe
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface SettingsPageProps {
   profile: UserProfile;
@@ -37,6 +39,8 @@ export function SettingsPage({
   onDeleteAccount,
   onRemovePartner 
 }: SettingsPageProps) {
+  const { i18n, t } = useTranslation();
+  const zodiacData = useZodiacData();
   const [editingField, setEditingField] = useState<string | null>(null);
   const [tempValue, setTempValue] = useState('');
   const [showConfirmDialog, setShowConfirmDialog] = useState<'clear' | 'delete' | null>(null);
@@ -255,12 +259,12 @@ export function SettingsPage({
               <Trash2 className="w-8 h-8 text-red-400" />
             </div>
             <h3 className="text-lg font-medium text-white mb-2">
-              {isClear ? 'Clear History?' : 'Delete Account?'}
+              {isClear ? t('settings.clearHistory') + '?' : t('settings.deleteAccount') + '?'}
             </h3>
             <p className="text-sm text-white/50">
               {isClear 
-                ? 'This will remove all your swipe history, readings, and accepted traits.'
-                : 'This will permanently delete all your data. This cannot be undone.'
+                ? t('settings.clearHistoryConfirm')
+                : t('settings.deleteAccountConfirm')
               }
             </p>
           </div>
@@ -270,7 +274,7 @@ export function SettingsPage({
               onClick={() => setShowConfirmDialog(null)}
               className="flex-1 py-3 rounded-full border border-white/20 text-white/70 font-medium"
             >
-              Cancel
+              {t('actions.cancel')}
             </button>
             <button 
               onClick={() => {
@@ -280,7 +284,7 @@ export function SettingsPage({
               }}
               className="flex-1 py-3 rounded-full bg-gradient-to-r from-red-600 to-red-500 text-white font-medium"
             >
-              {isClear ? 'Clear' : 'Delete'}
+              {isClear ? t('settings.clearHistory') : t('actions.delete')}
             </button>
           </div>
         </div>
@@ -292,7 +296,7 @@ export function SettingsPage({
     <div className="flex flex-col min-h-screen h-full bg-[#0a0a12] text-white overflow-y-auto pb-24">
       {/* Header */}
       <header className="p-4 pt-6">
-        <h1 className="text-2xl font-light tracking-[0.15em] uppercase text-purple-400">Profile</h1>
+        <h1 className="text-2xl font-light tracking-[0.15em] uppercase text-purple-400">{t('settings.profile')}</h1>
         <p className="text-sm text-white/40 mt-1">Manage your cosmic identity</p>
       </header>
 
@@ -328,22 +332,22 @@ export function SettingsPage({
         <div className="grid grid-cols-3 gap-3">
           <div className="bg-[#1a1a2e]/80 rounded-2xl p-4 text-center border border-purple-500/10">
             <div className="text-2xl font-bold text-purple-400">{profile.swipeCount}</div>
-            <div className="text-xs text-white/40 mt-1">Traits Swiped</div>
+            <div className="text-xs text-white/40 mt-1">{t('settings.traitsSwiped')}</div>
           </div>
           <div className="bg-[#1a1a2e]/80 rounded-2xl p-4 text-center border border-green-500/10">
             <div className="text-2xl font-bold text-green-400">{profile.acceptedTraits.length}</div>
-            <div className="text-xs text-white/40 mt-1">Accepted</div>
+            <div className="text-xs text-white/40 mt-1">{t('settings.accepted')}</div>
           </div>
           <div className="bg-[#1a1a2e]/80 rounded-2xl p-4 text-center border border-red-500/10">
             <div className="text-2xl font-bold text-red-400">{profile.rejectedTraits.length}</div>
-            <div className="text-xs text-white/40 mt-1">Rejected</div>
+            <div className="text-xs text-white/40 mt-1">{t('settings.rejected')}</div>
           </div>
         </div>
       </div>
 
       {/* Profile Settings */}
       <div className="px-4 mt-8">
-        <h3 className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4 px-1">Profile Settings</h3>
+        <h3 className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4 px-1">{t('settings.profileSettings')}</h3>
         
         <div className="space-y-3">
           {/* Name */}
@@ -356,7 +360,7 @@ export function SettingsPage({
                 <User className="w-5 h-5 text-purple-400" />
               </div>
               <div className="text-left">
-                <div className="text-xs text-white/40">Name</div>
+                <div className="text-xs text-white/40">{t('settings.name')}</div>
                 <div className="text-white font-medium">{profile.name}</div>
               </div>
             </div>
@@ -373,7 +377,7 @@ export function SettingsPage({
                 <Calendar className="w-5 h-5 text-purple-400" />
               </div>
               <div className="text-left">
-                <div className="text-xs text-white/40">Birthday</div>
+                <div className="text-xs text-white/40">{t('settings.birthday')}</div>
                 <div className="text-white font-medium">{formatDate(profile.birthday)}</div>
                 <div className="text-xs text-purple-400 capitalize">{profile.sign}</div>
               </div>
@@ -387,7 +391,7 @@ export function SettingsPage({
               <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-purple-400" />
               </div>
-              <div className="text-xs text-white/40">Gender</div>
+              <div className="text-xs text-white/40">{t('settings.gender')}</div>
             </div>
             <div className="flex gap-2">
               {(['female', 'male', 'other'] as const).map((gender) => (
@@ -400,7 +404,7 @@ export function SettingsPage({
                       : 'bg-white/5 text-white/50 hover:bg-white/10'
                   }`}
                 >
-                  {gender.charAt(0).toUpperCase() + gender.slice(1)}
+                  {t(`settings.${gender}`)}
                 </button>
               ))}
             </div>
@@ -410,7 +414,7 @@ export function SettingsPage({
 
       {/* Partner Section */}
       <div className="px-4 mt-8">
-        <h3 className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4 px-1">Partner</h3>
+        <h3 className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4 px-1">{t('settings.partner')}</h3>
         
         {profile.partnerSign ? (
           <div className="space-y-3">
@@ -423,7 +427,7 @@ export function SettingsPage({
                   <Heart className="w-5 h-5 text-pink-400" />
                 </div>
                 <div className="text-left">
-                  <div className="text-xs text-white/40">Partner's Birthday</div>
+                  <div className="text-xs text-white/40">{t('settings.partnerBirthday')}</div>
                   <div className="text-white font-medium">{formatDate(profile.partnerBirthday || '')}</div>
                   <div className="text-xs text-pink-400 capitalize flex items-center gap-1">
                     <span>{zodiacSymbols[profile.partnerSign]}</span>
@@ -439,7 +443,7 @@ export function SettingsPage({
               className="w-full py-3 rounded-full border border-pink-500/30 text-pink-400 font-medium hover:bg-pink-500/10 transition-all flex items-center justify-center gap-2"
             >
               <Heart className="w-4 h-4" />
-              Remove Partner
+              {t('settings.removePartner')}
             </button>
           </div>
         ) : (
@@ -447,20 +451,60 @@ export function SettingsPage({
             <div className="w-16 h-16 rounded-full bg-pink-500/10 flex items-center justify-center mx-auto mb-3">
               <Heart className="w-8 h-8 text-pink-400/50" />
             </div>
-            <p className="text-white/40 text-sm mb-4">No partner added yet</p>
+            <p className="text-white/40 text-sm mb-4">{t('settings.noPartner')}</p>
             <button 
               onClick={() => openDateEditor('partnerBirthday', undefined)}
               className="px-6 py-2 rounded-full border border-pink-500/30 text-pink-400 font-medium hover:bg-pink-500/10 transition-all"
             >
-              Add Partner
+              {t('settings.addPartner')}
             </button>
           </div>
         )}
       </div>
 
+      {/* Language Section */}
+      <div className="px-4 mt-8">
+        <h3 className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4 px-1">{t('settings.language')}</h3>
+        
+        <div className="space-y-2">
+          {[
+            { code: 'en', name: 'English', flag: '🇺🇸' },
+            { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' },
+            { code: 'ko', name: '한국어', flag: '🇰🇷' },
+            { code: 'ja', name: '日本語', flag: '🇯🇵' },
+          ].map((lang) => (
+            <button
+              key={lang.code}
+              onClick={() => i18n.changeLanguage(lang.code)}
+              className={`
+                w-full flex items-center gap-4 p-4 rounded-2xl border transition-all
+                ${i18n.language === lang.code
+                  ? 'bg-purple-500/20 border-purple-500/50'
+                  : 'bg-[#1a1a2e]/60 border-white/5 hover:border-purple-500/30'
+                }
+              `}
+            >
+              <div className={`
+                w-10 h-10 rounded-full flex items-center justify-center
+                ${i18n.language === lang.code ? 'bg-purple-500/30' : 'bg-purple-500/10'}
+              `}>
+                <Globe className={`w-5 h-5 ${i18n.language === lang.code ? 'text-purple-300' : 'text-purple-400/50'}`} />
+              </div>
+              <div className="flex-1 text-left">
+                <div className="text-white font-medium">{lang.name}</div>
+                <div className="text-xs text-white/40">{lang.flag} {lang.code.toUpperCase()}</div>
+              </div>
+              {i18n.language === lang.code && (
+                <div className="w-2 h-2 rounded-full bg-purple-400" />
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Data Management */}
       <div className="px-4 mt-8">
-        <h3 className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4 px-1">Data</h3>
+        <h3 className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4 px-1">{t('settings.data')}</h3>
         
         <div className="space-y-3">
           <button 
@@ -470,7 +514,7 @@ export function SettingsPage({
             <div className="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center">
               <Star className="w-5 h-5 text-yellow-400" />
             </div>
-            <span className="text-white/70">Clear History</span>
+            <span className="text-white/70">{t('settings.clearHistory')}</span>
           </button>
 
           <button 
@@ -480,7 +524,7 @@ export function SettingsPage({
             <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
               <Trash2 className="w-5 h-5 text-red-400" />
             </div>
-            <span className="text-red-400">Delete Account</span>
+            <span className="text-red-400">{t('settings.deleteAccount')}</span>
           </button>
         </div>
       </div>

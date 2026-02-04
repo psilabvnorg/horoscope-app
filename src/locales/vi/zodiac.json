@@ -1,0 +1,37 @@
+{
+  "title": "Hoàng đạo",
+  "yourSign": "Dấu hiệu của bạn",
+  "compatibility": "Khắc Siêu",
+  "dailyHoroscope": "Bói Tử vi Hằng ngày",
+  "weeklyHoroscope": "Bói Tử vi Tuần",
+  "monthlyHoroscope": "Bói Tử vi Tháng",
+  "signs": {
+    "aries": "Bạch Dương",
+    "taurus": "Kim Ngưu",
+    "gemini": "Song Tử",
+    "cancer": "Cự Giải",
+    "leo": "Sư Tử",
+    "virgo": "Xử Nữ",
+    "libra": "Thiên Bình",
+    "scorpio": "Bọ Cạp",
+    "sagittarius": "Nhân Mã",
+    "capricorn": "Ma Kết",
+    "aquarius": "Bảo Bình",
+    "pisces": "Song Ngư"
+  },
+  "elements": {
+    "fire": "Hỏa",
+    "earth": "Thổ",
+    "air": "Kim",
+    "water": "Thủy"
+  },
+  "traits": {
+    "strengths": "Điểm mạnh",
+    "weaknesses": "Điểm yếu",
+    "likes": "Thích",
+    "dislikes": "Không thích"
+  },
+  "dates": "{{startDate}} - {{endDate}}",
+  "element": "Tính cách: {{element}}",
+  "rulingPlanet": "Bành tinh chủ đạo: {{planet}}"
+}

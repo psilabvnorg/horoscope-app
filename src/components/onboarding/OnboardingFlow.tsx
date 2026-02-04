@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChevronLeft } from 'lucide-react';
 
 interface OnboardingFlowProps {
@@ -12,12 +13,14 @@ interface OnboardingFlowProps {
   }) => void;
 }
 
-type Step = 'loading' | 'welcome' | 'name' | 'birthday' | 'time' | 'gender' | 'location' | 'relationship';
+type Step = 'loading' | 'welcome' | 'language' | 'name' | 'birthday' | 'time' | 'gender' | 'location' | 'relationship';
 
-const STEPS_ORDER: Step[] = ['name', 'birthday', 'time', 'gender', 'location', 'relationship'];
+const STEPS_ORDER: Step[] = ['language', 'name', 'birthday', 'time', 'gender', 'location', 'relationship'];
 
 export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
+  const { t, i18n } = useTranslation();
   const [step, setStep] = useState<Step>('loading');
+  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
   const [name, setName] = useState('');
   const [birthDay, setBirthDay] = useState(20);
   const [birthMonth, setBirthMonth] = useState(1);
@@ -40,7 +43,7 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   const currentStepIndex = STEPS_ORDER.indexOf(step);
 
   const handleBack = () => {
-    if (step === 'name') {
+    if (step === 'language') {
       setStep('welcome');
     } else {
       const idx = STEPS_ORDER.indexOf(step);
@@ -142,25 +145,21 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
         {/* Welcome text and buttons */}
         <div className="px-6 pb-12 space-y-6 relative z-10">
           <div className="text-center space-y-3">
-            <h1 className="text-5xl font-light text-white tracking-wider italic">WELCOME</h1>
+            <h1 className="text-5xl font-light text-white tracking-wider italic">{t('onboarding.welcome').toUpperCase()}</h1>
             <p className="text-gray-400 text-sm leading-relaxed">
-              You are on the path to discovering yourself.
-              <br />
-              LunaFlame will help you live in harmony
-              <br />
-              with the Universe.
+              {t('onboarding.welcomeMessage')}
             </p>
           </div>
 
           <div className="space-y-3 pt-4">
             <button
-              onClick={() => setStep('name')}
+              onClick={() => setStep('language')}
               className="w-full py-4 rounded-full bg-violet-200 text-black font-semibold text-lg transition-all hover:bg-violet-300 active:scale-98"
             >
-              GET STARTED
+              {t('onboarding.getStarted').toUpperCase()}
             </button>
             <button className="w-full py-4 rounded-full border border-violet-500/50 text-violet-300 font-medium transition-all hover:bg-violet-500/10">
-              Already have an account
+              {t('onboarding.alreadyHaveAccount')}
             </button>
           </div>
         </div>
@@ -178,12 +177,13 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
             <ChevronLeft className="w-6 h-6" />
           </button>
           <h1 className="text-white text-lg font-semibold tracking-wide">
-            {step === 'name' && 'ENTER THE NAME'}
-            {step === 'birthday' && 'DATE OF BIRTH'}
-            {step === 'time' && 'TIME OF BIRTH'}
-            {step === 'gender' && 'ADD GENDER'}
-            {step === 'location' && 'LOCATION OF BIRTH'}
-            {step === 'relationship' && 'RELATIONSHIP STATUS'}
+            {step === 'language' && t('onboarding.selectLanguage')}
+            {step === 'name' && t('onboarding.enterTheName')}
+            {step === 'birthday' && t('onboarding.dateOfBirth').toUpperCase()}
+            {step === 'time' && t('onboarding.timeOfBirth').toUpperCase()}
+            {step === 'gender' && t('onboarding.addGender')}
+            {step === 'location' && t('onboarding.locationOfBirth')}
+            {step === 'relationship' && t('onboarding.relationshipStatus')}
           </h1>
         </div>
 
@@ -202,6 +202,13 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
 
       {/* Content */}
       <div className="flex-1 flex flex-col">
+        {step === 'language' && (
+          <LanguageStep 
+            selectedLanguage={selectedLanguage} 
+            setSelectedLanguage={setSelectedLanguage} 
+            onNext={handleNext} 
+          />
+        )}
         {step === 'name' && (
           <NameStep name={name} setName={setName} onNext={handleNext} />
         )}
@@ -236,13 +243,120 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
 }
 
 
-// Name Step Component
-function NameStep({ name, setName, onNext }: { name: string; setName: (v: string) => void; onNext: () => void }) {
+// Language Step Component
+function LanguageStep({ 
+  selectedLanguage, 
+  setSelectedLanguage, 
+  onNext 
+}: { 
+  selectedLanguage: string; 
+  setSelectedLanguage: (v: string) => void; 
+  onNext: () => void 
+}) {
+  const { t, i18n } = useTranslation();
+  
+  const languages = [
+    { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸' },
+    { code: 'vi', name: 'Vietnamese', nativeName: 'Tiếng Việt', flag: '🇻🇳' },
+    { code: 'ko', name: 'Korean', nativeName: '한국어', flag: '🇰🇷' },
+    { code: 'ja', name: 'Japanese', nativeName: '日本語', flag: '🇯🇵' },
+  ];
+
+  const handleLanguageSelect = (code: string) => {
+    setSelectedLanguage(code);
+    i18n.changeLanguage(code);
+  };
+
   return (
     <div className="flex-1 flex flex-col animate-in fade-in duration-300">
       {/* Description */}
       <p className="text-gray-400 text-center text-sm px-6 mt-2">
-        To make your journey more insightful, let's get to know you better.
+        {t('onboarding.languageDescription')}
+      </p>
+
+      {/* Globe illustration */}
+      <div className="flex-1 flex items-center justify-center px-6 py-4">
+        <div className="relative w-64 h-64">
+          <svg viewBox="0 0 200 200" className="w-full h-full">
+            {/* Globe circle */}
+            <circle cx="100" cy="100" r="70" fill="none" stroke="rgba(139, 92, 246, 0.3)" strokeWidth="2" />
+            
+            {/* Latitude lines */}
+            <ellipse cx="100" cy="100" rx="70" ry="20" fill="none" stroke="rgba(139, 92, 246, 0.2)" strokeWidth="1" />
+            <ellipse cx="100" cy="100" rx="70" ry="40" fill="none" stroke="rgba(139, 92, 246, 0.2)" strokeWidth="1" />
+            
+            {/* Longitude lines */}
+            <ellipse cx="100" cy="100" rx="20" ry="70" fill="none" stroke="rgba(139, 92, 246, 0.2)" strokeWidth="1" />
+            <ellipse cx="100" cy="100" rx="40" ry="70" fill="none" stroke="rgba(139, 92, 246, 0.2)" strokeWidth="1" />
+            
+            {/* Center glow */}
+            <circle cx="100" cy="100" r="15" fill="rgba(139, 92, 246, 0.3)" />
+            <circle cx="100" cy="100" r="8" fill="rgba(139, 92, 246, 0.6)" />
+            
+            {/* Orbiting dots */}
+            {[0, 90, 180, 270].map((angle, i) => {
+              const rad = (angle - 90) * (Math.PI / 180);
+              const x = 100 + 70 * Math.cos(rad);
+              const y = 100 + 70 * Math.sin(rad);
+              return <circle key={i} cx={x} cy={y} r="3" fill="rgba(139, 92, 246, 0.5)" />;
+            })}
+          </svg>
+        </div>
+      </div>
+
+      {/* Language options */}
+      <div className="flex-1 px-6 py-4 space-y-3 overflow-auto">
+        {languages.map((lang) => (
+          <button
+            key={lang.code}
+            onClick={() => handleLanguageSelect(lang.code)}
+            className={`w-full p-4 rounded-xl border text-left transition-all flex items-center gap-4 ${
+              selectedLanguage === lang.code
+                ? 'border-violet-500 bg-violet-500/10'
+                : 'border-gray-700 bg-gray-900 hover:border-gray-600'
+            }`}
+          >
+            <span className="text-3xl">{lang.flag}</span>
+            <div className="flex-1">
+              <p className={`font-medium ${selectedLanguage === lang.code ? 'text-white' : 'text-gray-400'}`}>
+                {lang.nativeName}
+              </p>
+              <p className="text-sm text-gray-500">{lang.name}</p>
+            </div>
+            {selectedLanguage === lang.code && (
+              <div className="w-6 h-6 rounded-full bg-violet-500 flex items-center justify-center">
+                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* Button */}
+      <div className="px-6 pb-8">
+        <button
+          onClick={onNext}
+          className="w-full py-4 rounded-full bg-violet-300 text-black font-semibold text-lg transition-all hover:bg-violet-400"
+        >
+          {t('actions.next').toUpperCase()}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+
+// Name Step Component
+function NameStep({ name, setName, onNext }: { name: string; setName: (v: string) => void; onNext: () => void }) {
+  const { t } = useTranslation();
+  
+  return (
+    <div className="flex-1 flex flex-col animate-in fade-in duration-300">
+      {/* Description */}
+      <p className="text-gray-400 text-center text-sm px-6 mt-2">
+        {t('onboarding.nameDescription')}
       </p>
 
       {/* Eye illustration */}
@@ -278,7 +392,7 @@ function NameStep({ name, setName, onNext }: { name: string; setName: (v: string
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Enter name"
+          placeholder={t('onboarding.enterName_placeholder')}
           className="w-full px-5 py-4 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition-colors"
           autoFocus
         />
@@ -287,7 +401,7 @@ function NameStep({ name, setName, onNext }: { name: string; setName: (v: string
           disabled={!name.trim()}
           className="w-full py-4 rounded-full bg-violet-300 text-black font-semibold text-lg transition-all hover:bg-violet-400 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          NEXT
+          {t('actions.next').toUpperCase()}
         </button>
       </div>
     </div>
@@ -303,13 +417,14 @@ function BirthdayStep({
   year: number; setYear: (v: number) => void;
   onNext: () => void; onSkip: () => void;
 }) {
+  const { t } = useTranslation();
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const currentYear = new Date().getFullYear();
 
   return (
     <div className="flex-1 flex flex-col animate-in fade-in duration-300">
       <p className="text-gray-400 text-center text-sm px-6 mt-2">
-        Date is important for determining your sun sign, numerology and compatibility.
+        {t('onboarding.birthdayDescription')}
       </p>
 
       {/* Zodiac wheel illustration */}
@@ -371,13 +486,13 @@ function BirthdayStep({
           onClick={onSkip}
           className="flex-1 py-4 rounded-full border border-gray-600 text-white font-semibold transition-all hover:bg-gray-800"
         >
-          SKIP
+          {t('actions.skip').toUpperCase()}
         </button>
         <button
           onClick={onNext}
           className="flex-1 py-4 rounded-full bg-violet-300 text-black font-semibold transition-all hover:bg-violet-400"
         >
-          NEXT
+          {t('actions.next').toUpperCase()}
         </button>
       </div>
     </div>
@@ -394,10 +509,12 @@ function TimeStep({
   period: 'AM' | 'PM'; setPeriod: (v: 'AM' | 'PM') => void;
   onNext: () => void; onSkip: () => void;
 }) {
+  const { t } = useTranslation();
+  
   return (
     <div className="flex-1 flex flex-col animate-in fade-in duration-300">
       <p className="text-gray-400 text-center text-sm px-6 mt-2">
-        Time is important for determining your houses, rising sign, and exact moon position.
+        {t('onboarding.timeDescription')}
       </p>
 
       {/* Geometric star pattern */}
@@ -465,13 +582,13 @@ function TimeStep({
           onClick={onSkip}
           className="flex-1 py-4 rounded-full border border-gray-600 text-white font-semibold transition-all hover:bg-gray-800"
         >
-          I DON'T KNOW
+          {t('onboarding.iDontKnow').toUpperCase()}
         </button>
         <button
           onClick={onNext}
           className="flex-1 py-4 rounded-full bg-violet-300 text-black font-semibold transition-all hover:bg-violet-400"
         >
-          NEXT
+          {t('actions.next').toUpperCase()}
         </button>
       </div>
     </div>
@@ -486,12 +603,14 @@ function GenderStep({
   setGender: (v: 'male' | 'female' | 'other') => void;
   onNext: () => void; onSkip: () => void;
 }) {
+  const { t } = useTranslation();
+  
   return (
     <div className="flex-1 flex flex-col animate-in fade-in duration-300">
       {/* Card with illustration */}
       <div className="mx-6 mt-2 p-6 rounded-2xl bg-gradient-to-b from-violet-900/40 to-violet-900/20 border border-violet-500/20">
         <p className="text-gray-300 text-center text-sm mb-6">
-          It will reveal the balance of your masculine and feminine energy.
+          {t('onboarding.genderDescription')}
         </p>
         {/* Hexagon avatar */}
         <div className="flex justify-center">
@@ -516,20 +635,20 @@ function GenderStep({
         <div className="grid grid-cols-2 gap-3">
           <GenderOption
             icon="♂"
-            label="Male"
+            label={t('settings.male')}
             selected={gender === 'male'}
             onClick={() => setGender('male')}
           />
           <GenderOption
             icon="♀"
-            label="Female"
+            label={t('settings.female')}
             selected={gender === 'female'}
             onClick={() => setGender('female')}
           />
         </div>
         <GenderOption
           icon="⚥"
-          label="Other"
+          label={t('settings.other')}
           selected={gender === 'other'}
           onClick={() => setGender('other')}
         />
@@ -541,14 +660,14 @@ function GenderStep({
           onClick={onSkip}
           className="flex-1 py-4 rounded-full border border-gray-600 text-white font-semibold transition-all hover:bg-gray-800"
         >
-          SKIP
+          {t('actions.skip').toUpperCase()}
         </button>
         <button
           onClick={onNext}
           disabled={!gender}
           className="flex-1 py-4 rounded-full bg-violet-300 text-black font-semibold transition-all hover:bg-violet-400 disabled:opacity-50"
         >
-          NEXT
+          {t('actions.next').toUpperCase()}
         </button>
       </div>
     </div>
@@ -579,10 +698,12 @@ function LocationStep({
   location: string; setLocation: (v: string) => void;
   onNext: () => void; onSkip: () => void;
 }) {
+  const { t } = useTranslation();
+  
   return (
     <div className="flex-1 flex flex-col animate-in fade-in duration-300">
       <p className="text-gray-400 text-center text-sm px-6 mt-2">
-        We will analyse the position of stars and planets in your place of birth at the moment you were born.
+        {t('onboarding.locationDescription')}
       </p>
 
       {/* Constellation ring illustration */}
@@ -631,7 +752,7 @@ function LocationStep({
           type="text"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          placeholder="Type in city of birth"
+          placeholder={t('onboarding.typeCity_placeholder')}
           className="w-full px-5 py-4 bg-gray-900 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 transition-colors"
         />
         <div className="flex gap-3">
@@ -639,13 +760,13 @@ function LocationStep({
             onClick={onSkip}
             className="flex-1 py-4 rounded-full border border-gray-600 text-white font-semibold transition-all hover:bg-gray-800"
           >
-            I DON'T KNOW
+            {t('onboarding.iDontKnow').toUpperCase()}
           </button>
           <button
             onClick={onNext}
             className="flex-1 py-4 rounded-full bg-violet-300 text-black font-semibold transition-all hover:bg-violet-400"
           >
-            NEXT
+            {t('actions.next').toUpperCase()}
           </button>
         </div>
       </div>
@@ -660,13 +781,15 @@ function RelationshipStep({
   status: string | null; setStatus: (v: string) => void;
   onConfirm: () => void; onSkip: () => void;
 }) {
+  const { t } = useTranslation();
+  
   const options = [
-    { id: 'relationship', label: 'In a relationship', icon: '👫' },
-    { id: 'single', label: 'Single', icon: '🧑' },
-    { id: 'married', label: 'Married', icon: '💑' },
-    { id: 'engaged', label: 'Engaged', icon: '💍' },
-    { id: 'divorced', label: 'Divorced', icon: '💔' },
-    { id: 'widow', label: 'Widow', icon: '🕊️' },
+    { id: 'relationship', label: t('onboarding.inRelationship'), icon: '👫' },
+    { id: 'single', label: t('onboarding.single'), icon: '🧑' },
+    { id: 'married', label: t('onboarding.married'), icon: '💑' },
+    { id: 'engaged', label: t('onboarding.engaged'), icon: '💍' },
+    { id: 'divorced', label: t('onboarding.divorced'), icon: '💔' },
+    { id: 'widow', label: t('onboarding.widow'), icon: '🕊️' },
   ];
 
   return (
@@ -674,7 +797,7 @@ function RelationshipStep({
       {/* Card with illustration */}
       <div className="mx-6 mt-2 p-6 rounded-2xl bg-gradient-to-b from-violet-900/40 to-violet-900/20 border border-violet-500/20">
         <p className="text-gray-300 text-center text-sm mb-6">
-          Your current status provides insights into your love life.
+          {t('onboarding.relationshipDescription')}
         </p>
         {/* Smiley with heart */}
         <div className="flex justify-center">
@@ -725,13 +848,13 @@ function RelationshipStep({
           onClick={onSkip}
           className="flex-1 py-4 rounded-full border border-gray-600 text-white font-semibold transition-all hover:bg-gray-800"
         >
-          SKIP
+          {t('actions.skip').toUpperCase()}
         </button>
         <button
           onClick={onConfirm}
           className="flex-1 py-4 rounded-full bg-violet-300 text-black font-semibold transition-all hover:bg-violet-400"
         >
-          CONFIRM
+          {t('actions.confirm').toUpperCase()}
         </button>
       </div>
     </div>

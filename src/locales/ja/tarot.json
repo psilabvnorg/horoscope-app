@@ -1,0 +1,39 @@
+{
+  "title": "タロット占い",
+  "subtitle": "古代のタロットの芸術を通じて見えてくる洞察",
+  "dailyReading": "毎日のタロット",
+  "threeCardSpread": "三枚のカード",
+  "celticCross": "ケルトの十字",
+  "selectCards": "お望みのカードを",
+  "cardSelected": "カードが選択されました",
+  "cardLibrary": "カード図鑑",
+  "meanings": {
+    "upright": "正立位置の意味",
+    "reversed": "逆立位置の意味",
+    "general": "一般",
+    "love": "恋愛",
+    "career": "キャリア",
+    "finances": "財産"
+  },
+  "spread": {
+    "past": "過去",
+    "present": "現在",
+    "future": "未来",
+    "situation": "現在の状況",
+    "challenge": "課題",
+    "advice": "アドバイス"
+  },
+  "instructions": {
+    "shuffle": "カードをシャッフルし、質問に集中してください",
+    "select": "デッキから{{count}}枚のカードを選択してください",
+    "reveal": "カードを明かすにはタップしてください"
+  },
+  "arcana": {
+    "major": "大アルカナ",
+    "minor": "小アルカナ",
+    "cups": "お椀",
+    "wands": "杖",
+    "swords": "剣",
+    "pentacles": "コップ"
+  }
+}

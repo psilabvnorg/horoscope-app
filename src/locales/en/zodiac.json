@@ -1,0 +1,37 @@
+{
+  "title": "Zodiac Signs",
+  "yourSign": "Your Sign",
+  "compatibility": "Compatibility",
+  "dailyHoroscope": "Daily Horoscope",
+  "weeklyHoroscope": "Weekly Horoscope",
+  "monthlyHoroscope": "Monthly Horoscope",
+  "signs": {
+    "aries": "Aries",
+    "taurus": "Taurus",
+    "gemini": "Gemini",
+    "cancer": "Cancer",
+    "leo": "Leo",
+    "virgo": "Virgo",
+    "libra": "Libra",
+    "scorpio": "Scorpio",
+    "sagittarius": "Sagittarius",
+    "capricorn": "Capricorn",
+    "aquarius": "Aquarius",
+    "pisces": "Pisces"
+  },
+  "elements": {
+    "fire": "Fire",
+    "earth": "Earth",
+    "air": "Air",
+    "water": "Water"
+  },
+  "traits": {
+    "strengths": "Strengths",
+    "weaknesses": "Weaknesses",
+    "likes": "Likes",
+    "dislikes": "Dislikes"
+  },
+  "dates": "{{startDate}} - {{endDate}}",
+  "element": "Element: {{element}}",
+  "rulingPlanet": "Ruling Planet: {{planet}}"
+}

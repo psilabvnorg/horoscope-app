@@ -1,0 +1,37 @@
+{
+  "title": "조디악 신호",
+  "yourSign": "당신의 신호",
+  "compatibility": "상호호환성",
+  "dailyHoroscope": "일간 조디악 전망",
+  "weeklyHoroscope": "주간 조디악 전망",
+  "monthlyHoroscope": "월간 조디악 전망",
+  "signs": {
+    "aries": "양자리",
+    "taurus": "황소자리",
+    "gemini": "쌍둥이자리",
+    "cancer": "게자리",
+    "leo": "사자자리",
+    "virgo": "처녀자리",
+    "libra": "천칭자리",
+    "scorpio": "전갈자리",
+    "sagittarius": "사수자리",
+    "capricorn": "염소자리",
+    "aquarius": "물병자리",
+    "pisces": "물고기자리"
+  },
+  "elements": {
+    "fire": "불",
+    "earth": "흙",
+    "air": "공기",
+    "water": "물"
+  },
+  "traits": {
+    "strengths": "장점",
+    "weaknesses": "단점",
+    "likes": "선호하는 것",
+    "dislikes": "미ชอบ하는 것"
+  },
+  "dates": "{{startDate}} - {{endDate}}",
+  "element": "요소: {{element}}",
+  "rulingPlanet": "왕성: {{planet}}"
+}

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useUserProfile } from '@/hooks/useUserProfile';
 import { OnboardingFlow } from '@/components/onboarding/OnboardingFlow';
 import { SwipePage } from '@/components/swipe/SwipePage';
@@ -27,6 +28,7 @@ type Tab = 'horoscope' | 'readings' | 'love' | 'guidance' | 'profile' | 'swipe';
 type ReadingView = 'menu' | 'tarot' | 'tarot-selection' | 'tarot-reading' | 'card-library' | 'palm' | 'palm-result' | 'birth-chart';
 
 function App() {
+  const { t } = useTranslation();
   const {
     profile,
     isOnboarded,
@@ -138,6 +140,18 @@ function App() {
     }
   };
 
+  const getTabLabel = (tab: Tab): string => {
+    const labels: Record<Tab, string> = {
+      horoscope: t('navigation.home'),
+      readings: t('navigation.readings'),
+      love: t('navigation.love'),
+      guidance: t('navigation.fortune'),
+      profile: t('navigation.settings'),
+      swipe: t('navigation.swipe'),
+    };
+    return labels[tab];
+  };
+
   const getTabIcon = (tab: Tab) => {
     const icons: Record<Tab, typeof Moon> = {
       horoscope: Moon,
@@ -174,7 +188,7 @@ function App() {
                 }`}
             >
               {getTabIcon(tab)}
-              <span className="text-[10px] uppercase tracking-tighter font-medium">{tab}</span>
+              <span className="text-[10px] uppercase tracking-tighter font-medium">{getTabLabel(tab)}</span>
             </button>
           ))}
         </div>

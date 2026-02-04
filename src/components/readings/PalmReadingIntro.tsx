@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { ChevronLeft } from 'lucide-react';
 
 interface PalmReadingIntroProps {
@@ -6,6 +7,8 @@ interface PalmReadingIntroProps {
 }
 
 export function PalmReadingIntro({ onBack, onReadNow }: PalmReadingIntroProps) {
+    const { t } = useTranslation();
+    
     return (
         <div className="flex flex-col h-full bg-[#050510] text-white overflow-hidden relative">
             {/* Back button */}
@@ -78,8 +81,8 @@ export function PalmReadingIntro({ onBack, onReadNow }: PalmReadingIntroProps) {
 
                 {/* Title and description */}
                 <div className="text-center mt-2">
-                    <h1 className="text-4xl font-bold text-white mb-3">Palm Reading</h1>
-                    <p className="text-white/50 text-sm">Read your palm to know your fortune</p>
+                    <h1 className="text-4xl font-bold text-white mb-3">{t('readings.palmReadingTitle')}</h1>
+                    <p className="text-white/50 text-sm">{t('readings.palmReadingDesc')}</p>
                 </div>
             </div>
 
@@ -97,7 +100,7 @@ export function PalmReadingIntro({ onBack, onReadNow }: PalmReadingIntroProps) {
                         onClick={onReadNow}
                         className="flex-1 max-w-[280px] py-4 rounded-full bg-violet-300 text-black font-semibold text-sm uppercase tracking-[0.2em] hover:bg-violet-200 transition-colors"
                     >
-                        Read Now
+                        {t('readings.readNow')}
                     </button>
                     
                     {/* Right dots */}

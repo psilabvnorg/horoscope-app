@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { UserProfile } from '@/types';
 import { useTarot } from '@/hooks/useTarot';
 import { useChat } from '@/hooks/useChat';
@@ -12,44 +13,45 @@ interface TarotPageProps {
   selectedCardIds?: number[];
 }
 
-const readingTypeInfo = {
-  'daily': { title: 'Daily Tarot', cards: 1, description: 'Your card for today' },
-  'near-future': { title: 'Near Future', cards: 3, description: 'What lies ahead' },
-  'love': { title: 'Love & Relations', cards: 3, description: 'Your romantic path' },
-  'yes-no': { title: 'Yes or No', cards: 1, description: 'A clear answer' },
-  'meanings': { title: 'Card Library', cards: 0, description: 'Explore all cards' },
-};
-
-const suggestedQuestions = {
-  'daily': [
-    'What should I focus on today?',
-    'What energy surrounds me?',
-    'What lesson is today bringing?',
-  ],
-  'near-future': [
-    'What opportunities are coming?',
-    'What should I prepare for?',
-    'How can I navigate what\'s ahead?',
-  ],
-  'love': [
-    'What does my love life need?',
-    'How can I improve my relationships?',
-    'What blocks my romantic growth?',
-  ],
-  'yes-no': [
-    'Should I take this opportunity?',
-    'Is this the right path?',
-    'Will this work out?',
-  ],
-};
-
 export function TarotPage({ profile, readingType = 'daily' }: TarotPageProps) {
+  const { t } = useTranslation();
   const { getDailyCard, getThreeCardSpread } = useTarot();
   const [currentReading, setCurrentReading] = useState<any>(null);
   const [showResult, setShowResult] = useState(false);
   const [chatInput, setChatInput] = useState('');
   const chatScrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const readingTypeInfo = {
+    'daily': { title: t('tarot.dailyTarotTitle'), cards: 1, description: t('tarot.dailyTarotDesc') },
+    'near-future': { title: t('tarot.nearFutureTitle'), cards: 3, description: t('tarot.nearFutureDesc') },
+    'love': { title: t('tarot.loveTitle'), cards: 3, description: t('tarot.loveDesc') },
+    'yes-no': { title: t('tarot.yesNoTitle'), cards: 1, description: t('tarot.yesNoDesc') },
+    'meanings': { title: t('tarot.meaningsTitle'), cards: 0, description: t('tarot.meaningsDesc') },
+  };
+
+  const suggestedQuestions = {
+    'daily': [
+      t('tarot.whatFocusToday'),
+      t('tarot.whatEnergy'),
+      t('tarot.whatLesson'),
+    ],
+    'near-future': [
+      t('tarot.whatOpportunities'),
+      t('tarot.whatPrepare'),
+      t('tarot.howNavigate'),
+    ],
+    'love': [
+      t('tarot.whatLoveNeed'),
+      t('tarot.howImproveRelations'),
+      t('tarot.whatBlocks'),
+    ],
+    'yes-no': [
+      t('tarot.shouldTakeOpportunity'),
+      t('tarot.isRightPath'),
+      t('tarot.willWorkOut'),
+    ],
+  };
 
   const info = readingTypeInfo[readingType as keyof typeof readingTypeInfo] || readingTypeInfo['daily'];
 
@@ -71,13 +73,13 @@ export function TarotPage({ profile, readingType = 'daily' }: TarotPageProps) {
       reading = getThreeCardSpread(profile.sign);
       // Customize positions based on reading type
       if (readingType === 'near-future') {
-        reading.cards[0].position = 'Present';
-        reading.cards[1].position = 'Near Future';
-        reading.cards[2].position = 'Outcome';
+        reading.cards[0].position = t('tarot.present');
+        reading.cards[1].position = t('tarot.nearFuture');
+        reading.cards[2].position = t('tarot.outcome');
       } else if (readingType === 'love') {
-        reading.cards[0].position = 'You';
-        reading.cards[1].position = 'Them';
-        reading.cards[2].position = 'Connection';
+        reading.cards[0].position = t('tarot.you');
+        reading.cards[1].position = t('tarot.them');
+        reading.cards[2].position = t('tarot.connection');
       }
     }
     setCurrentReading(reading);
@@ -147,7 +149,7 @@ export function TarotPage({ profile, readingType = 'daily' }: TarotPageProps) {
         >
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5" />
-            Draw Cards
+            {t('tarot.drawCards')}
           </div>
         </button>
       </div>
@@ -165,7 +167,7 @@ export function TarotPage({ profile, readingType = 'daily' }: TarotPageProps) {
                   </div>
                   <div>
                     <h4 className="font-medium text-sm text-white">{info.title}</h4>
-                    <p className="text-xs text-white/60">Ask about your reading</p>
+                    <p className="text-xs text-white/60">{t('tarot.askAboutReading')}</p>
                   </div>
                 </div>
                 <button
@@ -205,7 +207,7 @@ export function TarotPage({ profile, readingType = 'daily' }: TarotPageProps) {
             {/* Card Meanings Summary */}
             <div className="px-4 py-3 bg-[#1a1a2e]/50 border-b border-violet-500/10 flex-shrink-0 max-h-32 overflow-y-auto">
               <h3 className="text-xs font-semibold uppercase tracking-wider text-violet-400 mb-2">
-                Your Cards
+                {t('tarot.yourCards')}
               </h3>
               {currentReading.cards.map((cardData: any, index: number) => (
                 <p key={index} className="text-white/70 text-xs leading-relaxed mb-2">
@@ -223,7 +225,7 @@ export function TarotPage({ profile, readingType = 'daily' }: TarotPageProps) {
               {messages.length === 0 && (
                 <div className="space-y-3">
                   <p className="text-sm text-white/60 text-center">
-                    Ask me anything about your reading:
+                    {t('tarot.askAnything')}
                   </p>
                   <div className="flex flex-wrap gap-2 justify-center">
                     {(suggestedQuestions[readingType as keyof typeof suggestedQuestions] || suggestedQuestions['daily']).map((question, index) => (
@@ -290,7 +292,7 @@ export function TarotPage({ profile, readingType = 'daily' }: TarotPageProps) {
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Ask about your cards..."
+                  placeholder={t('tarot.askAboutCards')}
                   className="flex-1 px-4 py-3 bg-[#0a0a1a] border border-violet-500/30 rounded-full text-white placeholder-white/40 focus:outline-none focus:border-violet-500/60 text-sm"
                   disabled={isLoading}
                 />
@@ -311,7 +313,7 @@ export function TarotPage({ profile, readingType = 'daily' }: TarotPageProps) {
                 className="w-full py-3 rounded-full border border-violet-500/30 text-violet-300 font-medium hover:bg-violet-500/10 transition-all text-sm flex items-center justify-center gap-2"
               >
                 <RefreshCw className="w-4 h-4" />
-                Draw New Cards
+                {t('tarot.drawNewCards')}
               </button>
             </div>
           </div>

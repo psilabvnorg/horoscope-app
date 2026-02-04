@@ -1,0 +1,73 @@
+{
+  "title": "Đọc Huyễn Học",
+  "subtitle": "Khám phá các phương pháp chiêm tinh khác nhau",
+  "palmReading": "Đọc Ấm Tay",
+  "palmReadingDesc": "Đọc lòng bàn tay để biết vận may của bạn",
+  "birthChart": "Đọc Bảng Sinh",
+  "birthChartDesc": "Tìm hiểu thêm về bản đồ sinh mệnh của bạn",
+  "tarotCards": "Gióy Tarot",
+  "tarotCardsDesc": "Khám phá những hiểu biết thông qua tarot",
+  "palmReadingResult": {
+    "title": "Đọc Ấm Tay",
+    "todayResult": "Kết Quả Hôm Nay",
+    "history": "Lịch Sử",
+    "yourDay": "NGÀY CỦA BẠN",
+    "love": "TÌNH YÊU",
+    "health": "SỨC KHỎE",
+    "lifeCareer": "CUỘC SỐNG / SỰ NGHIỆP",
+    "success": "thành công",
+    "dayContent": "Đừng ngại mạo hiểm và theo đuổi trái tim của bạn hôm nay. Đôi khi những quyết định tốt nhất là những quyết định khiến chúng ta sợ hãi một chút. Hãy tin vào bản năng của bạn và đừng ngại mạo hiểm.\n\nNgay cả khi bạn không đạt được kết quả mong muốn ngay lập tức, bạn sẽ học được những bài học quý giá giúp bạn trong tương lai. Đừng nản lòng nếu mọi thứ không diễn ra như kế hoạch. Hãy tiếp tục tiến về phía trước và cuối cùng bạn sẽ đạt được mục tiêu của mình.",
+    "loveContent": "Đây là một ngày tuyệt vời để bày tỏ cảm xúc của bạn với một người đặc biệt. Nếu bạn đã giữ lại, bây giờ là lúc để cho họ biết bạn cảm thấy thế nào. Sự quyến rũ và sức hút của bạn đang ở mức cao nhất hôm nay.\n\nHãy tiếp tục cởi mở và trung thực với đối tác của bạn. Giao tiếp là chìa khóa cho một mối quan hệ lành mạnh. Nếu bạn độc thân, đừng ngại đặt mình ra ngoài. Bạn không bao giờ biết bạn có thể gặp ai.",
+    "healthContent": "Mức năng lượng của bạn cao hôm nay, làm cho đây là thời điểm tuyệt vời để bắt đầu một chế độ tập thể dục mới hoặc thử một công thức nấu ăn lành mạnh mới. Hãy lắng nghe cơ thể của bạn và cho nó những gì nó cần.\n\nHãy dành thời gian để nghỉ ngơi và nạp lại năng lượng khi cần thiết. Đừng đẩy mình quá mức. Sự cân bằng là chìa khóa để duy trì sức khỏe tốt. Hãy xem xét thiền hoặc yoga để giúp giảm căng thẳng và cải thiện sự rõ ràng tinh thần.",
+    "careerContent": "Công việc chăm chỉ của bạn sắp được đền đáp. Hãy tập trung vào mục tiêu của bạn và đừng để những phiền nhiễu cản trở. Đây là thời điểm tuyệt vời để đảm nhận những thách thức mới và thể hiện kỹ năng của bạn.\n\nCơ hội mới có thể xuất hiện hôm nay. Hãy cởi mở với sự thay đổi và đừng ngại bước ra khỏi vùng an toàn của bạn. Sự cống hiến và kiên trì của bạn sẽ dẫn đến thành công."
+  },
+  "birthChartReading": {
+    "title": "Đọc Bảng Sinh",
+    "subtitle": "Phát hiện bản đồ sao của bạn",
+    "analyzing": "Đang phân tích bảng sinh của bạn...",
+    "enterDetails": "Nhập Thông tin Sinh Nhật của bạn",
+    "name": "Tên",
+    "dateOfBirth": "Ngày Sinh",
+    "timeOfBirth": "Giờ Sinh",
+    "placeOfBirth": "Nơi Sinh",
+    "compatibility": "Phân tích Tương Phù",
+    "addPartner": "Thêm Thông tin Người Yêu"
+  },
+  "palmReadingIntro": {
+    "title": "Đọc Ấm Tay",
+    "subtitle": "Phá giải số phận qua chiêm tinh ấm tay",
+    "instructions": "Chụp ảnh rõ tay của bạn",
+    "uploadPhoto": "Tải Lên Ảnh",
+    "analyzing": "Đang phân tích ấm tay của bạn...",
+    "lines": {
+      "heart": "Đường Tim",
+      "head": "Đường Đầu",
+      "life": "Đường Cuộc Sống",
+      "fate": "Đường Số Phận"
+    }
+  },
+  "numerology": {
+    "title": "Đọc Số",
+    "subtitle": "Phát hiện sức mạnh của các con số",
+    "lifePath": "Số Đường Đời",
+    "destiny": "Số Số-Mệnh",
+    "soul": "Số Linh Hồn",
+    "personality": "Số Tính Cách",
+    "calculate": "Tính Toán Số của bạn"
+  },
+  "dreamExplain": {
+    "title": "Giải Mã Chiêm Bao",
+    "subtitle": "Hiểu ý nghĩa của giấc chiêm bao",
+    "describeDream": "Mô tả giấc chiêm bao của bạn",
+    "analyze": "Phân Tích Chiêm Bao",
+    "symbols": "Ký Hiệu Chiêm Bao",
+    "meaning": "Giải Ý"
+  },
+  "crystalBall": {
+    "title": "Kính Linh",
+    "subtitle": "Soi thấu tương lai",
+    "askQuestion": "Đặt câu hỏi của bạn",
+    "gazing": "Đang soi thấu quả晶球...",
+    "vision": "Sự Kiến Trương của bạn"
+  }
+}

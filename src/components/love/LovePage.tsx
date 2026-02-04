@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import type { UserProfile, ZodiacSign } from '@/types';
 import { ZODIAC_SIGNS, ZODIAC_DATES } from '@/types';
 import { getCompatibilityText } from '@/hooks/useCompatibility';
+import { useLoveData } from '@/hooks/useTranslatedData';
 import { useChat } from '@/hooks/useChat';
 import { ChevronLeft, Send, Sparkles, X } from 'lucide-react';
 
@@ -66,8 +67,9 @@ export function LovePage({ profile, onBack }: LovePageProps) {
   const chatScrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [chatInput, setChatInput] = useState('');
+  const loveData = useLoveData();
 
-  const compatibilityText = getCompatibilityText(userSign, selectedSign);
+  const compatibilityText = getCompatibilityText(userSign, selectedSign, loveData);
   
   // Initialize chat with love context and compatibility info
   const { messages, isLoading, sendMessage } = useChat({

@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { UserProfile } from '@/types';
 import { ChevronLeft, X } from 'lucide-react';
 import { generateResponse, buildSystemPrompt } from '@/lib/llm';
@@ -9,6 +10,7 @@ interface DreamExplainPageProps {
 }
 
 export function DreamExplainPage({ profile, onBack }: DreamExplainPageProps) {
+  const { t } = useTranslation();
   const [dreamText, setDreamText] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [dreamResult, setDreamResult] = useState<string | null>(null);
@@ -180,7 +182,7 @@ export function DreamExplainPage({ profile, onBack }: DreamExplainPageProps) {
 
         {/* Analyzing text */}
         <div className="absolute top-[60%] left-0 right-0 text-center">
-          <h2 className="text-2xl font-light tracking-wide text-white/90">Analysing your dream</h2>
+          <h2 className="text-2xl font-light tracking-wide text-white/90">{t('fortune.analysingDream')}</h2>
           
           {/* Loading dots */}
           <div className="flex justify-center gap-2 mt-4">
@@ -216,16 +218,16 @@ export function DreamExplainPage({ profile, onBack }: DreamExplainPageProps) {
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <h1 className="text-xl font-light tracking-[0.15em] uppercase">Dream Interpretation</h1>
+          <h1 className="text-xl font-light tracking-[0.15em] uppercase">{t('fortune.dreamInterpretation')}</h1>
         </header>
 
         {/* Result Content */}
         <div className="flex-1 px-4 pb-24">
           <div className="bg-[#1c1c2e]/80 backdrop-blur-sm rounded-3xl p-6 mt-4">
-            <h2 className="text-purple-400 text-lg font-medium mb-4">Your Dream</h2>
+            <h2 className="text-purple-400 text-lg font-medium mb-4">{t('fortune.yourDream')}</h2>
             <p className="text-white/60 text-sm italic mb-6">"{dreamText}"</p>
             
-            <h2 className="text-purple-400 text-lg font-medium mb-4">Luna's Interpretation</h2>
+            <h2 className="text-purple-400 text-lg font-medium mb-4">{t('fortune.lunasInterpretation')}</h2>
             <p className="text-white/80 text-sm leading-relaxed whitespace-pre-wrap">{dreamResult}</p>
           </div>
 
@@ -237,7 +239,7 @@ export function DreamExplainPage({ profile, onBack }: DreamExplainPageProps) {
             }}
             className="w-full mt-6 py-4 rounded-full border border-purple-500/30 text-purple-400 font-medium tracking-wider uppercase hover:bg-purple-500/10 transition-all"
           >
-            Interpret Another Dream
+            {t('fortune.interpretAnother')}
           </button>
         </div>
       </div>
@@ -255,7 +257,7 @@ export function DreamExplainPage({ profile, onBack }: DreamExplainPageProps) {
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        <h1 className="text-xl font-light tracking-[0.15em] uppercase">Dream Explain</h1>
+        <h1 className="text-xl font-light tracking-[0.15em] uppercase">{t('fortune.dreamExplain')}</h1>
       </header>
 
       {/* Full screen galaxy triangle image */}
@@ -339,7 +341,7 @@ export function DreamExplainPage({ profile, onBack }: DreamExplainPageProps) {
             disabled={!dreamText.trim()}
             className="flex-1 py-4 rounded-full bg-gradient-to-r from-[#a8a4d4] to-[#c4c0e8] text-[#1a1a2e] font-semibold tracking-[0.12em] uppercase transition-all hover:from-[#b8b4e4] hover:to-[#d4d0f8] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed text-sm"
           >
-            Reveal Dream
+            {t('fortune.revealDream')}
           </button>
           
           {/* Circle indicator - double ring */}

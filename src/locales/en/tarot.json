@@ -1,0 +1,39 @@
+{
+  "title": "Tarot Reading",
+  "subtitle": "Discover insights through the ancient art of tarot",
+  "dailyReading": "Daily Tarot",
+  "threeCardSpread": "Three Card Spread",
+  "celticCross": "Celtic Cross",
+  "selectCards": "Select Your Cards",
+  "cardSelected": "Card Selected",
+  "cardLibrary": "Card Library",
+  "meanings": {
+    "upright": "Upright Meaning",
+    "reversed": "Reversed Meaning",
+    "general": "General",
+    "love": "Love",
+    "career": "Career",
+    "finances": "Finances"
+  },
+  "spread": {
+    "past": "Past",
+    "present": "Present",
+    "future": "Future",
+    "situation": "Current Situation",
+    "challenge": "Challenge",
+    "advice": "Advice"
+  },
+  "instructions": {
+    "shuffle": "Shuffle the cards and focus on your question",
+    "select": "Select {{count}} card(s) from the deck",
+    "reveal": "Tap to reveal your cards"
+  },
+  "arcana": {
+    "major": "Major Arcana",
+    "minor": "Minor Arcana",
+    "cups": "Cups",
+    "wands": "Wands",
+    "swords": "Swords",
+    "pentacles": "Pentacles"
+  }
+}

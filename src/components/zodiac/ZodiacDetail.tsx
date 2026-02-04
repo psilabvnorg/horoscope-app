@@ -1,6 +1,6 @@
-import { zodiacData } from '@/data';
 import type { ZodiacSign } from '@/types';
 import { X } from 'lucide-react';
+import { useZodiacData } from '@/hooks/useTranslatedData';
 
 interface ZodiacDetailProps {
   sign: ZodiacSign;
@@ -29,6 +29,7 @@ const zodiacColors: Record<ZodiacSign, string> = {
 };
 
 export function ZodiacDetail({ sign, onClose }: ZodiacDetailProps) {
+  const zodiacData = useZodiacData();
   const signKey = sign.charAt(0).toUpperCase() + sign.slice(1) as keyof typeof zodiacData;
   const description = zodiacData[signKey] || 'Description not available.';
 

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { UserProfile } from '@/types';
 import { ChevronLeft, Calendar } from 'lucide-react';
 
@@ -8,6 +9,7 @@ interface NumerologyPageProps {
 }
 
 export function NumerologyPage({ profile, onBack }: NumerologyPageProps) {
+  const { t } = useTranslation();
   const [fullName, setFullName] = useState(profile.name || '');
   const [birthDate, setBirthDate] = useState('');
 
@@ -45,7 +47,7 @@ export function NumerologyPage({ profile, onBack }: NumerologyPageProps) {
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        <h1 className="text-xl font-light tracking-[0.15em] uppercase text-pink-500">Numerology</h1>
+        <h1 className="text-xl font-light tracking-[0.15em] uppercase text-pink-500">{t('fortune.numerology')}</h1>
       </header>
 
       {/* Arc Visualization */}
@@ -124,7 +126,7 @@ export function NumerologyPage({ profile, onBack }: NumerologyPageProps) {
             type="text"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            placeholder="Enter your full name"
+            placeholder={t('fortune.enterFullName')}
             className="w-full px-5 py-4 rounded-2xl bg-transparent border border-pink-500/30 text-white placeholder-pink-500/50 focus:outline-none focus:border-pink-500/60 transition-colors"
           />
         </div>
@@ -140,7 +142,7 @@ export function NumerologyPage({ profile, onBack }: NumerologyPageProps) {
           />
           <div className="absolute inset-0 flex items-center justify-between px-5 pointer-events-none">
             <span className={birthDate ? 'text-white' : 'text-pink-500/50'}>
-              {birthDate ? formatDate(birthDate) : 'Select your date of birth'}
+              {birthDate ? formatDate(birthDate) : t('fortune.selectDateOfBirth')}
             </span>
             <Calendar className="w-5 h-5 text-pink-500" />
           </div>
@@ -163,7 +165,7 @@ export function NumerologyPage({ profile, onBack }: NumerologyPageProps) {
             disabled={!fullName || !birthDate}
             className="flex-1 py-4 rounded-full bg-gradient-to-r from-pink-600 to-pink-500 text-white font-medium tracking-[0.15em] uppercase transition-all hover:from-pink-500 hover:to-pink-400 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_30px_rgba(236,72,153,0.3)]"
           >
-            Reveal My Numbers
+            {t('fortune.revealMyNumbers')}
           </button>
 
           {/* Right dots */}

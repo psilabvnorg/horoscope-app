@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUserProfile } from '@/hooks/useUserProfile';
 import { OnboardingFlow } from '@/components/onboarding/OnboardingFlow';
-import { SwipePage } from '@/components/swipe/SwipePage';
 import { TarotPage } from '@/components/tarot/TarotPage';
 import { TarotCardSelection } from '@/components/tarot/TarotCardSelection';
 import { TarotCardsPage } from '@/components/tarot/TarotCardsPage';
@@ -10,7 +9,7 @@ import { CardLibrary } from '@/components/tarot/CardLibrary';
 import { LovePage } from '@/components/love/LovePage';
 import { FortunePage } from '@/components/fortune/FortunePage';
 import { SettingsPage } from '@/components/settings/SettingsPage';
-import { HomePage } from '@/components/home/HomePage';
+import { HomePageSimplified as HomePage } from '@/components/home/HomePageSimplified';
 import { ReadingsPage } from '@/components/readings/ReadingsPage';
 import { PalmReadingIntro } from '@/components/readings/PalmReadingIntro';
 import { PalmReadingResult } from '@/components/readings/PalmReadingResult';
@@ -33,7 +32,6 @@ function App() {
     profile,
     isOnboarded,
     completeOnboarding,
-    handleSwipe,
     updateProfile,
     clearHistory,
     deleteAccount,
@@ -52,7 +50,7 @@ function App() {
   const renderContent = () => {
     switch (activeTab) {
       case 'horoscope':
-        return <HomePage profile={profile} onNavigateToSwipe={() => setActiveTab('swipe')} />;
+        return <HomePage profile={profile} />;
       case 'readings':
         if (readingView === 'tarot') return (
           <TarotCardsPage
@@ -133,8 +131,6 @@ function App() {
             onRemovePartner={removePartner}
           />
         );
-      case 'swipe':
-        return <SwipePage profile={profile} onSwipe={handleSwipe} />;
       default:
         return <HomePage profile={profile} />;
     }
@@ -175,7 +171,7 @@ function App() {
       {/* Bottom navigation */}
       <nav className="fixed bottom-0 left-0 right-0 border-t border-white/10 bg-[#1a1a2e] z-[100] pb-safe">
         <div className="flex justify-around items-center h-16 max-w-lg mx-auto">
-          {(['horoscope', 'swipe', 'readings', 'love', 'guidance', 'profile'] as Tab[]).map((tab) => (
+          {(['horoscope', 'readings', 'love', 'guidance', 'profile'] as Tab[]).map((tab) => (
             <button
               key={tab}
               onClick={() => {

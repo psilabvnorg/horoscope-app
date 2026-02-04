@@ -427,14 +427,16 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
                     </section>
 
                     {/* Floating Action Button for Swipe */}
-                    <div className="fixed bottom-20 right-4 z-50">
-                        <Button
-                            className="w-14 h-14 rounded-full bg-gradient-to-br from-violet-500 to-pink-500 shadow-lg shadow-violet-500/20 p-0 hover:scale-110 active:scale-95 transition-all"
-                            onClick={onNavigateToSwipe}
-                        >
-                            <Sparkles className="w-6 h-6 text-white" />
-                        </Button>
-                    </div>
+                    {onNavigateToSwipe && (
+                        <div className="fixed bottom-20 right-4 z-50">
+                            <Button
+                                className="w-14 h-14 rounded-full bg-gradient-to-br from-violet-500 to-pink-500 shadow-lg shadow-violet-500/20 p-0 hover:scale-110 active:scale-95 transition-all"
+                                onClick={onNavigateToSwipe}
+                            >
+                                <Sparkles className="w-6 h-6 text-white" />
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </ScrollArea>
 

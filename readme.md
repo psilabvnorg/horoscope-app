@@ -128,10 +128,47 @@ The script allows you to:
 
 - [App Description](docs/app-description.md) - Features and architecture
 - [Design Specs](specs.md) - Figma design reference
+- [Refactoring Summary](docs/refactoring-summary.md) - Code improvements and new components
+- [Migration Guide](docs/migration-guide.md) - How to use refactored components
+- [Testing Guide](docs/testing-guide.md) - Testing documentation
 - [i18n Guide](docs/i18n-guide.md) - UI translation guide
 - [Data Translation Guide](docs/data-translation-guide.md) - Data file translation
-- [i18n Integration Checklist](docs/i18n-integration-checklist.md) - Component integration steps
-- [i18n Quick Start](docs/i18n-quickstart.md) - Quick reference
+- [i18n Quick Reference](docs/translation-quick-reference.md) - Quick reference
+
+## Recent Improvements
+
+### Code Refactoring (Latest)
+
+The codebase has been significantly refactored to improve maintainability and reduce duplication:
+
+- **~1,500 lines of duplicate code removed**
+- **6 new reusable components** created (ChatPanel, ModalPanel, PageHeader, etc.)
+- **2 new hooks** for common patterns (useAsyncData, useChatUI)
+- **Consistent theming** across all components
+- **Better TypeScript support** with proper interfaces
+
+See [docs/refactoring-summary.md](docs/refactoring-summary.md) for details and [docs/migration-guide.md](docs/migration-guide.md) for usage examples.
+
+### New Reusable Components
+
+```tsx
+// Gradient buttons with consistent styling
+import { GradientButton } from '@/components/ui/gradient-button';
+<GradientButton variant="violet" size="md">Click Me</GradientButton>
+
+// Reusable chat interface
+import { ChatPanel } from '@/components/common/ChatPanel';
+import { useChatUI } from '@/hooks/useChatUI';
+
+// Modal panels with theming
+import { ModalPanel } from '@/components/common/ModalPanel';
+
+// Zodiac sign cards
+import { ZodiacSignCard } from '@/components/common/ZodiacSignCard';
+
+// Generic async data loading with caching
+import { useAsyncData } from '@/hooks/useAsyncData';
+```
 
 ## Project Structure
 

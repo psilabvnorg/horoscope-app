@@ -65,6 +65,7 @@
     "yourProfile": "Hồ sơ của bạn",
     "dailyGuidance": "Hướng dẫn hằng ngày",
     "todayHoroscope": "Vận trình hôm nay",
+    "dailyForecast": "Dự báo hằng ngày",
     "dailyTips": "Lời khuyên hàng ngày cho {{sign}}",
     "todayMatch": "Đối tượng hôm nay",
     "greatCompatibility": "Rất hợp nhau hôm nay!",
@@ -90,6 +91,9 @@
     "ascendant": "Đẳng vị",
     "element": "Nguyên tố",
     "love": "Tình yêu",
+    "career": "Sự nghiệp",
+    "emotion": "Cảm xúc",
+    "energy": "Năng lượng",
     "warning": "Cảnh báo",
     "do": "Hãy",
     "dont": "Hãy tránh",
@@ -115,7 +119,13 @@
     "earth": "Đất",
     "air": "Không khí",
     "loveMatch": "Đối tượng tình yêu",
-    "you": "Bạn"
+    "you": "Bạn",
+    "tuViTitle": "Tử Vi (Đông Phương)",
+    "tuViSign": "Tuổi Tử Vi",
+    "tuViElementUnknown": "Chưa có ngũ hành",
+    "tuViTarot": "Gợi ý Tử Vi",
+    "tuViCompatibility": "Tuổi hợp",
+    "tuViNoData": "Dữ liệu tử vi đang cập nhật."
   },
   "readings": {
     "title": "Đọc giải",

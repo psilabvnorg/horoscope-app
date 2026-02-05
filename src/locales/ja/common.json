@@ -65,6 +65,7 @@
     "yourProfile": "あなたのプロフィール",
     "dailyGuidance": "今日のガイダンス",
     "todayHoroscope": "今日のホロスコープ",
+    "dailyForecast": "デイリーフォーキャスト",
     "dailyTips": "{{sign}}の今日のヒント",
     "todayMatch": "今日のマッチ",
     "greatCompatibility": "今日は相性抜群！",
@@ -90,9 +91,18 @@
     "ascendant": "アセンダント",
     "element": "エレメント",
     "love": "愛",
+    "career": "キャリア",
+    "emotion": "感情",
+    "energy": "エネルギー",
     "warning": "警告",
     "do": "すべきこと",
-    "dont": "避けるべきこと"
+    "dont": "避けるべきこと",
+    "tuViTitle": "Tu Vi（東洋十二支）",
+    "tuViSign": "あなたの干支",
+    "tuViElementUnknown": "五行データなし",
+    "tuViTarot": "Tu Viのヒント",
+    "tuViCompatibility": "相性の良い干支",
+    "tuViNoData": "Tu Viの情報を読み込み中です。"
   },
   "readings": {
     "title": "リーディング",

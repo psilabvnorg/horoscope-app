@@ -15,7 +15,7 @@
         "en": {
           "name": "Metal",
           "keywords": ["strong", "disciplined", "decisive"],
-          "balance": "Orderly and rational.",
+          "balance": "Orderly, focused, and principled.",
           "imbalance": "Rigid or overly strict."
         }
       },
@@ -32,17 +32,87 @@
           "keywords": ["sáng tạo", "phát triển", "linh hoạt"],
           "balance": "Phát triển tự nhiên và hài hòa.",
           "imbalance": "Quá nhạy cảm hoặc thiếu kiên định."
+        },
+        "en": {
+          "name": "Wood",
+          "keywords": ["growth", "creativity", "adaptable"],
+          "balance": "Growth-oriented and flexible.",
+          "imbalance": "Scattered or overly sensitive."
         }
       },
       "tips": {
-        "vi": ["Thiền để giữ cân bằng", "Rèn luyện tính kiên trì"]
+        "vi": ["Thiền để giữ cân bằng", "Rèn luyện tính kiên trì"],
+        "en": ["Meditate for balance", "Build steady routines"]
+      }
+    },
+    {
+      "code": "thuy",
+      "translations": {
+        "vi": {
+          "name": "Thủy",
+          "keywords": ["trực giác", "linh hoạt", "sâu sắc"],
+          "balance": "Tinh tế, biết lắng nghe và thích nghi.",
+          "imbalance": "Dễ dao động cảm xúc, thiếu định hướng."
+        },
+        "en": {
+          "name": "Water",
+          "keywords": ["intuition", "flow", "depth"],
+          "balance": "Intuitive and adaptable.",
+          "imbalance": "Overwhelmed or drifting."
+        }
+      },
+      "tips": {
+        "vi": ["Viết nhật ký cảm xúc", "Uống đủ nước"],
+        "en": ["Journal your feelings", "Hydrate and slow down"]
+      }
+    },
+    {
+      "code": "hoa",
+      "translations": {
+        "vi": {
+          "name": "Hỏa",
+          "keywords": ["nhiệt huyết", "dũng cảm", "bứt phá"],
+          "balance": "Tràn đầy năng lượng và chủ động.",
+          "imbalance": "Nóng vội hoặc thiếu kiên nhẫn."
+        },
+        "en": {
+          "name": "Fire",
+          "keywords": ["passion", "courage", "momentum"],
+          "balance": "Bold, energized, and proactive.",
+          "imbalance": "Impatient or impulsive."
+        }
+      },
+      "tips": {
+        "vi": ["Tập hít thở sâu", "Ưu tiên việc quan trọng"],
+        "en": ["Take deep breaths", "Prioritize one bold action"]
+      }
+    },
+    {
+      "code": "tho",
+      "translations": {
+        "vi": {
+          "name": "Thổ",
+          "keywords": ["ổn định", "kiên trì", "thực tế"],
+          "balance": "Vững vàng và đáng tin cậy.",
+          "imbalance": "Bảo thủ hoặc chậm thay đổi."
+        },
+        "en": {
+          "name": "Earth",
+          "keywords": ["grounded", "steady", "practical"],
+          "balance": "Grounded and reliable.",
+          "imbalance": "Stubborn or resistant to change."
+        }
+      },
+      "tips": {
+        "vi": ["Dọn dẹp không gian sống", "Đi dạo trong thiên nhiên"],
+        "en": ["Declutter your space", "Spend time in nature"]
       }
     }
   ],
   "signs": [
     {
       "slug": "ti",
-      "element": "kim",
+      "element": "thuy",
       "image_url": "/images/tuvi/ti.png",
       "translations": {
         "vi": {
@@ -51,13 +121,17 @@
         },
         "en": {
           "name": "Rat",
-          "description": "Smart, resourceful, opportunistic."
+          "description": "Smart, resourceful, and quick to seize opportunities."
         }
       },
       "tarot": {
         "vi": {
           "upright": "Sáng suốt, cơ hội xuất hiện.",
           "reversed": "Do dự gây bỏ lỡ thời cơ."
+        },
+        "en": {
+          "upright": "Clarity and new openings.",
+          "reversed": "Hesitation blocks momentum."
         }
       },
       "calendar": [
@@ -68,6 +142,14 @@
           "element": "Thủy",
           "sign": "Tý",
           "description": "Tháng khởi đầu thuận lợi, nhiều cơ hội tài lộc."
+        },
+        {
+          "month": 1,
+          "lang": "en",
+          "status": "good",
+          "element": "Water",
+          "sign": "Rat",
+          "description": "A strong start with promising opportunities."
         }
       ]
     },
@@ -79,8 +161,40 @@
         "vi": {
           "name": "Tuổi Sửu",
           "description": "Chăm chỉ, bền bỉ, đáng tin cậy."
+        },
+        "en": {
+          "name": "Ox",
+          "description": "Steady, diligent, and dependable."
         }
-      }
+      },
+      "tarot": {
+        "vi": {
+          "upright": "Kiên trì mang lại thành quả.",
+          "reversed": "Bảo thủ dễ bỏ lỡ cơ hội."
+        },
+        "en": {
+          "upright": "Persistence pays off.",
+          "reversed": "Stubbornness blocks growth."
+        }
+      },
+      "calendar": [
+        {
+          "month": 2,
+          "lang": "vi",
+          "status": "steady",
+          "element": "Thổ",
+          "sign": "Sửu",
+          "description": "Tập trung vào nền tảng và thói quen lâu dài."
+        },
+        {
+          "month": 2,
+          "lang": "en",
+          "status": "steady",
+          "element": "Earth",
+          "sign": "Ox",
+          "description": "Focus on building long-term foundations."
+        }
+      ]
     },
     {
       "slug": "dan",
@@ -89,8 +203,418 @@
         "vi": {
           "name": "Tuổi Dần",
           "description": "Mạnh mẽ, quyết đoán, lãnh đạo bẩm sinh."
+        },
+        "en": {
+          "name": "Tiger",
+          "description": "Bold, decisive, and naturally commanding."
         }
-      }
+      },
+      "tarot": {
+        "vi": {
+          "upright": "Dũng khí mở đường mới.",
+          "reversed": "Hấp tấp gây căng thẳng."
+        },
+        "en": {
+          "upright": "Courage sparks new paths.",
+          "reversed": "Rash moves create friction."
+        }
+      },
+      "calendar": [
+        {
+          "month": 3,
+          "lang": "vi",
+          "status": "bold",
+          "element": "Mộc",
+          "sign": "Dần",
+          "description": "Tháng thích hợp để dẫn dắt và bứt phá."
+        },
+        {
+          "month": 3,
+          "lang": "en",
+          "status": "bold",
+          "element": "Wood",
+          "sign": "Tiger",
+          "description": "Lead with confidence and take initiative."
+        }
+      ]
+    },
+    {
+      "slug": "mao",
+      "element": "moc",
+      "translations": {
+        "vi": {
+          "name": "Tuổi Mão",
+          "description": "Tinh tế, hòa nhã, biết tạo dựng quan hệ."
+        },
+        "en": {
+          "name": "Rabbit",
+          "description": "Gentle, tactful, and relationship-focused."
+        }
+      },
+      "tarot": {
+        "vi": {
+          "upright": "Hòa hợp, tinh tế trong giao tiếp.",
+          "reversed": "Ngại đối mặt, dễ bỏ lỡ cơ hội."
+        },
+        "en": {
+          "upright": "Graceful connections and harmony.",
+          "reversed": "Avoidance causes missed chances."
+        }
+      },
+      "calendar": [
+        {
+          "month": 4,
+          "lang": "vi",
+          "status": "harmonious",
+          "element": "Mộc",
+          "sign": "Mão",
+          "description": "Tập trung vào mối quan hệ và hợp tác."
+        },
+        {
+          "month": 4,
+          "lang": "en",
+          "status": "harmonious",
+          "element": "Wood",
+          "sign": "Rabbit",
+          "description": "Relationships and teamwork shine."
+        }
+      ]
+    },
+    {
+      "slug": "thin",
+      "element": "tho",
+      "translations": {
+        "vi": {
+          "name": "Tuổi Thìn",
+          "description": "Mạnh mẽ, tham vọng, có tầm nhìn lớn."
+        },
+        "en": {
+          "name": "Dragon",
+          "description": "Ambitious, charismatic, and visionary."
+        }
+      },
+      "tarot": {
+        "vi": {
+          "upright": "Tỏa sáng, thu hút cơ hội mới.",
+          "reversed": "Cái tôi lớn gây khoảng cách."
+        },
+        "en": {
+          "upright": "Radiant presence attracts opportunities.",
+          "reversed": "Ego can create distance."
+        }
+      },
+      "calendar": [
+        {
+          "month": 5,
+          "lang": "vi",
+          "status": "spotlight",
+          "element": "Thổ",
+          "sign": "Thìn",
+          "description": "Tháng thuận lợi để thể hiện bản thân."
+        },
+        {
+          "month": 5,
+          "lang": "en",
+          "status": "spotlight",
+          "element": "Earth",
+          "sign": "Dragon",
+          "description": "Step into the spotlight with confidence."
+        }
+      ]
+    },
+    {
+      "slug": "ty",
+      "element": "hoa",
+      "translations": {
+        "vi": {
+          "name": "Tuổi Tỵ",
+          "description": "Sâu sắc, khôn ngoan, quan sát tinh tế."
+        },
+        "en": {
+          "name": "Snake",
+          "description": "Wise, intuitive, and observant."
+        }
+      },
+      "tarot": {
+        "vi": {
+          "upright": "Trí tuệ và trực giác dẫn đường.",
+          "reversed": "Bí ẩn quá mức gây hiểu lầm."
+        },
+        "en": {
+          "upright": "Wisdom and intuition lead the way.",
+          "reversed": "Too much secrecy causes doubt."
+        }
+      },
+      "calendar": [
+        {
+          "month": 6,
+          "lang": "vi",
+          "status": "strategic",
+          "element": "Hỏa",
+          "sign": "Tỵ",
+          "description": "Lập kế hoạch kỹ càng trước khi hành động."
+        },
+        {
+          "month": 6,
+          "lang": "en",
+          "status": "strategic",
+          "element": "Fire",
+          "sign": "Snake",
+          "description": "Plan strategically before making moves."
+        }
+      ]
+    },
+    {
+      "slug": "ngo",
+      "element": "hoa",
+      "translations": {
+        "vi": {
+          "name": "Tuổi Ngọ",
+          "description": "Năng động, phóng khoáng, yêu tự do."
+        },
+        "en": {
+          "name": "Horse",
+          "description": "Energetic, freedom-loving, and adventurous."
+        }
+      },
+      "tarot": {
+        "vi": {
+          "upright": "Bứt phá mạnh mẽ, bền bỉ.",
+          "reversed": "Thiếu tập trung dễ phân tán."
+        },
+        "en": {
+          "upright": "Momentum builds with steady effort.",
+          "reversed": "Scattered energy slows progress."
+        }
+      },
+      "calendar": [
+        {
+          "month": 7,
+          "lang": "vi",
+          "status": "active",
+          "element": "Hỏa",
+          "sign": "Ngọ",
+          "description": "Tháng thích hợp để mở rộng và kết nối."
+        },
+        {
+          "month": 7,
+          "lang": "en",
+          "status": "active",
+          "element": "Fire",
+          "sign": "Horse",
+          "description": "Expansion and networking feel natural now."
+        }
+      ]
+    },
+    {
+      "slug": "mui",
+      "element": "tho",
+      "translations": {
+        "vi": {
+          "name": "Tuổi Mùi",
+          "description": "Tình cảm, tinh tế, giàu lòng trắc ẩn."
+        },
+        "en": {
+          "name": "Goat",
+          "description": "Compassionate, artistic, and gentle."
+        }
+      },
+      "tarot": {
+        "vi": {
+          "upright": "Nuôi dưỡng cảm xúc và sáng tạo.",
+          "reversed": "Dễ bị cảm xúc chi phối."
+        },
+        "en": {
+          "upright": "Nurture creativity and tenderness.",
+          "reversed": "Emotions feel heavier than usual."
+        }
+      },
+      "calendar": [
+        {
+          "month": 8,
+          "lang": "vi",
+          "status": "gentle",
+          "element": "Thổ",
+          "sign": "Mùi",
+          "description": "Ưu tiên chăm sóc bản thân và gia đình."
+        },
+        {
+          "month": 8,
+          "lang": "en",
+          "status": "gentle",
+          "element": "Earth",
+          "sign": "Goat",
+          "description": "Self-care and home life take priority."
+        }
+      ]
+    },
+    {
+      "slug": "than",
+      "element": "kim",
+      "translations": {
+        "vi": {
+          "name": "Tuổi Thân",
+          "description": "Nhanh trí, linh hoạt, hài hước."
+        },
+        "en": {
+          "name": "Monkey",
+          "description": "Witty, agile, and playful."
+        }
+      },
+      "tarot": {
+        "vi": {
+          "upright": "Sáng tạo và ứng biến linh hoạt.",
+          "reversed": "Thiếu tập trung khiến công việc dang dở."
+        },
+        "en": {
+          "upright": "Creative problem-solving shines.",
+          "reversed": "Restlessness leaves tasks unfinished."
+        }
+      },
+      "calendar": [
+        {
+          "month": 9,
+          "lang": "vi",
+          "status": "inventive",
+          "element": "Kim",
+          "sign": "Thân",
+          "description": "Tháng tốt để thử nghiệm ý tưởng mới."
+        },
+        {
+          "month": 9,
+          "lang": "en",
+          "status": "inventive",
+          "element": "Metal",
+          "sign": "Monkey",
+          "description": "Experiment with fresh ideas and approaches."
+        }
+      ]
+    },
+    {
+      "slug": "dau",
+      "element": "kim",
+      "translations": {
+        "vi": {
+          "name": "Tuổi Dậu",
+          "description": "Tỉ mỉ, ngăn nắp, cầu tiến."
+        },
+        "en": {
+          "name": "Rooster",
+          "description": "Detail-oriented, organized, and ambitious."
+        }
+      },
+      "tarot": {
+        "vi": {
+          "upright": "Kỷ luật giúp đạt thành tựu.",
+          "reversed": "Quá cầu toàn dễ mệt mỏi."
+        },
+        "en": {
+          "upright": "Discipline delivers results.",
+          "reversed": "Perfectionism leads to burnout."
+        }
+      },
+      "calendar": [
+        {
+          "month": 10,
+          "lang": "vi",
+          "status": "focused",
+          "element": "Kim",
+          "sign": "Dậu",
+          "description": "Tháng thích hợp để tối ưu công việc."
+        },
+        {
+          "month": 10,
+          "lang": "en",
+          "status": "focused",
+          "element": "Metal",
+          "sign": "Rooster",
+          "description": "Optimize routines and sharpen focus."
+        }
+      ]
+    },
+    {
+      "slug": "tuat",
+      "element": "tho",
+      "translations": {
+        "vi": {
+          "name": "Tuổi Tuất",
+          "description": "Trung thành, thẳng thắn, bảo vệ người thân."
+        },
+        "en": {
+          "name": "Dog",
+          "description": "Loyal, honest, and protective."
+        }
+      },
+      "tarot": {
+        "vi": {
+          "upright": "Trách nhiệm mang lại sự tin cậy.",
+          "reversed": "Lo lắng quá mức làm mất cân bằng."
+        },
+        "en": {
+          "upright": "Responsibility builds trust.",
+          "reversed": "Over-worrying drains energy."
+        }
+      },
+      "calendar": [
+        {
+          "month": 11,
+          "lang": "vi",
+          "status": "steady",
+          "element": "Thổ",
+          "sign": "Tuất",
+          "description": "Giữ vững cam kết và hỗ trợ người khác."
+        },
+        {
+          "month": 11,
+          "lang": "en",
+          "status": "steady",
+          "element": "Earth",
+          "sign": "Dog",
+          "description": "Stay steady and support your team."
+        }
+      ]
+    },
+    {
+      "slug": "hoi",
+      "element": "thuy",
+      "translations": {
+        "vi": {
+          "name": "Tuổi Hợi",
+          "description": "Bao dung, hào phóng, yêu hòa bình."
+        },
+        "en": {
+          "name": "Pig",
+          "description": "Generous, kind, and peace-loving."
+        }
+      },
+      "tarot": {
+        "vi": {
+          "upright": "Sự hào phóng tạo nên may mắn.",
+          "reversed": "Quá dễ dãi gây hao tổn."
+        },
+        "en": {
+          "upright": "Generosity invites abundance.",
+          "reversed": "Overgiving drains resources."
+        }
+      },
+      "calendar": [
+        {
+          "month": 12,
+          "lang": "vi",
+          "status": "peaceful",
+          "element": "Thủy",
+          "sign": "Hợi",
+          "description": "Tháng để hồi phục và tận hưởng thành quả."
+        },
+        {
+          "month": 12,
+          "lang": "en",
+          "status": "peaceful",
+          "element": "Water",
+          "sign": "Pig",
+          "description": "Rest, recover, and savor achievements."
+        }
+      ]
     }
   ],
   "compatibility": [
@@ -99,15 +623,107 @@
       "other": "suu",
       "type": "good",
       "translations": {
-        "vi": "Tý hợp với Sửu: bổ trợ cho nhau trong công việc."
+        "vi": "Tý hợp với Sửu: bổ trợ cho nhau trong công việc.",
+        "en": "Rat and Ox balance each other in work and finances."
+      }
+    },
+    {
+      "sign": "ti",
+      "other": "thin",
+      "type": "good",
+      "translations": {
+        "vi": "Tý hợp Thìn: dễ hỗ trợ nhau về cơ hội.",
+        "en": "Rat and Dragon spark opportunity and momentum."
+      }
+    },
+    {
+      "sign": "suu",
+      "other": "ty",
+      "type": "good",
+      "translations": {
+        "vi": "Sửu hợp Tỵ: bền bỉ và khôn ngoan.",
+        "en": "Ox and Snake form a steady, strategic pair."
+      }
+    },
+    {
+      "sign": "dan",
+      "other": "ngo",
+      "type": "good",
+      "translations": {
+        "vi": "Dần hợp Ngọ: nhiệt huyết và quyết đoán.",
+        "en": "Tiger and Horse energize each other."
+      }
+    },
+    {
+      "sign": "mao",
+      "other": "mui",
+      "type": "good",
+      "translations": {
+        "vi": "Mão hợp Mùi: nhẹ nhàng và thấu hiểu.",
+        "en": "Rabbit and Goat create a gentle, caring bond."
+      }
+    },
+    {
+      "sign": "thin",
+      "other": "than",
+      "type": "good",
+      "translations": {
+        "vi": "Thìn hợp Thân: sáng tạo và tham vọng.",
+        "en": "Dragon and Monkey excel with bold ideas."
+      }
+    },
+    {
+      "sign": "ty",
+      "other": "dau",
+      "type": "good",
+      "translations": {
+        "vi": "Tỵ hợp Dậu: tinh tế và kỷ luật.",
+        "en": "Snake and Rooster align with focus and precision."
+      }
+    },
+    {
+      "sign": "ngo",
+      "other": "tuat",
+      "type": "good",
+      "translations": {
+        "vi": "Ngọ hợp Tuất: trung thành và nhiệt huyết.",
+        "en": "Horse and Dog share loyalty and drive."
+      }
+    },
+    {
+      "sign": "mui",
+      "other": "hoi",
+      "type": "good",
+      "translations": {
+        "vi": "Mùi hợp Hợi: bao dung và hòa hợp.",
+        "en": "Goat and Pig build harmony and care."
       }
     },
     {
       "sign": "ti",
       "other": "ngo",
-      "type": "bad",
+      "type": "challenging",
       "translations": {
-        "vi": "Tý khắc Ngọ: dễ xảy ra xung đột nội tâm."
+        "vi": "Tý khắc Ngọ: dễ xảy ra xung đột nội tâm.",
+        "en": "Rat and Horse can clash on pace and priorities."
+      }
+    },
+    {
+      "sign": "dau",
+      "other": "mao",
+      "type": "challenging",
+      "translations": {
+        "vi": "Dậu khắc Mão: khác biệt quan điểm.",
+        "en": "Rooster and Rabbit may misunderstand each other."
+      }
+    },
+    {
+      "sign": "tuat",
+      "other": "thin",
+      "type": "challenging",
+      "translations": {
+        "vi": "Tuất khắc Thìn: dễ bất đồng về kế hoạch.",
+        "en": "Dog and Dragon can struggle with expectations."
       }
     }
   ]

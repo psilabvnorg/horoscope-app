@@ -65,6 +65,7 @@
     "yourProfile": "나의 프로필",
     "dailyGuidance": "오늘의 가이드",
     "todayHoroscope": "오늘의 운세",
+    "dailyForecast": "오늘의 예보",
     "dailyTips": "{{sign}}님을 위한 일일 팁",
     "todayMatch": "오늘의 매치",
     "greatCompatibility": "오늘은 특히 좋은 궁합!",
@@ -90,9 +91,18 @@
     "ascendant": "상승점",
     "element": "요소",
     "love": "사랑",
+    "career": "커리어",
+    "emotion": "감정",
+    "energy": "에너지",
     "warning": "주의",
     "do": "해",
-    "dont": "하지 마세요"
+    "dont": "하지 마세요",
+    "tuViTitle": "Tu Vi (동양 십이지)",
+    "tuViSign": "나의 띠",
+    "tuViElementUnknown": "오행 정보 없음",
+    "tuViTarot": "Tu Vi 힌트",
+    "tuViCompatibility": "잘 맞는 띠",
+    "tuViNoData": "Tu Vi 정보를 불러오는 중입니다."
   },
   "readings": {
     "title": "운명의 해석",

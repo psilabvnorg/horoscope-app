@@ -13,7 +13,7 @@ tables.forEach(t => {
   console.log(`\n${"=".repeat(60)}`);
   console.log(`📋 ${t.name}`);
   console.log("=".repeat(60));
-  const rows = db.prepare(`SELECT * FROM ${t.name} LIMIT 5`).all();
+  const rows = db.prepare(`SELECT * FROM "${t.name}" LIMIT 5`).all();
   if (rows.length === 0) {
     console.log("  (empty)");
   } else {

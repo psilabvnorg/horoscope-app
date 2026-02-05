@@ -121,18 +121,19 @@ const generateDates = (locale: string) => {
 };
 
 // Parse zodiac calendar data
-const parseZodiacCalendar = (sign: string, locale: string): MonthEnergy[] => {
-    const signData = zodiacCalendar[sign as keyof typeof zodiacCalendar];
+const parseZodiacCalendar = (sign: string, locale: string, zodiacCalendar: Record<string, Record<string, string>>): MonthEnergy[] => {
+    const signData = zodiacCalendar[sign];
     if (!signData) return [];
 
     const dataMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const monthFormatter = new Intl.DateTimeFormat(locale, { month: 'short' });
     
     return dataMonths.map((month, index) => {
-        const data = signData[month as keyof typeof signData];
+        const data = signData[month];
+        if (!data) return { month: monthFormatter.format(new Date(2020, index, 1)), status: 'compatible' as const, description: '', element: '', sign: '' };
         const parts = data.split(' – ');
         const status = parts[0] as 'aligned' | 'compatible' | 'challenging';
-        const rest = parts[1];
+        const rest = parts[1] || '';
         
         // Extract element and sign from parentheses
         const elementMatch = rest.match(/\(([^)]+)\)/);
@@ -157,7 +158,7 @@ export function BirthChartReading({ onBack, userSign = 'aries' }: BirthChartRead
     const [isExpanded, setIsExpanded] = useState(false);
     const dates = generateDates(i18n.language);
     const capitalizedSign = userSign.charAt(0).toUpperCase() + userSign.slice(1);
-    const yearEnergyData = parseZodiacCalendar(capitalizedSign, i18n.language);
+    const yearEnergyData = parseZodiacCalendar(capitalizedSign, i18n.language, zodiacCalendar);
 
     const getStatusColor = (status: string) => {
         switch (status) {

@@ -19,7 +19,6 @@ import {
     TUVI_SIGNS,
     ZODIAC_SIGNS,
     type ElementType,
-    type TuViSign,
     type ZodiacSign,
 } from '@/types';
 import { getCompatibilityText } from '@/hooks/useCompatibility';

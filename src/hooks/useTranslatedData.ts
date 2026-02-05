@@ -144,31 +144,31 @@ export function useZodiacCalendarData() {
 export function useTuViProfiles() {
   const { i18n } = useTranslation();
   const currentLang = i18n.language.split('-')[0];
-  const { data } = useAsyncData<Record<TuViSign, TuViSignProfile>>({
+  const { data } = useAsyncData<Record<TuViSign, TuViSignProfile> | Record<string, never>>({
     loader: async () => {
       const result = await getTuViProfiles(currentLang);
       return Object.keys(result).length ? result : {};
     },
-    fallback: {},
+    fallback: {} as Record<string, never>,
     cacheKey: `tuvi-profiles-${currentLang}`,
     dependencies: [currentLang],
   });
-  return data;
+  return data as Partial<Record<TuViSign, TuViSignProfile>>;
 }
 
 export function useTuViCompatibility() {
   const { i18n } = useTranslation();
   const currentLang = i18n.language.split('-')[0];
-  const { data } = useAsyncData<Record<TuViSign, TuViCompatibilityEntry[]>>({
+  const { data } = useAsyncData<Record<TuViSign, TuViCompatibilityEntry[]> | Record<string, never>>({
     loader: async () => {
       const result = await getTuViCompatibility(currentLang);
       return Object.keys(result).length ? result : {};
     },
-    fallback: {},
+    fallback: {} as Record<string, never>,
     cacheKey: `tuvi-compat-${currentLang}`,
     dependencies: [currentLang],
   });
-  return data;
+  return data as Partial<Record<TuViSign, TuViCompatibilityEntry[]>>;
 }
 
 export function useDailyForecast(signSlug: string) {

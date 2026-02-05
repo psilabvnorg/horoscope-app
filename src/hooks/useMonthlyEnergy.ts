@@ -3,8 +3,7 @@ import type { ZodiacSign, EnergyStatus } from '@/types';
 
 const MONTH_KEYS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] as const;
 
-type ZodiacCalendarKey = keyof typeof zodiacCalendar;
-type MonthKey = keyof typeof zodiacCalendar[ZodiacCalendarKey];
+type MonthKey = (typeof MONTH_KEYS)[number];
 
 export interface MonthlyEnergyData {
   status: EnergyStatus;
@@ -17,9 +16,10 @@ export function useMonthlyEnergy(sign: ZodiacSign, month?: number): MonthlyEnerg
   const zodiacCalendar = useZodiacCalendarData();
   const currentMonth = month ?? new Date().getMonth();
   const monthKey = MONTH_KEYS[currentMonth] as MonthKey;
-  const signKey = sign.charAt(0).toUpperCase() + sign.slice(1) as ZodiacCalendarKey;
+  const signKey = sign.charAt(0).toUpperCase() + sign.slice(1);
   
-  const fullDescription = zodiacCalendar[signKey]?.[monthKey] || '';
+  const signData = zodiacCalendar[signKey] as Record<string, string> | undefined;
+  const fullDescription = signData?.[monthKey] || '';
   
   // Parse status from description (e.g., "aligned – ..." or "compatible – ..." or "challenging – ...")
   let status: EnergyStatus = 'compatible';

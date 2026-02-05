@@ -1,0 +1,52 @@
+{
+  "2026": {
+    "2026-05-13": {
+      "global": {
+        "moon_phase": "waxing_crescent",
+        "moon_zodiac": "Cancer",
+        "lucky": {
+          "numbers": [2, 7],
+          "color": "silver",
+          "direction": "Northeast",
+          "hours": ["09:00-11:00", "19:00-20:00"]
+        },
+        "compatibility_today": {
+          "best": ["Gemini", "Libra"],
+          "avoid": ["Scorpio"]
+        },
+        "actions": {
+          "do": [
+            "Start new ideas",
+            "Meet friends",
+            "Have honest conversations"
+          ],
+          "avoid": [
+            "Big purchases",
+            "Emotional decisions",
+            "Starting conflicts"
+          ]
+        }
+      },
+
+      "zodiac": {
+        "Aries": {
+          "scores": {
+            "love": 3,
+            "career": 4,
+            "emotion": 2,
+            "energy": 3
+          }
+        },
+        "Taurus": {
+          "scores": {
+            "love": 2,
+            "career": 5,
+            "emotion": 3,
+            "energy": 4
+          }
+        }
+        // ... 12 signs
+      }
+    }
+  }
+}

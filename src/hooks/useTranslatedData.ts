@@ -8,6 +8,13 @@ import tarotEn from '../data/tarot.json';
 import loveEn from '../data/love.json';
 import elementBalanceEn from '../data/element-balance.json';
 import zodiacCalendarEn from '../data/zodiac-star-calendar-2026.json';
+import {
+  getElementBalance,
+  getLoveCompatibility,
+  getTarotMeanings,
+  getZodiacCalendar,
+  getZodiacDescriptions,
+} from '@/data/queries';
 
 type DataType = 'zodiac' | 'tarot' | 'love' | 'element-balance' | 'zodiac-star-calendar-2026';
 
@@ -22,15 +29,31 @@ export function useTranslatedData<T = any>(dataType: DataType): T {
   
   const { data } = useAsyncData<T>({
     loader: async () => {
-      // If English, use default data
-      if (currentLang === 'en') {
-        return getDefaultData(dataType) as T;
-      }
-
       try {
-        // Dynamic import based on language and data type
-        const translatedData = await import(`../data/translations/${currentLang}/${dataType}.json`);
-        return translatedData.default as T;
+        switch (dataType) {
+          case 'zodiac': {
+            const result = await getZodiacDescriptions(currentLang);
+            return (Object.keys(result).length ? result : getDefaultData(dataType)) as T;
+          }
+          case 'tarot': {
+            const result = await getTarotMeanings(currentLang);
+            return (Object.keys(result['MAJOR ARCANA'] || {}).length ? result : getDefaultData(dataType)) as T;
+          }
+          case 'love': {
+            const result = await getLoveCompatibility(currentLang);
+            return (Object.keys(result).length ? result : getDefaultData(dataType)) as T;
+          }
+          case 'element-balance': {
+            const result = await getElementBalance(currentLang);
+            return (Object.keys(result).length ? result : getDefaultData(dataType)) as T;
+          }
+          case 'zodiac-star-calendar-2026': {
+            const result = await getZodiacCalendar(currentLang);
+            return (Object.keys(result).length ? result : getDefaultData(dataType)) as T;
+          }
+          default:
+            return getDefaultData(dataType) as T;
+        }
       } catch (error) {
         // If translation not found, fall back to English
         console.warn(

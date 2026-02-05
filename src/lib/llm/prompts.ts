@@ -1,5 +1,4 @@
-import type { UserProfile } from '@/types';
-import { zodiacData, loveCompatibility, tarotMeanings } from '@/data';
+import type { TarotMeanings, UserProfile } from '@/types';
 
 // System prompts for different pages/contexts
 export const systemPrompts = {
@@ -108,8 +107,20 @@ export interface EnhancedContext {
   compatibilityText?: string;
 }
 
+export interface PromptDataContext {
+  zodiacData?: Record<string, string>;
+  loveCompatibility?: Record<string, Record<string, string>>;
+  tarotMeanings?: TarotMeanings;
+}
+
 // Get deep meaning for a tarot card
-function getTarotDeepMeaning(cardName: string, arcana: 'major' | 'minor', suit?: string): string | null {
+function getTarotDeepMeaning(
+  cardName: string,
+  arcana: 'major' | 'minor',
+  suit: string | undefined,
+  tarotMeanings?: TarotMeanings
+): string | null {
+  if (!tarotMeanings) return null;
   if (arcana === 'major') {
     const majorArcana = tarotMeanings['MAJOR ARCANA'] as Record<string, string>;
     return majorArcana[cardName] || null;
@@ -137,7 +148,8 @@ export function buildSystemPrompt(
   context: PromptContext,
   profile?: UserProfile,
   customAdditions?: string,
-  enhancedContext?: EnhancedContext
+  enhancedContext?: EnhancedContext,
+  dataContext?: PromptDataContext
 ): string {
   let prompt = systemPrompts[context] || systemPrompts['fortune'];
 
@@ -173,8 +185,7 @@ export function buildSystemPrompt(
     // Add zodiac description for relevant contexts
     if ((context === 'fortune' || context === 'couple') && profile.sign) {
       const signKey = profile.sign.charAt(0).toUpperCase() + profile.sign.slice(1);
-      const zodiacDataTyped = zodiacData as Record<string, string>;
-      const description = zodiacDataTyped[signKey];
+      const description = dataContext?.zodiacData?.[signKey];
       if (description) {
         prompt += `\n\n--- ZODIAC INSIGHT ---`;
         prompt += `\n${profile.sign} personality: ${description.substring(0, 300)}...`;
@@ -185,8 +196,7 @@ export function buildSystemPrompt(
     if (context === 'couple' && profile.sign && profile.partnerSign) {
       const userKey = profile.sign.charAt(0).toUpperCase() + profile.sign.slice(1);
       const partnerKey = profile.partnerSign.charAt(0).toUpperCase() + profile.partnerSign.slice(1);
-      const loveDataTyped = loveCompatibility as Record<string, Record<string, string>>;
-      const compatibility = loveDataTyped[userKey]?.[partnerKey];
+      const compatibility = dataContext?.loveCompatibility?.[userKey]?.[partnerKey];
       if (compatibility) {
         prompt += `\n\n--- COMPATIBILITY INSIGHT ---`;
         prompt += `\n${profile.sign} & ${profile.partnerSign}: ${compatibility}`;
@@ -232,11 +242,14 @@ export function buildSystemPrompt(
 }
 
 // Helper to build tarot context from a reading
-export function buildTarotContext(cards: Array<{ card: { name: string; arcana: 'major' | 'minor'; suit?: string }; position: string; reversed: boolean }>): TarotCardContext[] {
+export function buildTarotContext(
+  cards: Array<{ card: { name: string; arcana: 'major' | 'minor'; suit?: string }; position: string; reversed: boolean }>,
+  tarotMeanings?: TarotMeanings
+): TarotCardContext[] {
   return cards.map(({ card, position, reversed }) => ({
     name: card.name,
     position,
     reversed,
-    deepMeaning: getTarotDeepMeaning(card.name, card.arcana, card.suit) || undefined,
+    deepMeaning: getTarotDeepMeaning(card.name, card.arcana, card.suit, tarotMeanings) || undefined,
   }));
 }

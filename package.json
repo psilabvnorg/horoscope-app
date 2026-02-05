@@ -18,6 +18,7 @@
     "translate:data:ko": "node script/translate-data.js --lang ko",
     "translate:data:ja": "node script/translate-data.js --lang ja",
     "translate:data:zodiac": "node script/translate-data.js --files zodiac.json",
+    "build:db": "python3 script/build-sqlite-db.py",
     "translate:data:help": "node script/translate-data.js --help"
   },
   "dependencies": {

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { UserProfile } from '@/types';
 import { useTarot } from '@/hooks/useTarot';
+import { useTarotData } from '@/hooks/useTranslatedData';
 import { useChat } from '@/hooks/useChat';
 import { buildTarotContext } from '@/lib/llm';
 import { TarotCardComponent } from './TarotCard';
@@ -16,6 +17,7 @@ interface TarotPageProps {
 export function TarotPage({ profile, readingType = 'daily' }: TarotPageProps) {
   const { t } = useTranslation();
   const { getDailyCard, getThreeCardSpread } = useTarot();
+  const tarotMeanings = useTarotData();
   const [currentReading, setCurrentReading] = useState<any>(null);
   const [showResult, setShowResult] = useState(false);
   const [chatInput, setChatInput] = useState('');
@@ -57,7 +59,7 @@ export function TarotPage({ profile, readingType = 'daily' }: TarotPageProps) {
 
   // Build chat context with tarot cards
   const tarotContext = currentReading ? {
-    tarotCards: buildTarotContext(currentReading.cards),
+    tarotCards: buildTarotContext(currentReading.cards, tarotMeanings),
   } : undefined;
 
   const { messages, isLoading, sendMessage } = useChat({

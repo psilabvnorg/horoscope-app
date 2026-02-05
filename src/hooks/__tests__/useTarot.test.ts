@@ -1,20 +1,43 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import React from 'react';
 import { renderHook, act } from '@testing-library/react';
+import { I18nextProvider } from 'react-i18next';
+import i18n from 'i18next';
 import { useTarot } from '../useTarot';
 
+vi.mock('../useTranslatedData', () => ({
+  useTarotData: () => ({
+    'MAJOR ARCANA': {},
+    WANDS: {},
+    CUPS: {},
+    SWORDS: {},
+    PENTACLES: {},
+  }),
+}));
+
+const wrapper = ({ children }: { children: React.ReactNode }) =>
+  React.createElement(I18nextProvider, { i18n }, children);
+
 describe('useTarot', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     localStorage.clear();
+    await i18n.init({
+      lng: 'en',
+      fallbackLng: 'en',
+      resources: {
+        en: { common: {} },
+      },
+    });
   });
 
   it('should initialize with no daily reading', () => {
-    const { result } = renderHook(() => useTarot());
+    const { result } = renderHook(() => useTarot(), { wrapper });
     expect(result.current.dailyReading).toBeNull();
     expect(result.current.history).toEqual([]);
   });
 
   it('should generate daily card for zodiac sign', () => {
-    const { result } = renderHook(() => useTarot());
+    const { result } = renderHook(() => useTarot(), { wrapper });
     
     act(() => {
       const reading = result.current.getDailyCard('aries');
@@ -26,7 +49,7 @@ describe('useTarot', () => {
   });
 
   it('should generate same daily card for same day and sign', () => {
-    const { result } = renderHook(() => useTarot());
+    const { result } = renderHook(() => useTarot(), { wrapper });
     
     let reading1: ReturnType<typeof result.current.getDailyCard> | undefined;
     let reading2: ReturnType<typeof result.current.getDailyCard> | undefined;
@@ -42,7 +65,7 @@ describe('useTarot', () => {
   });
 
   it('should generate three card spread', () => {
-    const { result } = renderHook(() => useTarot());
+    const { result } = renderHook(() => useTarot(), { wrapper });
     
     act(() => {
       const reading = result.current.getThreeCardSpread('gemini');
@@ -55,7 +78,7 @@ describe('useTarot', () => {
   });
 
   it('should not have duplicate cards in three card spread', () => {
-    const { result } = renderHook(() => useTarot());
+    const { result } = renderHook(() => useTarot(), { wrapper });
     
     act(() => {
       const reading = result.current.getThreeCardSpread('cancer');
@@ -66,7 +89,7 @@ describe('useTarot', () => {
   });
 
   it('should generate relationship reading', () => {
-    const { result } = renderHook(() => useTarot());
+    const { result } = renderHook(() => useTarot(), { wrapper });
     
     act(() => {
       const reading = result.current.getRelationshipReading('leo', 'virgo');
@@ -78,7 +101,7 @@ describe('useTarot', () => {
   });
 
   it('should add readings to history', () => {
-    const { result } = renderHook(() => useTarot());
+    const { result } = renderHook(() => useTarot(), { wrapper });
     
     act(() => {
       result.current.getThreeCardSpread('libra');
@@ -89,7 +112,7 @@ describe('useTarot', () => {
   });
 
   it('should limit history to 50 readings', () => {
-    const { result } = renderHook(() => useTarot());
+    const { result } = renderHook(() => useTarot(), { wrapper });
     
     act(() => {
       for (let i = 0; i < 55; i++) {
@@ -101,7 +124,7 @@ describe('useTarot', () => {
   });
 
   it('should clear history and daily reading', () => {
-    const { result } = renderHook(() => useTarot());
+    const { result } = renderHook(() => useTarot(), { wrapper });
     
     act(() => {
       result.current.getDailyCard('capricorn');
@@ -114,7 +137,7 @@ describe('useTarot', () => {
   });
 
   it('should get card by id', () => {
-    const { result } = renderHook(() => useTarot());
+    const { result } = renderHook(() => useTarot(), { wrapper });
     
     const card = result.current.getCardById(0);
     expect(card).toBeDefined();
@@ -122,7 +145,7 @@ describe('useTarot', () => {
   });
 
   it('should return undefined for invalid card id', () => {
-    const { result } = renderHook(() => useTarot());
+    const { result } = renderHook(() => useTarot(), { wrapper });
     
     const card = result.current.getCardById(9999);
     expect(card).toBeUndefined();

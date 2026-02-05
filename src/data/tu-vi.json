@@ -1,0 +1,114 @@
+{
+  "system": {
+    "code": "eastern_tuvi"
+  },
+  "elements": [
+    {
+      "code": "kim",
+      "translations": {
+        "vi": {
+          "name": "Kim",
+          "keywords": ["mạnh mẽ", "kỷ luật", "quyết đoán"],
+          "balance": "Kiên định, có trật tự, lý trí.",
+          "imbalance": "Cứng nhắc, độc đoán, thiếu linh hoạt."
+        },
+        "en": {
+          "name": "Metal",
+          "keywords": ["strong", "disciplined", "decisive"],
+          "balance": "Orderly and rational.",
+          "imbalance": "Rigid or overly strict."
+        }
+      },
+      "tips": {
+        "vi": ["Tập buông bỏ kiểm soát", "Rèn luyện lòng bao dung"],
+        "en": ["Practice flexibility", "Cultivate empathy"]
+      }
+    },
+    {
+      "code": "moc",
+      "translations": {
+        "vi": {
+          "name": "Mộc",
+          "keywords": ["sáng tạo", "phát triển", "linh hoạt"],
+          "balance": "Phát triển tự nhiên và hài hòa.",
+          "imbalance": "Quá nhạy cảm hoặc thiếu kiên định."
+        }
+      },
+      "tips": {
+        "vi": ["Thiền để giữ cân bằng", "Rèn luyện tính kiên trì"]
+      }
+    }
+  ],
+  "signs": [
+    {
+      "slug": "ti",
+      "element": "kim",
+      "image_url": "/images/tuvi/ti.png",
+      "translations": {
+        "vi": {
+          "name": "Tuổi Tý",
+          "description": "Thông minh, nhanh nhẹn, biết tận dụng cơ hội."
+        },
+        "en": {
+          "name": "Rat",
+          "description": "Smart, resourceful, opportunistic."
+        }
+      },
+      "tarot": {
+        "vi": {
+          "upright": "Sáng suốt, cơ hội xuất hiện.",
+          "reversed": "Do dự gây bỏ lỡ thời cơ."
+        }
+      },
+      "calendar": [
+        {
+          "month": 1,
+          "lang": "vi",
+          "status": "good",
+          "element": "Thủy",
+          "sign": "Tý",
+          "description": "Tháng khởi đầu thuận lợi, nhiều cơ hội tài lộc."
+        }
+      ]
+    },
+    {
+      "slug": "suu",
+      "element": "tho",
+      "image_url": "/images/tuvi/suu.png",
+      "translations": {
+        "vi": {
+          "name": "Tuổi Sửu",
+          "description": "Chăm chỉ, bền bỉ, đáng tin cậy."
+        }
+      }
+    },
+    {
+      "slug": "dan",
+      "element": "moc",
+      "translations": {
+        "vi": {
+          "name": "Tuổi Dần",
+          "description": "Mạnh mẽ, quyết đoán, lãnh đạo bẩm sinh."
+        }
+      }
+    }
+  ],
+  "compatibility": [
+    {
+      "sign": "ti",
+      "other": "suu",
+      "type": "good",
+      "translations": {
+        "vi": "Tý hợp với Sửu: bổ trợ cho nhau trong công việc."
+      }
+    },
+    {
+      "sign": "ti",
+      "other": "ngo",
+      "type": "bad",
+      "translations": {
+        "vi": "Tý khắc Ngọ: dễ xảy ra xung đột nội tâm."
+      }
+    }
+  ]
+}

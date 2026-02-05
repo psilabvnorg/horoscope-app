@@ -6,8 +6,22 @@ import { GradientButton } from '@/components/ui/gradient-button';
 import { Card } from '@/components/ui/card';
 import { MonthlyEnergy } from './MonthlyEnergy';
 import { ZodiacDetail } from '@/components/zodiac/ZodiacDetail';
-import { useZodiacData, useLoveData, useElementBalanceData } from '@/hooks/useTranslatedData';
-import { ZODIAC_SIGNS, type ZodiacSign, type ElementType } from '@/types';
+import {
+    useDailyForecast,
+    useElementBalanceData,
+    useLoveData,
+    useTuViCompatibility,
+    useTuViProfiles,
+    useZodiacData,
+} from '@/hooks/useTranslatedData';
+import {
+    getTuViSignForYear,
+    TUVI_SIGNS,
+    ZODIAC_SIGNS,
+    type ElementType,
+    type TuViSign,
+    type ZodiacSign,
+} from '@/types';
 import { getCompatibilityText } from '@/hooks/useCompatibility';
 import { X, Heart, Sparkles, Info } from 'lucide-react';
 
@@ -20,8 +34,11 @@ export function HomePageSimplified({ profile }: HomePageProps) {
     const zodiacData = useZodiacData();
     const loveData = useLoveData();
     const elementBalanceData = useElementBalanceData();
+    const tuViProfiles = useTuViProfiles();
+    const tuViCompatibility = useTuViCompatibility();
     const [showZodiacDetail, setShowZodiacDetail] = useState(false);
     const [selectedMatch, setSelectedMatch] = useState<ZodiacSign | null>(null);
+    const dailyForecast = useDailyForecast(profile.sign);
 
     // Get today's best match (deterministic based on date)
     const getTodayMatch = (): ZodiacSign => {
@@ -41,6 +58,11 @@ export function HomePageSimplified({ profile }: HomePageProps) {
     };
 
     const signLabel = t(`zodiac:signs.${profile.sign}`);
+    const birthYear = Number(profile.birthday?.slice(0, 4));
+    const tuViSign = getTuViSignForYear(birthYear);
+    const tuViProfile = tuViProfiles[tuViSign];
+    const tuViMatches = tuViCompatibility[tuViSign] || [];
+    const tuViSignLabel = t(`tuvi.signs.${tuViSign}`);
 
     const elementIcons: Record<ElementType, string> = {
         fire: '🔥',
@@ -159,6 +181,52 @@ export function HomePageSimplified({ profile }: HomePageProps) {
                         </Card>
                     </section>
 
+                    {/* Daily Forecast from DB */}
+                    {dailyForecast && (
+                        <section className="space-y-3">
+                            <h3 className="text-sm font-semibold uppercase tracking-wider text-white/90">
+                                {t('home.dailyForecast')}
+                            </h3>
+                            <Card variant="elevated">
+                                <p className="text-sm text-white/80 leading-relaxed">
+                                    {dailyForecast.summary || t('home.horoscopeText')}
+                                </p>
+                                <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
+                                    <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2">
+                                        <span className="text-white/60">{t('home.love')}</span>
+                                        <span className="text-white">{dailyForecast.scores.love ?? '-'}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2">
+                                        <span className="text-white/60">{t('home.career')}</span>
+                                        <span className="text-white">{dailyForecast.scores.career ?? '-'}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2">
+                                        <span className="text-white/60">{t('home.emotion')}</span>
+                                        <span className="text-white">{dailyForecast.scores.emotion ?? '-'}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2">
+                                        <span className="text-white/60">{t('home.energy')}</span>
+                                        <span className="text-white">{dailyForecast.scores.energy ?? '-'}</span>
+                                    </div>
+                                </div>
+                                <div className="mt-4 grid gap-2 text-xs text-white/70">
+                                    <div className="flex items-center justify-between">
+                                        <span>{t('home.luckyNumber')}</span>
+                                        <span>{dailyForecast.lucky.numbers.join(', ') || '-'}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <span>{t('home.luckyColor')}</span>
+                                        <span>{dailyForecast.lucky.color || '-'}</span>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <span>{t('home.luckyTime')}</span>
+                                        <span>{dailyForecast.lucky.hours.join(', ') || '-'}</span>
+                                    </div>
+                                </div>
+                            </Card>
+                        </section>
+                    )}
+
                     {/* Element Balance */}
                     {elementInfo && (
                         <section className="space-y-3">
@@ -233,6 +301,57 @@ export function HomePageSimplified({ profile }: HomePageProps) {
 
                     {/* Monthly Energy */}
                     <MonthlyEnergy sign={profile.sign} />
+
+                    {/* Tu Vi (Eastern Zodiac) */}
+                    <section className="space-y-3">
+                        <h3 className="text-sm font-semibold uppercase tracking-wider text-white/90">
+                            {t('home.tuViTitle')}
+                        </h3>
+                        <Card variant="elevated">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-xs uppercase tracking-widest text-white/50">
+                                        {t('home.tuViSign')}
+                                    </p>
+                                    <p className="text-lg font-semibold text-white">
+                                        {tuViSignLabel}
+                                    </p>
+                                    <p className="text-xs text-white/50 mt-1">
+                                        {tuViProfile?.elementName || t('home.tuViElementUnknown')}
+                                    </p>
+                                </div>
+                                <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center text-xl">
+                                    {TUVI_SIGNS.indexOf(tuViSign) + 1}
+                                </div>
+                            </div>
+                            <p className="text-sm text-white/80 leading-relaxed mt-3">
+                                {tuViProfile?.description || t('home.tuViNoData')}
+                            </p>
+                            {tuViProfile?.tarot?.upright && (
+                                <div className="mt-3 text-xs text-white/60">
+                                    <span className="uppercase tracking-widest">{t('home.tuViTarot')}</span>
+                                    <p className="mt-1 text-sm text-white/80 italic">
+                                        “{tuViProfile.tarot.upright}”
+                                    </p>
+                                </div>
+                            )}
+                            {tuViMatches.length > 0 && (
+                                <div className="mt-4">
+                                    <p className="text-xs uppercase tracking-widest text-white/50 mb-2">
+                                        {t('home.tuViCompatibility')}
+                                    </p>
+                                    <div className="space-y-2 text-sm text-white/75">
+                                        {tuViMatches.slice(0, 3).map((match) => (
+                                            <div key={match.other} className="flex items-center justify-between gap-3">
+                                                <span className="text-white/80">{t(`tuvi.signs.${match.other}`)}</span>
+                                                <span className="text-white/50">{match.type}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </Card>
+                    </section>
                 </div>
             </ScrollArea>
 

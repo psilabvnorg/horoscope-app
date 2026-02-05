@@ -1,6 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { useAsyncData } from './useAsyncData';
-import type { ElementBalanceData } from '@/types';
+import type {
+  DailyForecastData,
+  ElementBalanceData,
+  TuViCompatibilityEntry,
+  TuViSign,
+  TuViSignProfile,
+} from '@/types';
 
 // Import English (default) data
 import zodiacEn from '../data/zodiac.json';
@@ -9,9 +15,12 @@ import loveEn from '../data/love.json';
 import elementBalanceEn from '../data/element-balance.json';
 import zodiacCalendarEn from '../data/zodiac-star-calendar-2026.json';
 import {
+  getDailyForecast,
   getElementBalance,
   getLoveCompatibility,
   getTarotMeanings,
+  getTuViCompatibility,
+  getTuViProfiles,
   getZodiacCalendar,
   getZodiacDescriptions,
 } from '@/data/queries';
@@ -130,4 +139,46 @@ export function useElementBalanceData() {
  */
 export function useZodiacCalendarData() {
   return useTranslatedData<Record<string, Record<string, string>>>('zodiac-star-calendar-2026');
+}
+
+export function useTuViProfiles() {
+  const { i18n } = useTranslation();
+  const currentLang = i18n.language.split('-')[0];
+  const { data } = useAsyncData<Record<TuViSign, TuViSignProfile>>({
+    loader: async () => {
+      const result = await getTuViProfiles(currentLang);
+      return Object.keys(result).length ? result : {};
+    },
+    fallback: {},
+    cacheKey: `tuvi-profiles-${currentLang}`,
+    dependencies: [currentLang],
+  });
+  return data;
+}
+
+export function useTuViCompatibility() {
+  const { i18n } = useTranslation();
+  const currentLang = i18n.language.split('-')[0];
+  const { data } = useAsyncData<Record<TuViSign, TuViCompatibilityEntry[]>>({
+    loader: async () => {
+      const result = await getTuViCompatibility(currentLang);
+      return Object.keys(result).length ? result : {};
+    },
+    fallback: {},
+    cacheKey: `tuvi-compat-${currentLang}`,
+    dependencies: [currentLang],
+  });
+  return data;
+}
+
+export function useDailyForecast(signSlug: string) {
+  const { i18n } = useTranslation();
+  const currentLang = i18n.language.split('-')[0];
+  const { data } = useAsyncData<DailyForecastData | null>({
+    loader: async () => getDailyForecast(signSlug, currentLang),
+    fallback: null,
+    cacheKey: `daily-forecast-${signSlug}-${currentLang}`,
+    dependencies: [signSlug, currentLang],
+  });
+  return data;
 }

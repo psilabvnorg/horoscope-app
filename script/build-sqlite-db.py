@@ -16,6 +16,7 @@ love = load_json(DATA_DIR / "love.json")
 tarot = load_json(DATA_DIR / "tarot.json")
 zodiac_calendar = load_json(DATA_DIR / "zodiac-star-calendar-2026.json")
 element_balance = load_json(DATA_DIR / "element-balance.json")
+tuvi = load_json(DATA_DIR / "tu-vi.json")
 
 translation_root = DATA_DIR / "translations"
 languages = [p.name for p in translation_root.iterdir() if p.is_dir()]
@@ -222,6 +223,12 @@ cursor = conn.cursor()
 cursor.execute("INSERT INTO astrology_systems (code) VALUES (?)", ("western",))
 system_id = cursor.lastrowid
 
+cursor.execute("INSERT OR IGNORE INTO astrology_systems (code) VALUES (?)", (tuvi["system"]["code"],))
+tuvi_system_id = cursor.execute(
+    "SELECT id FROM astrology_systems WHERE code = ?",
+    (tuvi["system"]["code"],),
+).fetchone()[0]
+
 zodiac_element_map = {
     "aries": "fire",
     "leo": "fire",
@@ -301,6 +308,62 @@ for lang, data in lang_data.items():
                 "INSERT INTO element_tips (element_code, lang, tip) VALUES (?, ?, ?)",
                 (element_code, lang, tip),
             )
+
+for element in tuvi.get("elements", []):
+    cursor.execute("INSERT OR IGNORE INTO elements (code) VALUES (?)", (element["code"],))
+    for lang, data in element.get("translations", {}).items():
+        cursor.execute(
+            "INSERT INTO element_translations (element_code, lang, name, keywords, balance, imbalance) VALUES (?, ?, ?, ?, ?, ?)",
+            (
+                element["code"],
+                lang,
+                data.get("name"),
+                json.dumps(data.get("keywords", [])),
+                data.get("balance"),
+                data.get("imbalance"),
+            ),
+        )
+    for lang, tips in element.get("tips", {}).items():
+        for tip in tips:
+            cursor.execute(
+                "INSERT INTO element_tips (element_code, lang, tip) VALUES (?, ?, ?)",
+                (element["code"], lang, tip),
+            )
+
+tuvi_slug_to_id = {}
+for sign in tuvi.get("signs", []):
+    cursor.execute(
+        "INSERT INTO signs (system_id, slug, element_code, image_url) VALUES (?, ?, ?, ?)",
+        (tuvi_system_id, sign["slug"], sign.get("element"), sign.get("image_url")),
+    )
+    sign_id = cursor.lastrowid
+    tuvi_slug_to_id[sign["slug"]] = sign_id
+
+    for lang, data in sign.get("translations", {}).items():
+        cursor.execute(
+            "INSERT INTO sign_translations (sign_id, lang, name, description) VALUES (?, ?, ?, ?)",
+            (sign_id, lang, data.get("name"), data.get("description")),
+        )
+
+    for lang, tarot_entry in sign.get("tarot", {}).items():
+        cursor.execute(
+            "INSERT INTO tarot_meanings (sign_id, lang, upright, reversed) VALUES (?, ?, ?, ?)",
+            (sign_id, lang, tarot_entry.get("upright"), tarot_entry.get("reversed")),
+        )
+
+    for entry in sign.get("calendar", []):
+        cursor.execute(
+            "INSERT INTO zodiac_calendar_entries (sign_id, month, status, element, sign, description, lang) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (
+                sign_id,
+                entry.get("month"),
+                entry.get("status"),
+                entry.get("element"),
+                entry.get("sign"),
+                entry.get("description"),
+                entry.get("lang"),
+            ),
+        )
 
 suits = ["wands", "cups", "swords", "pentacles"]
 suit_id_map = {}
@@ -397,6 +460,22 @@ for lang, data in lang_data.items():
                     (row[0], lang, description),
                 )
 
+for entry in tuvi.get("compatibility", []):
+    sign_id = tuvi_slug_to_id.get(entry.get("sign"))
+    other_id = tuvi_slug_to_id.get(entry.get("other"))
+    if not sign_id or not other_id:
+        continue
+    cursor.execute(
+        "INSERT INTO compatibility (sign_id, other_sign_id, relation_type) VALUES (?, ?, ?)",
+        (sign_id, other_id, entry.get("type", "neutral")),
+    )
+    relation_id = cursor.lastrowid
+    for lang, description in entry.get("translations", {}).items():
+        cursor.execute(
+            "INSERT INTO compatibility_translations (compatibility_id, lang, description) VALUES (?, ?, ?)",
+            (relation_id, lang, description),
+        )
+
 month_order = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 def insert_calendar_entries(calendar_data, lang):
@@ -427,6 +506,36 @@ def insert_calendar_entries(calendar_data, lang):
 insert_calendar_entries(zodiac_calendar, "en")
 for lang, data in lang_data.items():
     insert_calendar_entries(data["zodiac_calendar"], lang)
+
+cursor.execute("INSERT INTO forecast_types (code) VALUES (?)", ("daily",))
+sample_date = "2026-05-13"
+sample_month = 5
+sample_year = 2026
+
+for slug, sign_id in zodiac_slug_to_id.items():
+    cursor.execute(
+        "INSERT INTO forecasts (sign_id, type_code, date, month, year, love_score, career_score, emotion_score, energy_score) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        (sign_id, "daily", sample_date, sample_month, sample_year, 3, 4, 3, 4),
+    )
+    forecast_id = cursor.lastrowid
+    cursor.execute(
+        "INSERT INTO forecast_translations (forecast_id, lang, summary) VALUES (?, ?, ?)",
+        (
+            forecast_id,
+            "en",
+            f"{slug.title()} sees steady momentum today—focus on small wins and keep your pace consistent.",
+        ),
+    )
+    cursor.execute(
+        "INSERT INTO lucky_attributes (forecast_id, numbers, color, direction, hours) VALUES (?, ?, ?, ?, ?)",
+        (
+            forecast_id,
+            json.dumps([2, 7]),
+            "silver",
+            "Northeast",
+            json.dumps(["09:00-11:00", "19:00-20:00"]),
+        ),
+    )
 
 conn.commit()
 conn.close()

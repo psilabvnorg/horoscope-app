@@ -22,6 +22,11 @@ export type ZodiacSign =
   | 'leo' | 'virgo' | 'libra' | 'scorpio' 
   | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
 
+export type TuViSign =
+  | 'ti' | 'suu' | 'dan' | 'mao'
+  | 'thin' | 'ty' | 'ngo' | 'mui'
+  | 'than' | 'dau' | 'tuat' | 'hoi';
+
 export interface TraitCard {
   id: string;
   trait: string;
@@ -67,6 +72,12 @@ export const ZODIAC_SIGNS: ZodiacSign[] = [
   'sagittarius', 'capricorn', 'aquarius', 'pisces'
 ];
 
+export const TUVI_SIGNS: TuViSign[] = [
+  'ti', 'suu', 'dan', 'mao',
+  'thin', 'ty', 'ngo', 'mui',
+  'than', 'dau', 'tuat', 'hoi',
+];
+
 export const ZODIAC_DATES: Record<ZodiacSign, { start: [number, number]; end: [number, number] }> = {
   aries: { start: [3, 21], end: [4, 19] },
   taurus: { start: [4, 20], end: [5, 20] },
@@ -109,6 +120,42 @@ export interface TarotMeanings {
 
 export type ElementType = 'fire' | 'earth' | 'air' | 'water';
 
+export interface TuViSignProfile {
+  slug: TuViSign;
+  name: string;
+  description: string;
+  element: string | null;
+  elementName?: string | null;
+  imageUrl?: string | null;
+  tarot?: {
+    upright?: string | null;
+    reversed?: string | null;
+  };
+}
+
+export interface TuViCompatibilityEntry {
+  other: TuViSign;
+  type: string;
+  description: string;
+}
+
+export interface DailyForecastData {
+  date: string | null;
+  summary: string | null;
+  scores: {
+    love: number | null;
+    career: number | null;
+    emotion: number | null;
+    energy: number | null;
+  };
+  lucky: {
+    numbers: number[];
+    color: string | null;
+    direction: string | null;
+    hours: string[];
+  };
+}
+
 export interface ElementBalanceEntry {
   signs: ZodiacSign[];
   keywords: string[];
@@ -144,4 +191,13 @@ export function getZodiacSign(dateStr: string): ZodiacSign {
     }
   }
   return 'aries';
+}
+
+export function getTuViSignForYear(year: number): TuViSign {
+  if (!Number.isFinite(year)) {
+    return 'ti';
+  }
+  const baseYear = 2020;
+  const index = ((year - baseYear) % TUVI_SIGNS.length + TUVI_SIGNS.length) % TUVI_SIGNS.length;
+  return TUVI_SIGNS[index];
 }

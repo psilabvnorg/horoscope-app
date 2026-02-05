@@ -65,6 +65,7 @@
     "yourProfile": "Your Profile",
     "dailyGuidance": "Daily Guidance",
     "todayHoroscope": "Today's Horoscope",
+    "dailyForecast": "Daily Forecast",
     "todayMatch": "Today's Match",
     "greatCompatibility": "Great compatibility today!",
     "dailyTips": "Daily tips for {{sign}}",
@@ -90,6 +91,9 @@
     "ascendant": "Ascendant",
     "element": "Element",
     "love": "Love",
+    "career": "Career",
+    "emotion": "Emotion",
+    "energy": "Energy",
     "warning": "Warning",
     "do": "Do",
     "dont": "Don't",
@@ -115,7 +119,13 @@
     "earth": "Earth",
     "air": "Air",
     "loveMatch": "Love Match",
-    "you": "You"
+    "you": "You",
+    "tuViTitle": "Tu Vi (Eastern Zodiac)",
+    "tuViSign": "Your Tu Vi Sign",
+    "tuViElementUnknown": "Element unavailable",
+    "tuViTarot": "Tu Vi Insight",
+    "tuViCompatibility": "Compatible Signs",
+    "tuViNoData": "Tu Vi details are still loading."
   },
   "readings": {
     "title": "Readings",

@@ -1,0 +1,17 @@
+{
+  "title": "Tu Vi",
+  "signs": {
+    "ti": "Rat",
+    "suu": "Ox",
+    "dan": "Tiger",
+    "mao": "Rabbit",
+    "thin": "Dragon",
+    "ty": "Snake",
+    "ngo": "Horse",
+    "mui": "Goat",
+    "than": "Monkey",
+    "dau": "Rooster",
+    "tuat": "Dog",
+    "hoi": "Pig"
+  }
+}

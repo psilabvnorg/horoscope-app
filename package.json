@@ -18,7 +18,7 @@
     "translate:data:ko": "node script/translate-data.js --lang ko",
     "translate:data:ja": "node script/translate-data.js --lang ja",
     "translate:data:zodiac": "node script/translate-data.js --files zodiac.json",
-    "build:db": "python3 script/build-sqlite-db.py",
+    "build:db": "python script/build-sqlite-db.py",
     "translate:data:help": "node script/translate-data.js --help"
   },
   "dependencies": {
@@ -67,6 +67,7 @@
     "react-resizable-panels": "^4.2.2",
     "recharts": "^2.15.4",
     "sonner": "^2.0.7",
+    "sql.js": "^1.13.0",
     "tailwind-merge": "^3.4.0",
     "vaul": "^1.1.2",
     "zod": "^4.3.5"

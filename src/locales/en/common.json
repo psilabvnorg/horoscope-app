@@ -75,6 +75,16 @@
     "luckyColor": "Lucky color",
     "luckyTime": "Lucky time",
     "monthlyEnergy": "Monthly Energy",
+    "monthEnergy": "{{month}} Energy",
+    "monthEnergySub": "{{sign}} • {{month}} {{year}}",
+    "elementBalance": "Element Balance",
+    "yourElement": "Your Element",
+    "restoreBalance": "Restore Balance",
+    "energyStatus": {
+      "aligned": "Aligned",
+      "compatible": "Compatible",
+      "challenging": "Challenging"
+    },
     "sun": "Sun",
     "moon": "Moon",
     "ascendant": "Ascendant",
@@ -123,7 +133,16 @@
     "palmReadingTitle": "Palm Reading",
     "palmReadingDesc": "Read your palm to know your fortune",
     "birthChartDesc": "Learn more about your birth-chart",
-    "tarotCardsDesc": "Discover insights through tarot"
+    "tarotCardsDesc": "Discover insights through tarot",
+    "palmLabels": {
+      "life": "Life",
+      "fate": "Fate",
+      "heart": "Heart",
+      "head": "Head",
+      "destiny": "Destiny",
+      "venus": "Venus",
+      "moon": "Moon"
+    }
   },
   "tarot": {
     "title": "Tarot",
@@ -151,6 +170,17 @@
     "yesNoDesc": "A clear answer",
     "meaningsTitle": "Card Library",
     "meaningsDesc": "Explore all cards",
+    "libraryTitle": "Arcane Library",
+    "librarySubtitle": "Explore all 78 card meanings",
+    "majorArcana": "Major Arcana",
+    "minorArcana": "Minor Arcana",
+    "wands": "Wands",
+    "cups": "Cups",
+    "swords": "Swords",
+    "pentacles": "Pentacles",
+    "keywords": "Keywords",
+    "uprightMeaning": "Upright Meaning",
+    "reversedMeaning": "Reversed Meaning",
     "whatFocusToday": "What should I focus on today?",
     "whatEnergy": "What energy surrounds me?",
     "whatLesson": "What lesson is today bringing?",
@@ -178,7 +208,121 @@
     "partnerSign": "Partner Sign",
     "checkCompatibility": "Check Compatibility",
     "loveMatch": "Love Match",
-    "compatibilityScore": "Compatibility Score"
+    "compatibilityScore": "Compatibility Score",
+    "reportTitle": "Love Report",
+    "selectSign": "Select a Sign",
+    "checkLove": "Check Love",
+    "checkAnother": "Check Another Compatibility",
+    "guideTitle": "Love Guide",
+    "guideSubtitle": "Ask about your relationship",
+    "askAnything": "Ask me anything about your relationship:",
+    "askPlaceholder": "Ask about your love compatibility...",
+    "previousSign": "Previous sign",
+    "nextSign": "Next sign"
+  },
+  "chat": {
+    "title": {
+      "default": "Mystic Guide",
+      "tarot": "Tarot Guide",
+      "couple": "Love Guide",
+      "fortune": "Fortune Teller",
+      "crystal-ball": "Crystal Oracle",
+      "numerology": "Numerology Guide",
+      "dream": "Dream Interpreter"
+    },
+    "subtitle": {
+      "default": "Ask anything about your journey",
+      "tarot": "Ask about your reading",
+      "couple": "Ask about your relationship",
+      "fortune": "Ask about your future",
+      "crystal-ball": "Ask the crystal ball",
+      "numerology": "Ask about numbers",
+      "dream": "Ask about your dreams"
+    },
+    "placeholder": "Ask the mystic guide...",
+    "suggestedTitle": "Suggested questions:",
+    "suggested": {
+      "tarot": [
+        "What does my daily card mean?",
+        "How should I interpret reversed cards?",
+        "What spread is best for career questions?",
+        "Tell me about the Major Arcana"
+      ],
+      "couple": [
+        "What makes our relationship special?",
+        "How can we strengthen our bond?",
+        "What challenges might we face together?",
+        "What should we focus on in our relationship?"
+      ],
+      "fortune": [
+        "What does my future hold?",
+        "Will I find love soon?",
+        "How will my career develop?",
+        "What should I focus on today?"
+      ],
+      "crystal-ball": [
+        "What wisdom do you have for me today?",
+        "What should I focus on this week?",
+        "Tell me about my future",
+        "What guidance do you have for my career?"
+      ],
+      "numerology": [
+        "What is my life path number?",
+        "What does my birth date reveal?",
+        "What numbers are lucky for me?",
+        "Tell me about master numbers"
+      ],
+      "dream": [
+        "I dreamed about flying, what does it mean?",
+        "What does water symbolize in dreams?",
+        "I had a recurring dream, help me understand",
+        "What does dreaming about animals mean?"
+      ]
+    }
+  },
+  "birthChart": {
+    "tabs": {
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "year": "Year"
+    },
+    "yearChart": "Year Chart",
+    "status": {
+      "aligned": "Aligned",
+      "compatible": "Compatible",
+      "challenging": "Challenging"
+    },
+    "energyCalendar": "2026 Energy Calendar for {{sign}}",
+    "whyCare": "Why should you care about",
+    "whyCareDesc": "Transits reveal how current planetary movements interact with your birth chart, offering insights into opportunities, challenges, and personal growth periods. Understanding these cosmic influences helps you navigate life with greater awareness.",
+    "shortTerm": "Your Short Term Transits",
+    "longTerm": "Your Long Term Transits",
+    "readMore": "Read more",
+    "planets": {
+      "sun": "Sun",
+      "moon": "Moon",
+      "mercury": "Mercury",
+      "mars": "Mars",
+      "jupiter": "Jupiter",
+      "yourSun": "Your Sun",
+      "yourMoon": "Your Moon",
+      "yourMercury": "Your Mercury",
+      "yourJupiter": "Your Jupiter"
+    },
+    "aspects": {
+      "trine": "Trine",
+      "square": "Square",
+      "conjunction": "Conjunction",
+      "sextile": "Sextile"
+    },
+    "transits": {
+      "short1": "During this Sun trine your natal Jupiter transit, expect an abundance of opportunities and growth.",
+      "short2": "When the Moon squares your natal Mercury, you may feel tension between emotions and logic.",
+      "short3": "With Mercury in conjunction with your natal Moon, communication and feelings align for clarity.",
+      "long1": "Mercury sextile your natal Mercury supports learning, planning, and steady progress.",
+      "long2": "Mars sextile your natal Sun brings motivation and confidence to pursue your goals.",
+      "long3": "Mars trine your natal Moon energizes your emotions and supports decisive action."
+    }
   },
   "fortune": {
     "title": "Fortune",
@@ -200,6 +344,11 @@
     "summonStars": "Summon the Stars",
     "summonFuture": "Summon My Future",
     "channelCosmos": "Channel the Cosmos",
+    "questionCategory": "Question category",
+    "categoryLove": "Love",
+    "categoryCareer": "Career",
+    "categoryFamily": "Family",
+    "categorySelf": "Self",
     "crystalBallDesc": "Seek wisdom and ask any thing to learn",
     "numerologyDesc": "{{count}} Reports delivered today",
     "dreamExplainDesc": "Let Luna explain your dream",
@@ -220,7 +369,31 @@
     "reject": "Reject",
     "noMoreCards": "No more cards",
     "swipeLeft": "Swipe left to reject",
-    "swipeRight": "Swipe right to accept"
+    "swipeRight": "Swipe right to accept",
+    "emptyTitle": "Enlightened",
+    "emptySubtitle": "You've explored {{count}} traits. The stars are satisfied for now.",
+    "seekMore": "Seek more",
+    "discovery": "Discovery",
+    "indicators": {
+      "me": "This is me",
+      "skip": "Skip",
+      "veryAccurate": "Very accurate"
+    },
+    "labels": {
+      "skip": "Skip",
+      "me": "Me"
+    }
+  },
+  "traits": {
+    "categories": {
+      "personality": "Personality",
+      "love": "Love",
+      "career": "Career",
+      "social": "Social",
+      "emotion": "Emotional",
+      "spiritual": "Spiritual",
+      "challenge": "Challenge"
+    }
   },
   "onboarding": {
     "welcome": "Welcome",

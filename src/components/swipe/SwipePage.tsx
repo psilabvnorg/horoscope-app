@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { TraitCard, SwipeDirection, UserProfile } from '@/types';
 import { getPersonalizedDeck } from '@/data/traits';
 import { SwipeCard as SwipeCardComponent } from './SwipeCard';
@@ -11,6 +12,7 @@ interface SwipePageProps {
 }
 
 export function SwipePage({ profile, onSwipe }: SwipePageProps) {
+  const { t } = useTranslation();
   const [deck, setDeck] = useState<TraitCard[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -59,14 +61,14 @@ export function SwipePage({ profile, onSwipe }: SwipePageProps) {
           <Sparkles className="w-16 h-16 text-violet-400" />
         </div>
         <div className="space-y-4 max-w-xs">
-          <h3 className="text-2xl font-semibold uppercase tracking-widest text-white">Enlightened</h3>
+          <h3 className="text-2xl font-semibold uppercase tracking-widest text-white">{t('swipe.emptyTitle')}</h3>
           <p className="text-gray-500 text-sm">
-            You've explored {profile.swipeCount} traits. The stars are satisfied for now.
+            {t('swipe.emptySubtitle', { count: profile.swipeCount })}
           </p>
         </div>
         <Button onClick={handleReset} className="rounded-full px-8 py-6 bg-violet-400 hover:bg-violet-300 text-black gap-2 uppercase tracking-widest text-xs font-semibold">
           <RotateCcw className="w-4 h-4" />
-          Seek more
+          {t('swipe.seekMore')}
         </Button>
       </div>
     );
@@ -76,7 +78,7 @@ export function SwipePage({ profile, onSwipe }: SwipePageProps) {
     <div className="flex flex-col h-full bg-black overflow-hidden">
       {/* Header */}
       <header className="p-4 pt-6 flex justify-between items-center">
-        <h1 className="text-lg font-semibold tracking-widest uppercase text-white">Discovery</h1>
+        <h1 className="text-lg font-semibold tracking-widest uppercase text-white">{t('swipe.discovery')}</h1>
         <div className="text-xs font-medium uppercase tracking-widest text-violet-400">
           {currentIndex + 1} / {deck.length}
         </div>

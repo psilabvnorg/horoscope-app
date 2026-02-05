@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronDown, ChevronUp } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import type { ZodiacSign } from '@/types';
@@ -15,12 +16,12 @@ type TabType = 'daily' | 'weekly' | 'year';
 
 interface TransitCard {
     id: string;
-    planet1: string;
-    aspect: string;
-    planet2: string;
+    planet1Key: string;
+    aspectKey: string;
+    planet2Key: string;
     planet1Color: string;
     planet2Color: string;
-    description: string;
+    descriptionKey: string;
     image1: string;
     image2: string;
 }
@@ -36,34 +37,34 @@ interface MonthEnergy {
 const shortTermTransits: TransitCard[] = [
     {
         id: '1',
-        planet1: 'Sun',
-        aspect: 'Trine',
-        planet2: 'Your Jupiter',
+        planet1Key: 'sun',
+        aspectKey: 'trine',
+        planet2Key: 'yourJupiter',
         planet1Color: '#f59e0b',
         planet2Color: '#f59e0b',
-        description: 'During this Sun trine your natal Jupiter transit, expect an abundance of opportunities and...',
+        descriptionKey: 'birthChart.transits.short1',
         image1: 'sun',
         image2: 'jupiter',
     },
     {
         id: '2',
-        planet1: 'Moon',
-        aspect: 'Square',
-        planet2: 'Your Mercury',
+        planet1Key: 'moon',
+        aspectKey: 'square',
+        planet2Key: 'yourMercury',
         planet1Color: '#94a3b8',
         planet2Color: '#f59e0b',
-        description: 'When the Moon squares your natal Mercury, you may find a conflict between your emotions and...',
+        descriptionKey: 'birthChart.transits.short2',
         image1: 'moon',
         image2: 'mercury',
     },
     {
         id: '3',
-        planet1: 'Mercury',
-        aspect: 'Conjunction',
-        planet2: 'Your Moon',
+        planet1Key: 'mercury',
+        aspectKey: 'conjunction',
+        planet2Key: 'yourMoon',
         planet1Color: '#f59e0b',
         planet2Color: '#94a3b8',
-        description: 'With Mercury in the planet of communication, in conjunction with your natal Moon, you can...',
+        descriptionKey: 'birthChart.transits.short3',
         image1: 'mercury',
         image2: 'moon',
     },
@@ -72,48 +73,48 @@ const shortTermTransits: TransitCard[] = [
 const longTermTransits: TransitCard[] = [
     {
         id: '4',
-        planet1: 'Mercury',
-        aspect: 'Sextile',
-        planet2: 'Your Mercury',
+        planet1Key: 'mercury',
+        aspectKey: 'sextile',
+        planet2Key: 'yourMercury',
         planet1Color: '#f59e0b',
         planet2Color: '#f59e0b',
-        description: 'With Mercury, the planet of communication, in conjunction with your natal Moon, you can...',
+        descriptionKey: 'birthChart.transits.long1',
         image1: 'mercury',
         image2: 'mercury',
     },
     {
         id: '5',
-        planet1: 'Mars',
-        aspect: 'Sextile',
-        planet2: 'Your Sun',
+        planet1Key: 'mars',
+        aspectKey: 'sextile',
+        planet2Key: 'yourSun',
         planet1Color: '#ef4444',
         planet2Color: '#f59e0b',
-        description: 'With Mercury, the planet of communication, in conjunction with your natal Moon, you can...',
+        descriptionKey: 'birthChart.transits.long2',
         image1: 'mars',
         image2: 'sun',
     },
     {
         id: '6',
-        planet1: 'Mars',
-        aspect: 'Trine',
-        planet2: 'Your Moon',
+        planet1Key: 'mars',
+        aspectKey: 'trine',
+        planet2Key: 'yourMoon',
         planet1Color: '#ef4444',
         planet2Color: '#94a3b8',
-        description: 'With Mercury, the planet of communication, in conjunction with your natal Moon, you can...',
+        descriptionKey: 'birthChart.transits.long3',
         image1: 'mars',
         image2: 'moon',
     },
 ];
 
 // Generate dates for the date picker
-const generateDates = () => {
+const generateDates = (locale: string) => {
     const dates = [];
     const today = new Date();
     for (let i = -3; i <= 3; i++) {
         const date = new Date(today);
         date.setDate(today.getDate() + i);
         dates.push({
-            day: date.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase(),
+            day: date.toLocaleDateString(locale, { weekday: 'short' }).toUpperCase(),
             date: date.getDate(),
             isToday: i === 0,
         });
@@ -122,13 +123,14 @@ const generateDates = () => {
 };
 
 // Parse zodiac calendar data
-const parseZodiacCalendar = (sign: string): MonthEnergy[] => {
+const parseZodiacCalendar = (sign: string, locale: string): MonthEnergy[] => {
     const signData = zodiacCalendar[sign as keyof typeof zodiacCalendar];
     if (!signData) return [];
 
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const dataMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthFormatter = new Intl.DateTimeFormat(locale, { month: 'short' });
     
-    return months.map(month => {
+    return dataMonths.map((month, index) => {
         const data = signData[month as keyof typeof signData];
         const parts = data.split(' – ');
         const status = parts[0] as 'aligned' | 'compatible' | 'challenging';
@@ -140,7 +142,7 @@ const parseZodiacCalendar = (sign: string): MonthEnergy[] => {
         const description = rest.replace(/\([^)]+\)\s*/, '');
         
         return {
-            month,
+            month: monthFormatter.format(new Date(2020, index, 1)),
             status,
             description,
             element,
@@ -150,12 +152,13 @@ const parseZodiacCalendar = (sign: string): MonthEnergy[] => {
 };
 
 export function BirthChartReading({ onBack, userSign = 'aries' }: BirthChartReadingProps) {
+    const { t, i18n } = useTranslation();
     const [activeTab, setActiveTab] = useState<TabType>('year');
     const [selectedDate, setSelectedDate] = useState(3); // Index of today
     const [isExpanded, setIsExpanded] = useState(false);
-    const dates = generateDates();
+    const dates = generateDates(i18n.language);
     const capitalizedSign = userSign.charAt(0).toUpperCase() + userSign.slice(1);
-    const yearEnergyData = parseZodiacCalendar(capitalizedSign);
+    const yearEnergyData = parseZodiacCalendar(capitalizedSign, i18n.language);
 
     const getStatusColor = (status: string) => {
         switch (status) {
@@ -214,14 +217,16 @@ export function BirthChartReading({ onBack, userSign = 'aries' }: BirthChartRead
             {/* Content */}
             <div className="p-4">
                 <div className="flex justify-between items-start mb-2">
-                    <span className="text-amber-400 font-medium">{transit.planet1} {transit.aspect}</span>
-                    <span className="text-amber-400 font-medium">{transit.planet2}</span>
+                    <span className="text-amber-400 font-medium">
+                        {t(`birthChart.planets.${transit.planet1Key}`)} {t(`birthChart.aspects.${transit.aspectKey}`)}
+                    </span>
+                    <span className="text-amber-400 font-medium">{t(`birthChart.planets.${transit.planet2Key}`)}</span>
                 </div>
                 <p className="text-white/60 text-sm leading-relaxed mb-3">
-                    {transit.description}
+                    {t(transit.descriptionKey)}
                 </p>
                 <button className="text-amber-400 text-sm flex items-center gap-1 hover:text-amber-300 transition-colors">
-                    + Read more
+                    + {t('birthChart.readMore')}
                 </button>
             </div>
         </div>
@@ -241,7 +246,7 @@ export function BirthChartReading({ onBack, userSign = 'aries' }: BirthChartRead
             <div className="flex-shrink-0 bg-[#050510] border-b border-white/10">
                 {/* Header */}
                 <div className="flex items-center justify-center px-4 py-4 pt-6">
-                    <h1 className="text-sm font-semibold tracking-[0.15em] uppercase">Birth Chart</h1>
+                    <h1 className="text-sm font-semibold tracking-[0.15em] uppercase">{t('readings.birthChart')}</h1>
                 </div>
 
                 {/* Tabs */}
@@ -256,7 +261,7 @@ export function BirthChartReading({ onBack, userSign = 'aries' }: BirthChartRead
                                     : 'bg-white/5 text-white/50 border border-white/10 hover:bg-white/10'
                             }`}
                         >
-                            {tab === 'year' ? 'Year Chart' : tab}
+                            {tab === 'year' ? t('birthChart.yearChart') : t(`birthChart.tabs.${tab}`)}
                         </button>
                     ))}
                 </div>
@@ -299,7 +304,7 @@ export function BirthChartReading({ onBack, userSign = 'aries' }: BirthChartRead
                                                 {monthData.month}
                                             </div>
                                             <div className={`text-[10px] font-semibold uppercase ${colors.text}`}>
-                                                {monthData.status}
+                                                {t(`birthChart.status.${monthData.status}`)}
                                             </div>
                                         </div>
                                     </div>
@@ -315,7 +320,7 @@ export function BirthChartReading({ onBack, userSign = 'aries' }: BirthChartRead
                     /* Year View - Monthly Energy Details */
                     <div className="pb-24 pt-4">
                         <h2 className="text-lg font-semibold tracking-wider uppercase text-white/90 mb-4">
-                            2026 Energy Calendar for {capitalizedSign}
+                            {t('birthChart.energyCalendar', { sign: t(`zodiac:signs.${userSign}`) })}
                         </h2>
                         {yearEnergyData.map((monthData, index) => {
                             const colors = getStatusColor(monthData.status);
@@ -327,7 +332,7 @@ export function BirthChartReading({ onBack, userSign = 'aries' }: BirthChartRead
                                                 {monthData.month}
                                             </h3>
                                             <span className={`text-xs font-semibold uppercase px-3 py-1 rounded-full ${colors.bg} ${colors.text} border ${colors.border}`}>
-                                                {monthData.status}
+                                                {t(`birthChart.status.${monthData.status}`)}
                                             </span>
                                         </div>
                                         {monthData.element && (
@@ -354,7 +359,7 @@ export function BirthChartReading({ onBack, userSign = 'aries' }: BirthChartRead
                                 onClick={() => setIsExpanded(!isExpanded)}
                                 className="w-full flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10"
                             >
-                                <span className="text-white/70 text-sm">Why should you care about</span>
+                                <span className="text-white/70 text-sm">{t('birthChart.whyCare')}</span>
                                 {isExpanded ? (
                                     <ChevronUp className="w-4 h-4 text-white/50" />
                                 ) : (
@@ -364,9 +369,7 @@ export function BirthChartReading({ onBack, userSign = 'aries' }: BirthChartRead
                             {isExpanded && (
                                 <div className="mt-2 p-4 rounded-xl bg-white/5 border border-white/10">
                                     <p className="text-white/60 text-sm leading-relaxed">
-                                        Transits reveal how current planetary movements interact with your birth chart, 
-                                        offering insights into opportunities, challenges, and personal growth periods. 
-                                        Understanding these cosmic influences helps you navigate life with greater awareness.
+                                        {t('birthChart.whyCareDesc')}
                                     </p>
                                 </div>
                             )}
@@ -375,7 +378,7 @@ export function BirthChartReading({ onBack, userSign = 'aries' }: BirthChartRead
                         {/* Short Term Transits */}
                         <div className="mb-6">
                             <h2 className="text-lg font-semibold tracking-wider uppercase text-white/90 mb-4">
-                                Your Short Term Transits
+                                {t('birthChart.shortTerm')}
                             </h2>
                             {shortTermTransits.map((transit) => (
                                 <TransitCardComponent key={transit.id} transit={transit} />
@@ -385,7 +388,7 @@ export function BirthChartReading({ onBack, userSign = 'aries' }: BirthChartRead
                         {/* Long Term Transits */}
                         <div className="pb-24">
                             <h2 className="text-lg font-semibold tracking-wider uppercase text-white/90 mb-4">
-                                Your Long Term Transits
+                                {t('birthChart.longTerm')}
                             </h2>
                             {longTermTransits.map((transit) => (
                                 <TransitCardComponent key={transit.id} transit={transit} />

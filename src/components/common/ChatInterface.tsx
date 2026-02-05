@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { UserProfile } from '@/types';
 import { useChatUI } from '@/hooks/useChatUI';
 import { ChatPanel } from './ChatPanel';
@@ -9,49 +10,11 @@ interface ChatInterfaceProps {
   onClose: () => void;
   initialMessage?: string;
   enhancedContext?: EnhancedContext;
+  customAdditions?: string;
   title?: string;
   subtitle?: string;
   theme?: 'violet' | 'purple' | 'pink' | 'yellow' | 'rose';
 }
-
-const suggestedQuestions: Record<PromptContext, string[]> = {
-  tarot: [
-    'What does my daily card mean?',
-    'How should I interpret reversed cards?',
-    'What spread is best for career questions?',
-    'Tell me about the Major Arcana',
-  ],
-  couple: [
-    'Are we compatible?',
-    'What are our strengths as a couple?',
-    'How can we improve our relationship?',
-    'What does our zodiac pairing mean?',
-  ],
-  fortune: [
-    'What does my future hold?',
-    'Will I find love soon?',
-    'How will my career develop?',
-    'What should I focus on today?',
-  ],
-  'crystal-ball': [
-    'What wisdom do you have for me today?',
-    'What should I focus on this week?',
-    'Tell me about my future',
-    'What guidance do you have for my career?',
-  ],
-  numerology: [
-    'What is my life path number?',
-    'What does my birth date reveal?',
-    'What numbers are lucky for me?',
-    'Tell me about master numbers',
-  ],
-  dream: [
-    'I dreamed about flying, what does it mean?',
-    'What does water symbolize in dreams?',
-    'I had a recurring dream, help me understand',
-    'What does dreaming about animals mean?',
-  ],
-};
 
 const contextThemes: Record<PromptContext, 'violet' | 'purple' | 'pink' | 'yellow' | 'rose'> = {
   tarot: 'violet',
@@ -68,10 +31,12 @@ export function ChatInterface({
   onClose,
   initialMessage,
   enhancedContext,
+  customAdditions,
   title,
   subtitle,
   theme,
 }: ChatInterfaceProps) {
+  const { t } = useTranslation();
   const {
     messages,
     isLoading,
@@ -84,12 +49,21 @@ export function ChatInterface({
     enhancedContext,
     profile,
     initialMessage,
+    customAdditions,
   });
 
-  const questions = suggestedQuestions[context] || suggestedQuestions.fortune;
+  const suggested = t(`chat.suggested.${context}`, { returnObjects: true });
+  const fallbackSuggested = t('chat.suggested.fortune', { returnObjects: true });
+  const questions = Array.isArray(suggested)
+    ? suggested
+    : Array.isArray(fallbackSuggested)
+      ? fallbackSuggested
+      : [];
   const chatTheme = theme || contextThemes[context] || 'violet';
-  const chatTitle = title || 'Mystic Guide';
-  const chatSubtitle = subtitle || `Ask anything about ${context.replace('-', ' ')}`;
+  const chatTitle = title || t(`chat.title.${context}`, { defaultValue: t('chat.title.default') });
+  const chatSubtitle = subtitle || t(`chat.subtitle.${context}`, { defaultValue: t('chat.subtitle.default') });
+  const chatPlaceholder = t('chat.placeholder');
+  const suggestedTitle = t('chat.suggestedTitle');
 
   return (
     <ChatPanel
@@ -104,7 +78,8 @@ export function ChatInterface({
       theme={chatTheme}
       title={chatTitle}
       subtitle={chatSubtitle}
-      placeholder="Ask the mystic guide..."
+      placeholder={chatPlaceholder}
+      suggestedTitle={suggestedTitle}
     />
   );
 }

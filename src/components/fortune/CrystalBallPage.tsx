@@ -12,10 +12,13 @@ interface CrystalBallPageProps {
 
 const CHAT_CONTEXT: PromptContext = 'crystal-ball';
 
+type QuestionCategory = 'love' | 'career' | 'family' | 'self';
+
 export function CrystalBallPage({ profile, onBack }: CrystalBallPageProps) {
   const { t } = useTranslation();
   const [showChat, setShowChat] = useState(false);
   const [initialMessage, setInitialMessage] = useState<string | undefined>();
+  const [questionCategory, setQuestionCategory] = useState<QuestionCategory>('self');
 
   const promptTags = [
     t('fortune.illuminatePath'),
@@ -43,6 +46,13 @@ export function CrystalBallPage({ profile, onBack }: CrystalBallPageProps) {
     setShowChat(true);
   };
 
+  const categoryPromptMap: Record<QuestionCategory, string> = {
+    love: 'Question category: Love and relationships. Provide warm, practical guidance about connection and communication.',
+    career: 'Question category: Career and purpose. Provide clear, practical guidance about goals, work, and growth.',
+    family: 'Question category: Family and home life. Provide supportive guidance about harmony and boundaries.',
+    self: 'Question category: Self growth and wellbeing. Provide reflective guidance about mindset, habits, and balance.',
+  };
+
   if (showChat) {
     return (
       <div className="flex flex-col h-full bg-[#0a0a12]">
@@ -51,6 +61,7 @@ export function CrystalBallPage({ profile, onBack }: CrystalBallPageProps) {
           context={CHAT_CONTEXT}
           onClose={() => setShowChat(false)}
           initialMessage={initialMessage}
+          customAdditions={categoryPromptMap[questionCategory]}
         />
       </div>
     );
@@ -68,6 +79,33 @@ export function CrystalBallPage({ profile, onBack }: CrystalBallPageProps) {
         </button>
         <h1 className="text-xl font-light tracking-[0.15em] uppercase">{t('fortune.crystalBall')}</h1>
       </header>
+
+      {/* Scrolling Tags - Row 1 */}
+      <div className="mt-4 px-4">
+        <p className="text-xs uppercase tracking-widest text-yellow-400/70 mb-3">
+          {t('fortune.questionCategory')}
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {([
+            { id: 'love', label: t('fortune.categoryLove') },
+            { id: 'career', label: t('fortune.categoryCareer') },
+            { id: 'family', label: t('fortune.categoryFamily') },
+            { id: 'self', label: t('fortune.categorySelf') },
+          ] as const).map((category) => (
+            <button
+              key={category.id}
+              onClick={() => setQuestionCategory(category.id)}
+              className={`px-4 py-2 rounded-full border text-xs uppercase tracking-widest transition-all ${
+                questionCategory === category.id
+                  ? 'bg-yellow-500/20 border-yellow-400 text-yellow-300'
+                  : 'border-yellow-600/40 text-yellow-500/70 hover:bg-yellow-600/10'
+              }`}
+            >
+              {category.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* Scrolling Tags - Row 1 */}
       <div className="mt-4 overflow-hidden">

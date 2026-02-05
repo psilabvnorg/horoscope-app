@@ -8,10 +8,11 @@ interface UseChatUIOptions {
   enhancedContext?: EnhancedContext;
   profile?: UserProfile;
   initialMessage?: string;
+  customAdditions?: string;
 }
 
-export function useChatUI({ context, enhancedContext, profile, initialMessage }: UseChatUIOptions) {
-  const { messages, isLoading, sendMessage } = useChat({ context, enhancedContext });
+export function useChatUI({ context, enhancedContext, profile, initialMessage, customAdditions }: UseChatUIOptions) {
+  const { messages, isLoading, sendMessage } = useChat({ context, enhancedContext, customAdditions });
   const [input, setInput] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);

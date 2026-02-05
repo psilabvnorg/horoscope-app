@@ -1,4 +1,4 @@
-import { zodiacCalendar } from '@/data';
+import { useZodiacCalendarData } from '@/hooks/useTranslatedData';
 import type { ZodiacSign, EnergyStatus } from '@/types';
 
 const MONTH_KEYS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] as const;
@@ -14,6 +14,7 @@ export interface MonthlyEnergyData {
 }
 
 export function useMonthlyEnergy(sign: ZodiacSign, month?: number): MonthlyEnergyData {
+  const zodiacCalendar = useZodiacCalendarData();
   const currentMonth = month ?? new Date().getMonth();
   const monthKey = MONTH_KEYS[currentMonth] as MonthKey;
   const signKey = sign.charAt(0).toUpperCase() + sign.slice(1) as ZodiacCalendarKey;

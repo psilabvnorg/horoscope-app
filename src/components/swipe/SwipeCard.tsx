@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { TraitCard, SwipeDirection } from '@/types';
 import { Check, X } from 'lucide-react';
 
@@ -10,6 +11,7 @@ interface SwipeCardProps {
 }
 
 export function SwipeCard({ trait, onSwipe, isTop, forcedDirection }: SwipeCardProps) {
+  const { t } = useTranslation();
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -95,7 +97,7 @@ export function SwipeCard({ trait, onSwipe, isTop, forcedDirection }: SwipeCardP
           style={{ opacity }}
         >
           <div className="bg-violet-400 text-black px-6 py-3 rounded-full font-semibold text-sm uppercase tracking-widest">
-            This is me
+            {t('swipe.indicators.me')}
           </div>
         </div>
       );
@@ -107,7 +109,7 @@ export function SwipeCard({ trait, onSwipe, isTop, forcedDirection }: SwipeCardP
           style={{ opacity }}
         >
           <div className="bg-gray-700 text-white px-6 py-3 rounded-full font-semibold text-sm uppercase tracking-widest border border-gray-600">
-            Skip
+            {t('swipe.indicators.skip')}
           </div>
         </div>
       );
@@ -119,7 +121,7 @@ export function SwipeCard({ trait, onSwipe, isTop, forcedDirection }: SwipeCardP
           style={{ opacity: verticalOpacity }}
         >
           <div className="bg-violet-400 text-black px-6 py-3 rounded-full font-semibold text-sm uppercase tracking-widest">
-            Very accurate
+            {t('swipe.indicators.veryAccurate')}
           </div>
         </div>
       );
@@ -161,7 +163,7 @@ export function SwipeCard({ trait, onSwipe, isTop, forcedDirection }: SwipeCardP
             {/* Category badge */}
             <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-gray-900/60 border border-violet-500/20">
               <span className="text-[10px] uppercase tracking-widest font-medium text-violet-400">
-                {trait.category}
+                {t(`traits.categories.${trait.category}`, { defaultValue: trait.category })}
               </span>
             </div>
 
@@ -189,13 +191,13 @@ export function SwipeCard({ trait, onSwipe, isTop, forcedDirection }: SwipeCardP
                 <div className="w-10 h-10 rounded-xl border border-gray-800 flex items-center justify-center">
                   <X className="w-5 h-5" />
                 </div>
-                <span>Skip</span>
+                <span>{t('swipe.labels.skip')}</span>
               </div>
               <div className="flex flex-col items-center gap-2">
                 <div className="w-10 h-10 rounded-xl bg-violet-400 flex items-center justify-center">
                   <Check className="w-5 h-5 text-black" />
                 </div>
-                <span>Me</span>
+                <span>{t('swipe.labels.me')}</span>
               </div>
             </div>
           </div>

@@ -86,8 +86,8 @@ function App() {
         if (readingView === 'tarot-reading') return (
           <div className="h-full flex flex-col pt-safe bg-[#0a0a1a]">
             <div className="p-4 border-b border-white/5 flex items-center justify-between bg-[#0a0a1a]">
-              <button onClick={() => setReadingView('tarot')} className="text-xs uppercase tracking-widest text-muted-foreground hover:text-white transition-colors">← Back</button>
-              <h2 className="text-sm font-bold tracking-widest uppercase text-white">Tarot</h2>
+              <button onClick={() => setReadingView('tarot')} className="text-xs uppercase tracking-widest text-muted-foreground hover:text-white transition-colors">← {t('actions.back')}</button>
+              <h2 className="text-sm font-bold tracking-widest uppercase text-white">{t('tarot.title')}</h2>
               <div className="w-10" />
             </div>
             <div className="flex-1 overflow-auto bg-[#0a0a1a]">

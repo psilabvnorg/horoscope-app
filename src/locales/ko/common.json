@@ -62,7 +62,12 @@
     "yourHoroscope": "당신의 {{sign}} 조디악",
     "affirmation": "긍정 명언",
     "profile": "{{name}}님 프로필",
+    "yourProfile": "나의 프로필",
+    "dailyGuidance": "오늘의 가이드",
+    "todayHoroscope": "오늘의 운세",
     "dailyTips": "{{sign}}님을 위한 일일 팁",
+    "todayMatch": "오늘의 매치",
+    "greatCompatibility": "오늘은 특히 좋은 궁합!",
     "todaysMatches": "금일의 호환성",
     "lunarCalendar": "음력 달력",
     "todaysFeatures": "금일의 특징",
@@ -70,6 +75,16 @@
     "luckyColor": "행운의 색깔",
     "luckyTime": "행운의 시간",
     "monthlyEnergy": "월간 에너지",
+    "monthEnergy": "{{month}} 에너지",
+    "monthEnergySub": "{{sign}} • {{month}} {{year}}",
+    "elementBalance": "원소 균형",
+    "yourElement": "나의 원소",
+    "restoreBalance": "균형 회복",
+    "energyStatus": {
+      "aligned": "조화",
+      "compatible": "상성",
+      "challenging": "도전"
+    },
     "sun": "태양",
     "moon": "달",
     "ascendant": "상승점",
@@ -91,7 +106,16 @@
     "cardMeanings": "카드 의미",
     "readNow": "지금 해석하기",
     "analyzing": "분석 중",
-    "yourReading": "당신의 해석"
+    "yourReading": "당신의 해석",
+    "palmLabels": {
+      "life": "생명",
+      "fate": "운명",
+      "heart": "심장",
+      "head": "머리",
+      "destiny": "숙명",
+      "venus": "금성",
+      "moon": "달"
+    }
   },
   "tarot": {
     "title": "타로",
@@ -101,7 +125,18 @@
     "cardLibrary": "카드 라이브러리",
     "upright": "정면",
     "reversed": "역전",
-    "meaning": "의미"
+    "meaning": "의미",
+    "libraryTitle": "신비의 라이브러리",
+    "librarySubtitle": "78장 카드 의미를 모두 살펴보기",
+    "majorArcana": "메이저 아르카나",
+    "minorArcana": "마이너 아르카나",
+    "wands": "완드",
+    "cups": "컵",
+    "swords": "소드",
+    "pentacles": "펜타클",
+    "keywords": "키워드",
+    "uprightMeaning": "정위 의미",
+    "reversedMeaning": "역위 의미"
   },
   "love": {
     "title": "사랑",
@@ -110,7 +145,121 @@
     "partnerSign": "상대자의 자리",
     "checkCompatibility": "호환성 확인하기",
     "loveMatch": "사랑의 매치",
-    "compatibilityScore": "호환성 점수"
+    "compatibilityScore": "호환성 점수",
+    "reportTitle": "사랑 리포트",
+    "selectSign": "별자리 선택",
+    "checkLove": "사랑 확인",
+    "checkAnother": "다른 호환성 확인",
+    "guideTitle": "사랑 가이드",
+    "guideSubtitle": "관계에 대해 물어보세요",
+    "askAnything": "관계에 대해 무엇이든 물어보세요:",
+    "askPlaceholder": "사랑 호환성에 대해 질문하기...",
+    "previousSign": "이전 별자리",
+    "nextSign": "다음 별자리"
+  },
+  "chat": {
+    "title": {
+      "default": "신비 가이드",
+      "tarot": "타로 가이드",
+      "couple": "사랑 가이드",
+      "fortune": "운세 상담",
+      "crystal-ball": "크리스털 오라클",
+      "numerology": "수리 가이드",
+      "dream": "꿈 해석"
+    },
+    "subtitle": {
+      "default": "여정에 대해 무엇이든 물어보세요",
+      "tarot": "리딩에 대해 물어보세요",
+      "couple": "관계에 대해 물어보세요",
+      "fortune": "미래에 대해 물어보세요",
+      "crystal-ball": "크리스털 볼에 물어보세요",
+      "numerology": "숫자에 대해 물어보세요",
+      "dream": "꿈에 대해 물어보세요"
+    },
+    "placeholder": "신비 가이드에게 질문하기...",
+    "suggestedTitle": "추천 질문:",
+    "suggested": {
+      "tarot": [
+        "오늘의 카드 의미는 무엇인가요?",
+        "역방향 카드를 어떻게 해석하나요?",
+        "커리어에 좋은 스프레드는?",
+        "메이저 아르카나를 알려줘"
+      ],
+      "couple": [
+        "우리 관계의 특별한 점은?",
+        "유대를 어떻게 강화할 수 있나요?",
+        "함께 어떤 어려움이 있을까요?",
+        "관계에서 무엇에 집중해야 하나요?"
+      ],
+      "fortune": [
+        "내 미래는 어떻게 될까요?",
+        "곧 사랑을 만나게 될까요?",
+        "커리어는 어떻게 발전할까요?",
+        "오늘 무엇에 집중해야 하나요?"
+      ],
+      "crystal-ball": [
+        "오늘 나에게 어떤 지혜가 있나요?",
+        "이번 주 무엇에 집중해야 하나요?",
+        "내 미래에 대해 말해줘",
+        "커리어에 대한 조언이 있나요?"
+      ],
+      "numerology": [
+        "내 라이프 패스 넘버는?",
+        "생일이 알려주는 것은?",
+        "행운의 숫자는 무엇인가요?",
+        "마스터 넘버를 알려줘"
+      ],
+      "dream": [
+        "하늘을 나는 꿈은 무슨 뜻인가요?",
+        "꿈에서 물은 무엇을 의미하나요?",
+        "반복되는 꿈을 해석해 주세요",
+        "동물 꿈은 어떤 의미인가요?"
+      ]
+    }
+  },
+  "birthChart": {
+    "tabs": {
+      "daily": "일간",
+      "weekly": "주간",
+      "year": "연간"
+    },
+    "yearChart": "연간 차트",
+    "status": {
+      "aligned": "조화",
+      "compatible": "상성",
+      "challenging": "도전"
+    },
+    "energyCalendar": "{{sign}}의 2026 에너지 캘린더",
+    "whyCare": "왜 중요한가요",
+    "whyCareDesc": "트랜짓은 현재 행성의 움직임이 당신의 출생 차트에 어떻게 작용하는지 보여주며, 기회와 도전, 성장의 시기를 알려줍니다.",
+    "shortTerm": "단기 트랜짓",
+    "longTerm": "장기 트랜짓",
+    "readMore": "더 읽기",
+    "planets": {
+      "sun": "태양",
+      "moon": "달",
+      "mercury": "수성",
+      "mars": "화성",
+      "jupiter": "목성",
+      "yourSun": "당신의 태양",
+      "yourMoon": "당신의 달",
+      "yourMercury": "당신의 수성",
+      "yourJupiter": "당신의 목성"
+    },
+    "aspects": {
+      "trine": "트라인",
+      "square": "스퀘어",
+      "conjunction": "컨정션",
+      "sextile": "섹스타일"
+    },
+    "transits": {
+      "short1": "태양 트라인 목성은 기회와 성장을 기대하게 합니다.",
+      "short2": "달 스퀘어 수성은 감정과 이성의 갈등을 느낄 수 있습니다.",
+      "short3": "수성 컨정션 달은 소통과 감정의 정렬을 돕습니다.",
+      "long1": "수성 섹스타일 수성은 학습과 계획에 유리합니다.",
+      "long2": "화성 섹스타일 태양은 동기와 자신감을 높입니다.",
+      "long3": "화성 트라인 달은 감정 에너지를 북돋습니다."
+    }
   },
   "fortune": {
     "title": "운명",
@@ -119,7 +268,12 @@
     "dreamExplain": "몽유도 증",
     "askQuestion": "질문하기",
     "enterDream": "꿈을 입력하세요",
-    "analyze": "분석하기"
+    "analyze": "분석하기",
+    "questionCategory": "질문 분류",
+    "categoryLove": "사랑",
+    "categoryCareer": "커리어",
+    "categoryFamily": "가족",
+    "categorySelf": "자기"
   },
   "swipe": {
     "title": "스wipe 매칭",
@@ -127,7 +281,31 @@
     "reject": "거절하기",
     "noMoreCards": "카드가 없습니다",
     "swipeLeft": "거절하려면 왼쪽으로 스ワイ프",
-    "swipeRight": "수락하려면 오른쪽으로 스ワイ프"
+    "swipeRight": "수락하려면 오른쪽으로 스ワイ프",
+    "emptyTitle": "깨달음",
+    "emptySubtitle": "{{count}}개의 특성을 탐색했습니다. 지금은 별들이 만족합니다.",
+    "seekMore": "더 탐색하기",
+    "discovery": "탐색",
+    "indicators": {
+      "me": "나예요",
+      "skip": "건너뛰기",
+      "veryAccurate": "아주 정확함"
+    },
+    "labels": {
+      "skip": "건너뛰기",
+      "me": "나"
+    }
+  },
+  "traits": {
+    "categories": {
+      "personality": "성격",
+      "love": "사랑",
+      "career": "커리어",
+      "social": "사회",
+      "emotion": "감정",
+      "spiritual": "영성",
+      "challenge": "도전"
+    }
   },
   "onboarding": {
     "welcome": "환영합니다",

@@ -62,7 +62,12 @@
     "yourHoroscope": "Vận trình ngày hôm nay của bạn",
     "affirmation": "Khẳng định",
     "profile": "Thông tin {{name}}",
+    "yourProfile": "Hồ sơ của bạn",
+    "dailyGuidance": "Hướng dẫn hằng ngày",
+    "todayHoroscope": "Vận trình hôm nay",
     "dailyTips": "Lời khuyên hàng ngày cho {{sign}}",
+    "todayMatch": "Đối tượng hôm nay",
+    "greatCompatibility": "Rất hợp nhau hôm nay!",
     "todaysMatches": "Sự hợp tác hôm nay",
     "lunarCalendar": "Lịch âm",
     "todaysFeatures": "Điểm nổi bật hôm nay",
@@ -70,6 +75,16 @@
     "luckyColor": "Màu may mắn",
     "luckyTime": "Thời điểm may mắn",
     "monthlyEnergy": "Năng lượng hàng tháng",
+    "monthEnergy": "Năng lượng {{month}}",
+    "monthEnergySub": "{{sign}} • {{month}} {{year}}",
+    "elementBalance": "Cân bằng nguyên tố",
+    "yourElement": "Nguyên tố của bạn",
+    "restoreBalance": "Cân bằng lại",
+    "energyStatus": {
+      "aligned": "Hài hòa",
+      "compatible": "Tương thích",
+      "challenging": "Thách thức"
+    },
     "sun": "Mặt trời",
     "moon": "Trăng",
     "ascendant": "Đẳng vị",
@@ -118,7 +133,16 @@
     "palmReadingTitle": "Đọc lòng bàn tay",
     "palmReadingDesc": "Đọc lòng bàn tay để biết vận may của bạn",
     "birthChartDesc": "Tìm hiểu thêm về bản đồ sinh mệnh của bạn",
-    "tarotCardsDesc": "Khám phá những hiểu biết thông qua tarot"
+    "tarotCardsDesc": "Khám phá những hiểu biết thông qua tarot",
+    "palmLabels": {
+      "life": "Sinh mệnh",
+      "fate": "Vận mệnh",
+      "heart": "Tâm",
+      "head": "Trí",
+      "destiny": "Định mệnh",
+      "venus": "Sao Kim",
+      "moon": "Mặt Trăng"
+    }
   },
   "tarot": {
     "title": "Tarot",
@@ -146,6 +170,17 @@
     "yesNoDesc": "Câu trả lời rõ ràng",
     "meaningsTitle": "Kho bài",
     "meaningsDesc": "Khám phá tất cả các lá bài",
+    "libraryTitle": "Thư viện Huyền học",
+    "librarySubtitle": "Khám phá ý nghĩa của 78 lá bài",
+    "majorArcana": "Ẩn chính",
+    "minorArcana": "Ẩn phụ",
+    "wands": "Gậy",
+    "cups": "Cốc",
+    "swords": "Kiếm",
+    "pentacles": "Xu",
+    "keywords": "Từ khóa",
+    "uprightMeaning": "Ý nghĩa thuận",
+    "reversedMeaning": "Ý nghĩa đảo",
     "whatFocusToday": "Tôi nên tập trung vào điều gì hôm nay?",
     "whatEnergy": "Năng lượng nào bao quanh tôi?",
     "whatLesson": "Bài học nào hôm nay mang lại?",
@@ -173,7 +208,121 @@
     "partnerSign": "Dấu hiệu của đối tác",
     "checkCompatibility": "Kiểm tra sự tương hợp",
     "loveMatch": "Đối tượng tình yêu",
-    "compatibilityScore": "Điểm tương hợp"
+    "compatibilityScore": "Điểm tương hợp",
+    "reportTitle": "Báo cáo tình yêu",
+    "selectSign": "Chọn một cung",
+    "checkLove": "Kiểm tra tình yêu",
+    "checkAnother": "Kiểm tra tương hợp khác",
+    "guideTitle": "Cố vấn tình yêu",
+    "guideSubtitle": "Hỏi về mối quan hệ của bạn",
+    "askAnything": "Hỏi tôi bất cứ điều gì về mối quan hệ của bạn:",
+    "askPlaceholder": "Hỏi về sự tương hợp tình yêu...",
+    "previousSign": "Cung trước",
+    "nextSign": "Cung tiếp theo"
+  },
+  "chat": {
+    "title": {
+      "default": "Hướng dẫn huyền bí",
+      "tarot": "Cố vấn Tarot",
+      "couple": "Cố vấn tình yêu",
+      "fortune": "Thầy bói",
+      "crystal-ball": "Quả cầu pha lê",
+      "numerology": "Cố vấn số học",
+      "dream": "Giải mộng"
+    },
+    "subtitle": {
+      "default": "Hỏi bất cứ điều gì về hành trình của bạn",
+      "tarot": "Hỏi về lá bài của bạn",
+      "couple": "Hỏi về mối quan hệ của bạn",
+      "fortune": "Hỏi về tương lai của bạn",
+      "crystal-ball": "Hỏi quả cầu pha lê",
+      "numerology": "Hỏi về các con số",
+      "dream": "Hỏi về giấc mơ của bạn"
+    },
+    "placeholder": "Hỏi hướng dẫn huyền bí...",
+    "suggestedTitle": "Gợi ý câu hỏi:",
+    "suggested": {
+      "tarot": [
+        "Lá bài hôm nay nói gì?",
+        "Tôi nên hiểu lá bài đảo như thế nào?",
+        "Trải bài nào phù hợp cho sự nghiệp?",
+        "Hãy nói về Bộ Ẩn Chính"
+      ],
+      "couple": [
+        "Điều gì làm mối quan hệ của chúng ta đặc biệt?",
+        "Làm sao để gắn kết bền hơn?",
+        "Chúng ta có thể gặp thách thức gì?",
+        "Nên tập trung điều gì trong mối quan hệ?"
+      ],
+      "fortune": [
+        "Tương lai của tôi sẽ ra sao?",
+        "Tôi có sớm gặp được tình yêu không?",
+        "Sự nghiệp của tôi sẽ phát triển thế nào?",
+        "Hôm nay tôi nên tập trung vào điều gì?"
+      ],
+      "crystal-ball": [
+        "Bạn có lời khuyên gì cho tôi hôm nay?",
+        "Tuần này tôi nên tập trung điều gì?",
+        "Hãy nói về tương lai của tôi",
+        "Bạn có lời khuyên gì cho sự nghiệp của tôi?"
+      ],
+      "numerology": [
+        "Số đường đời của tôi là gì?",
+        "Ngày sinh tiết lộ điều gì?",
+        "Con số nào may mắn cho tôi?",
+        "Hãy nói về các số bậc thầy"
+      ],
+      "dream": [
+        "Tôi mơ thấy bay, điều đó có nghĩa gì?",
+        "Nước tượng trưng điều gì trong giấc mơ?",
+        "Tôi có giấc mơ lặp lại, giúp tôi hiểu",
+        "Mơ thấy động vật có ý nghĩa gì?"
+      ]
+    }
+  },
+  "birthChart": {
+    "tabs": {
+      "daily": "Hằng ngày",
+      "weekly": "Hằng tuần",
+      "year": "Cả năm"
+    },
+    "yearChart": "Biểu đồ năm",
+    "status": {
+      "aligned": "Hài hòa",
+      "compatible": "Tương thích",
+      "challenging": "Thách thức"
+    },
+    "energyCalendar": "Lịch năng lượng 2026 cho {{sign}}",
+    "whyCare": "Vì sao điều này quan trọng",
+    "whyCareDesc": "Các vận chuyển cho thấy chuyển động hiện tại của hành tinh tác động đến bản đồ sinh của bạn, mang lại gợi ý về cơ hội, thách thức và giai đoạn phát triển cá nhân. Hiểu các ảnh hưởng này giúp bạn định hướng cuộc sống tốt hơn.",
+    "shortTerm": "Vận chuyển ngắn hạn",
+    "longTerm": "Vận chuyển dài hạn",
+    "readMore": "Đọc thêm",
+    "planets": {
+      "sun": "Mặt Trời",
+      "moon": "Mặt Trăng",
+      "mercury": "Sao Thủy",
+      "mars": "Sao Hỏa",
+      "jupiter": "Sao Mộc",
+      "yourSun": "Mặt Trời của bạn",
+      "yourMoon": "Mặt Trăng của bạn",
+      "yourMercury": "Sao Thủy của bạn",
+      "yourJupiter": "Sao Mộc của bạn"
+    },
+    "aspects": {
+      "trine": "Tam hợp",
+      "square": "Vuông góc",
+      "conjunction": "Giao hội",
+      "sextile": "Lục hợp"
+    },
+    "transits": {
+      "short1": "Mặt Trời tam hợp Sao Mộc bản mệnh báo hiệu nhiều cơ hội và tăng trưởng.",
+      "short2": "Mặt Trăng vuông góc Sao Thủy bản mệnh có thể gây căng thẳng giữa cảm xúc và lý trí.",
+      "short3": "Sao Thủy giao hội Mặt Trăng bản mệnh giúp cảm xúc và giao tiếp hòa nhịp rõ ràng.",
+      "long1": "Sao Thủy lục hợp Sao Thủy bản mệnh hỗ trợ học tập, lên kế hoạch và tiến triển ổn định.",
+      "long2": "Sao Hỏa lục hợp Mặt Trời bản mệnh tăng động lực và sự tự tin theo đuổi mục tiêu.",
+      "long3": "Sao Hỏa tam hợp Mặt Trăng bản mệnh tiếp thêm năng lượng cảm xúc và hành động dứt khoát."
+    }
   },
   "fortune": {
     "title": "Mệnh lý",
@@ -195,6 +344,11 @@
     "summonStars": "Triệu hồi các vì sao",
     "summonFuture": "Triệu hồi tương lai của tôi",
     "channelCosmos": "Kết nối vũ trụ",
+    "questionCategory": "Chủ đề câu hỏi",
+    "categoryLove": "Tình yêu",
+    "categoryCareer": "Sự nghiệp",
+    "categoryFamily": "Gia đình",
+    "categorySelf": "Bản thân",
     "crystalBallDesc": "Tìm kiếm trí tuệ và hỏi bất cứ điều gì để học hỏi",
     "numerologyDesc": "{{count}} báo cáo đã được gửi hôm nay",
     "dreamExplainDesc": "Để Luna giải thích giấc mơ của bạn",
@@ -215,7 +369,31 @@
     "reject": "Từ chối",
     "noMoreCards": "Đã hết bài",
     "swipeLeft": "Trượt sang trái để từ chối",
-    "swipeRight": "Trượt sang phải để chấp nhận"
+    "swipeRight": "Trượt sang phải để chấp nhận",
+    "emptyTitle": "Khai sáng",
+    "emptySubtitle": "Bạn đã khám phá {{count}} đặc điểm. Các vì sao tạm hài lòng.",
+    "seekMore": "Khám phá thêm",
+    "discovery": "Khám phá",
+    "indicators": {
+      "me": "Đúng là tôi",
+      "skip": "Bỏ qua",
+      "veryAccurate": "Rất chính xác"
+    },
+    "labels": {
+      "skip": "Bỏ qua",
+      "me": "Tôi"
+    }
+  },
+  "traits": {
+    "categories": {
+      "personality": "Tính cách",
+      "love": "Tình yêu",
+      "career": "Sự nghiệp",
+      "social": "Xã hội",
+      "emotion": "Cảm xúc",
+      "spiritual": "Tâm linh",
+      "challenge": "Thử thách"
+    }
   },
   "onboarding": {
     "welcome": "Chào mừng",

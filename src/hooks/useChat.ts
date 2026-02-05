@@ -7,6 +7,7 @@ interface UseChatOptions {
   context?: PromptContext;
   systemPrompt?: string;
   enhancedContext?: EnhancedContext;
+  customAdditions?: string;
 }
 
 export function useChat(options: UseChatOptions = {}) {
@@ -39,8 +40,8 @@ export function useChat(options: UseChatOptions = {}) {
     try {
       // Build system prompt with user context and enhanced context
       const systemPrompt = options.context
-        ? buildSystemPrompt(options.context, profile, undefined, options.enhancedContext)
-        : options.systemPrompt || buildSystemPrompt('fortune', profile, undefined, options.enhancedContext);
+        ? buildSystemPrompt(options.context, profile, options.customAdditions, options.enhancedContext)
+        : options.systemPrompt || buildSystemPrompt('fortune', profile, options.customAdditions, options.enhancedContext);
 
       const response = await generateResponse(
         systemPrompt,
@@ -82,7 +83,7 @@ export function useChat(options: UseChatOptions = {}) {
       setIsLoading(false);
       abortControllerRef.current = null;
     }
-  }, [options.context, options.systemPrompt, options.enhancedContext]);
+  }, [options.context, options.systemPrompt, options.enhancedContext, options.customAdditions]);
 
   const clearMessages = useCallback(() => {
     setMessages([]);

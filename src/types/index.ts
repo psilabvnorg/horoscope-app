@@ -107,6 +107,18 @@ export interface TarotMeanings {
   'PENTACLES': { [card: string]: string };
 }
 
+export type ElementType = 'fire' | 'earth' | 'air' | 'water';
+
+export interface ElementBalanceEntry {
+  signs: ZodiacSign[];
+  keywords: string[];
+  balance: string;
+  imbalance: string;
+  tips: string[];
+}
+
+export type ElementBalanceData = Record<ElementType, ElementBalanceEntry>;
+
 export type EnergyStatus = 'aligned' | 'compatible' | 'challenging';
 
 export function getZodiacSign(dateStr: string): ZodiacSign {

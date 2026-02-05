@@ -66,16 +66,16 @@ export function PalmReadingIntro({ onBack, onReadNow }: PalmReadingIntroProps) {
                         <text x="65" y="200" fill="#4c1d95" fontSize="16" fontFamily="serif">♈</text>
                         
                         {/* Right side symbols */}
-                        <text x="210" y="160" fill="#4c1d95" fontSize="10" fontFamily="serif">Life</text>
-                        <text x="215" y="200" fill="#4c1d95" fontSize="10" fontFamily="serif">Fate</text>
+                        <text x="210" y="160" fill="#4c1d95" fontSize="10" fontFamily="serif">{t('readings.palmLabels.life')}</text>
+                        <text x="215" y="200" fill="#4c1d95" fontSize="10" fontFamily="serif">{t('readings.palmLabels.fate')}</text>
                         <text x="218" y="240" fill="#4c1d95" fontSize="14" fontFamily="serif">♀</text>
                         
                         {/* Palm area labels */}
-                        <text x="115" y="200" fill="#4c1d95" fontSize="9" fontFamily="serif">Heart</text>
-                        <text x="165" y="195" fill="#4c1d95" fontSize="9" fontFamily="serif">Head</text>
-                        <text x="120" y="235" fill="#4c1d95" fontSize="9" fontFamily="serif">Destiny</text>
-                        <text x="165" y="240" fill="#4c1d95" fontSize="9" fontFamily="serif">Venus</text>
-                        <text x="130" y="275" fill="#4c1d95" fontSize="9" fontFamily="serif">Moon</text>
+                        <text x="115" y="200" fill="#4c1d95" fontSize="9" fontFamily="serif">{t('readings.palmLabels.heart')}</text>
+                        <text x="165" y="195" fill="#4c1d95" fontSize="9" fontFamily="serif">{t('readings.palmLabels.head')}</text>
+                        <text x="120" y="235" fill="#4c1d95" fontSize="9" fontFamily="serif">{t('readings.palmLabels.destiny')}</text>
+                        <text x="165" y="240" fill="#4c1d95" fontSize="9" fontFamily="serif">{t('readings.palmLabels.venus')}</text>
+                        <text x="130" y="275" fill="#4c1d95" fontSize="9" fontFamily="serif">{t('readings.palmLabels.moon')}</text>
                     </svg>
                 </div>
 

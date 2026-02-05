@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { TarotCard as TarotCardType } from '@/types';
 import { Sparkles } from 'lucide-react';
 
@@ -17,6 +18,7 @@ export function TarotCardComponent({
   onClick,
   size = 'md'
 }: TarotCardProps) {
+  const { t } = useTranslation();
   const [isFlipped, setIsFlipped] = useState(revealed);
 
   const handleClick = () => {
@@ -93,13 +95,17 @@ export function TarotCardComponent({
 
             <div className="flex-1 p-3 flex flex-col justify-center text-center bg-black/40 border-t border-white/5">
               <div className="text-[8px] font-black text-violet-400 uppercase tracking-widest leading-none mb-1">
-                {card.arcana === 'major' ? 'Major Arcana' : `${card.suit}`}
+                {card.arcana === 'major'
+                  ? t('tarot.majorArcana')
+                  : t(`tarot.${card.suit || 'minorArcana'}`)}
               </div>
               <div className="font-bold text-sm tracking-tight text-white line-clamp-2">
                 {card.name}
               </div>
               {reversed && (
-                <div className="text-[8px] font-black text-rose-500 mt-1 uppercase tracking-widest">Reversed</div>
+                <div className="text-[8px] font-black text-rose-500 mt-1 uppercase tracking-widest">
+                  {t('tarot.reversed')}
+                </div>
               )}
             </div>
           </div>

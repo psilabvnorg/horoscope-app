@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { UserProfile, ZodiacSign } from '@/types';
 import { ZODIAC_SIGNS, ZODIAC_DATES } from '@/types';
 import { getCompatibilityText } from '@/hooks/useCompatibility';
@@ -41,24 +42,16 @@ const zodiacColors: Record<ZodiacSign, { primary: string; glow: string }> = {
   pisces: { primary: '#3b82f6', glow: 'rgba(59, 130, 246, 0.4)' },
 };
 
-function getDateRange(sign: ZodiacSign): string {
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function getDateRange(sign: ZodiacSign, locale: string): string {
   const range = ZODIAC_DATES[sign];
-  const startMonth = months[range.start[0] - 1];
-  const endMonth = months[range.end[0] - 1];
+  const formatter = new Intl.DateTimeFormat(locale, { month: 'short' });
+  const startMonth = formatter.format(new Date(2020, range.start[0] - 1, 1));
+  const endMonth = formatter.format(new Date(2020, range.end[0] - 1, 1));
   return `${range.start[1]} ${startMonth} - ${range.end[1]} ${endMonth}`;
 }
 
-const suggestedLoveQuestions = [
-  'What makes our relationship special?',
-  'How can we strengthen our bond?',
-  'What challenges might we face together?',
-  'What does the future hold for us?',
-  'How do our personalities complement each other?',
-  'What should we focus on in our relationship?',
-];
-
 export function LovePage({ profile, onBack }: LovePageProps) {
+  const { t, i18n } = useTranslation();
   const [selectedSign, setSelectedSign] = useState<ZodiacSign>(profile.partnerSign || 'leo');
   const [showResult, setShowResult] = useState(false);
   const [showChat, setShowChat] = useState(false);
@@ -70,6 +63,10 @@ export function LovePage({ profile, onBack }: LovePageProps) {
   const loveData = useLoveData();
 
   const compatibilityText = getCompatibilityText(userSign, selectedSign, loveData);
+  const suggestedList = t('chat.suggested.couple', { returnObjects: true });
+  const suggestedLoveQuestions = Array.isArray(suggestedList) ? suggestedList : [];
+
+  const getSignLabel = (sign: ZodiacSign) => t(`zodiac:signs.${sign}`);
   
   // Initialize chat with love context and compatibility info
   const { messages, isLoading, sendMessage } = useChat({
@@ -129,7 +126,7 @@ export function LovePage({ profile, onBack }: LovePageProps) {
             <ChevronLeft className="w-5 h-5" />
           </button>
         )}
-        <h1 className="text-xl font-light tracking-[0.15em] uppercase">Love Report</h1>
+        <h1 className="text-xl font-light tracking-[0.15em] uppercase">{t('love.reportTitle')}</h1>
       </header>
 
       {/* Selected Signs Card */}
@@ -148,7 +145,7 @@ export function LovePage({ profile, onBack }: LovePageProps) {
               >
                 <ZodiacIcon sign={userSign} size={80} />
               </div>
-              <span className="mt-3 text-sm font-medium capitalize">{userSign}</span>
+              <span className="mt-3 text-sm font-medium capitalize">{getSignLabel(userSign)}</span>
             </div>
 
             {/* Plus Sign */}
@@ -164,7 +161,7 @@ export function LovePage({ profile, onBack }: LovePageProps) {
               >
                 <ZodiacIcon sign={selectedSign} size={80} />
               </div>
-              <span className="mt-3 text-sm font-medium capitalize">{selectedSign}</span>
+              <span className="mt-3 text-sm font-medium capitalize">{getSignLabel(selectedSign)}</span>
             </div>
           </div>
         </div>
@@ -172,7 +169,7 @@ export function LovePage({ profile, onBack }: LovePageProps) {
 
       {/* Select a Sign Section */}
       <div className="flex-1 mt-8 overflow-hidden">
-        <h2 className="text-center text-lg tracking-[0.2em] uppercase mb-6">Select a Sign</h2>
+        <h2 className="text-center text-lg tracking-[0.2em] uppercase mb-6">{t('love.selectSign')}</h2>
         
         {/* Zodiac Carousel */}
         <div 
@@ -210,12 +207,12 @@ export function LovePage({ profile, onBack }: LovePageProps) {
                 <span className={`mt-3 text-sm font-medium capitalize transition-all ${
                   isSelected ? 'text-white' : 'text-white/50'
                 }`}>
-                  {sign}
+                  {getSignLabel(sign)}
                 </span>
                 <span className={`text-xs transition-all ${
                   isSelected ? 'text-white/60' : 'text-white/30'
                 }`}>
-                  {getDateRange(sign)}
+                  {getDateRange(sign, i18n.language)}
                 </span>
               </button>
             );
@@ -242,7 +239,7 @@ export function LovePage({ profile, onBack }: LovePageProps) {
               }
             }}
             className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all"
-            aria-label="Previous sign"
+            aria-label={t('love.previousSign')}
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -272,7 +269,7 @@ export function LovePage({ profile, onBack }: LovePageProps) {
               }
             }}
             className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all"
-            aria-label="Next sign"
+            aria-label={t('love.nextSign')}
           >
             <ChevronLeft className="w-5 h-5 rotate-180" />
           </button>
@@ -285,7 +282,7 @@ export function LovePage({ profile, onBack }: LovePageProps) {
           onClick={handleCheckLove}
           className="w-full py-4 rounded-full bg-gradient-to-r from-purple-600/80 to-purple-500/80 border border-purple-400/30 text-white font-medium tracking-[0.15em] uppercase transition-all hover:from-purple-500/90 hover:to-purple-400/90 active:scale-[0.98]"
         >
-          Check Love
+          {t('love.checkLove')}
         </button>
       </div>
 
@@ -301,8 +298,8 @@ export function LovePage({ profile, onBack }: LovePageProps) {
                     <Sparkles className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-sm text-white">Love Guide</h4>
-                    <p className="text-xs text-white/60">Ask about your relationship</p>
+                    <h4 className="font-medium text-sm text-white">{t('love.guideTitle')}</h4>
+                    <p className="text-xs text-white/60">{t('love.guideSubtitle')}</p>
                   </div>
                 </div>
                 <button
@@ -332,14 +329,14 @@ export function LovePage({ profile, onBack }: LovePageProps) {
                 </div>
               </div>
               <h2 className="text-center text-base font-semibold text-white mt-3 capitalize">
-                {userSign} & {selectedSign}
+                {getSignLabel(userSign)} & {getSignLabel(selectedSign)}
               </h2>
             </div>
 
             {/* Compatibility Summary */}
             <div className="px-4 py-3 bg-[#1a1a2e]/50 border-b border-purple-500/10 flex-shrink-0">
               <h3 className="text-xs font-semibold uppercase tracking-wider text-purple-400 mb-2">
-                Compatibility
+                {t('love.compatibility')}
               </h3>
               <p className="text-white/70 text-xs leading-relaxed">
                 {compatibilityText}
@@ -354,7 +351,7 @@ export function LovePage({ profile, onBack }: LovePageProps) {
               {messages.length === 0 && (
                 <div className="space-y-3">
                   <p className="text-sm text-white/60 text-center">
-                    Ask me anything about your relationship:
+                    {t('love.askAnything')}
                   </p>
                   <div className="flex flex-wrap gap-2 justify-center">
                     {suggestedLoveQuestions.map((question, index) => (
@@ -421,7 +418,7 @@ export function LovePage({ profile, onBack }: LovePageProps) {
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Ask about your love compatibility..."
+                  placeholder={t('love.askPlaceholder')}
                   className="flex-1 px-4 py-3 bg-[#0a0a12] border border-purple-500/30 rounded-full text-white placeholder-white/40 focus:outline-none focus:border-purple-500/60 text-sm"
                   disabled={isLoading}
                 />
@@ -442,7 +439,7 @@ export function LovePage({ profile, onBack }: LovePageProps) {
                 }}
                 className="w-full py-3 rounded-full border border-purple-500/30 text-purple-300 font-medium hover:bg-purple-500/10 transition-all text-sm"
               >
-                Check Another Compatibility
+                {t('love.checkAnother')}
               </button>
             </div>
           </div>

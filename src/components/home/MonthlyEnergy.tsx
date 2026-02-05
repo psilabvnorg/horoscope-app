@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useMonthlyEnergy } from '@/hooks/useMonthlyEnergy';
 import type { ZodiacSign, EnergyStatus } from '@/types';
 import { Sparkles, AlertTriangle, Star } from 'lucide-react';
@@ -6,42 +7,37 @@ interface MonthlyEnergyProps {
   sign: ZodiacSign;
 }
 
-const statusConfig: Record<EnergyStatus, { icon: typeof Star; color: string; bgColor: string; label: string }> = {
+const statusConfig: Record<EnergyStatus, { icon: typeof Star; color: string; bgColor: string }> = {
   aligned: {
     icon: Star,
     color: 'text-green-400',
     bgColor: 'bg-green-500/20',
-    label: 'Aligned',
   },
   compatible: {
     icon: Sparkles,
     color: 'text-purple-400',
     bgColor: 'bg-purple-500/20',
-    label: 'Compatible',
   },
   challenging: {
     icon: AlertTriangle,
     color: 'text-amber-400',
     bgColor: 'bg-amber-500/20',
-    label: 'Challenging',
   },
 };
 
-const MONTH_NAMES = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
-];
-
 export function MonthlyEnergy({ sign }: MonthlyEnergyProps) {
+  const { t, i18n } = useTranslation();
   const currentMonth = new Date().getMonth();
+  const monthName = new Intl.DateTimeFormat(i18n.language, { month: 'long' }).format(new Date(2020, currentMonth, 1));
   const { status, description } = useMonthlyEnergy(sign);
   const config = statusConfig[status];
   const Icon = config.icon;
+  const signLabel = t(`zodiac:signs.${sign}`);
 
   return (
     <section className="space-y-4">
       <h3 className="text-sm font-semibold uppercase tracking-wider text-white/90">
-        {MONTH_NAMES[currentMonth]} Energy
+        {t('home.monthEnergy', { month: monthName })}
       </h3>
       
       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/10 space-y-4">
@@ -51,8 +47,10 @@ export function MonthlyEnergy({ sign }: MonthlyEnergyProps) {
             <Icon className={`w-5 h-5 ${config.color}`} />
           </div>
           <div>
-            <span className={`text-sm font-semibold ${config.color}`}>{config.label}</span>
-            <p className="text-xs text-white/40 capitalize">{sign} • {MONTH_NAMES[currentMonth]} 2026</p>
+            <span className={`text-sm font-semibold ${config.color}`}>{t(`home.energyStatus.${status}`)}</span>
+            <p className="text-xs text-white/40 capitalize">
+              {t('home.monthEnergySub', { sign: signLabel, month: monthName, year: 2026 })}
+            </p>
           </div>
         </div>
 

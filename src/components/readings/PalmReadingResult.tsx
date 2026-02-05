@@ -7,11 +7,11 @@ interface PalmReadingResultProps {
 }
 
 export function PalmReadingResult({ onBack }: PalmReadingResultProps) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     
     const getCurrentDate = () => {
         const date = new Date();
-        return date.toLocaleDateString('en-US', { 
+        return date.toLocaleDateString(i18n.language, { 
             month: 'long', 
             day: 'numeric', 
             year: 'numeric' 

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useTarot } from '@/hooks/useTarot';
 import { TarotCardComponent } from './TarotCard';
 import { X } from 'lucide-react';
@@ -8,6 +9,7 @@ interface CardLibraryProps {
 }
 
 export function CardLibrary({ onClose }: CardLibraryProps) {
+  const { t } = useTranslation();
   const { getCardById } = useTarot();
   const [selectedCard, setSelectedCard] = useState<any>(null);
 
@@ -24,7 +26,7 @@ export function CardLibrary({ onClose }: CardLibraryProps) {
       <div className="sticky top-0 z-10 p-4 bg-[#0a0a1a] border-b border-violet-500/20">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-black uppercase tracking-widest italic bg-gradient-to-r from-violet-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
-            Arcane Library
+            {t('tarot.libraryTitle')}
           </h2>
           <button
             onClick={onClose}
@@ -33,7 +35,7 @@ export function CardLibrary({ onClose }: CardLibraryProps) {
             <X className="w-5 h-5" />
           </button>
         </div>
-        <p className="text-xs text-white/60 mt-2 text-center">Explore all 78 card meanings</p>
+        <p className="text-xs text-white/60 mt-2 text-center">{t('tarot.librarySubtitle')}</p>
       </div>
 
       {/* Card Grid */}
@@ -42,7 +44,9 @@ export function CardLibrary({ onClose }: CardLibraryProps) {
         <div className="space-y-4">
           <div className="flex items-center gap-3 px-2">
             <div className="text-2xl">🔮</div>
-            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-violet-300">Major Arcana</h4>
+            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-violet-300">
+              {t('tarot.majorArcana')}
+            </h4>
             <div className="flex-1 h-px bg-gradient-to-r from-violet-500/50 to-transparent"></div>
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -59,7 +63,9 @@ export function CardLibrary({ onClose }: CardLibraryProps) {
                   <div className="relative bg-[#0a0a1a] p-4 rounded-2xl border border-violet-500/20 group-hover:border-violet-400/40 transition-all group-hover:scale-105 backdrop-blur-sm">
                     <div className="text-3xl mb-2 filter drop-shadow-[0_0_8px_rgba(167,139,250,0.5)]">🔮</div>
                     <div className="text-[10px] font-black text-violet-300 truncate">{card.name}</div>
-                    <div className="text-[8px] text-violet-400/60 uppercase tracking-wider mt-1">Major</div>
+                    <div className="text-[8px] text-violet-400/60 uppercase tracking-wider mt-1">
+                      {t('tarot.majorArcana')}
+                    </div>
                   </div>
                 </button>
               );
@@ -71,7 +77,9 @@ export function CardLibrary({ onClose }: CardLibraryProps) {
         <div className="space-y-4">
           <div className="flex items-center gap-3 px-2">
             <div className="text-2xl">🔥</div>
-            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-orange-300">Wands</h4>
+            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-orange-300">
+              {t('tarot.wands')}
+            </h4>
             <div className="flex-1 h-px bg-gradient-to-r from-orange-500/50 to-transparent"></div>
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -88,7 +96,9 @@ export function CardLibrary({ onClose }: CardLibraryProps) {
                   <div className="relative bg-[#0a0a1a] p-4 rounded-2xl border border-orange-500/20 group-hover:border-orange-400/40 transition-all group-hover:scale-105 backdrop-blur-sm">
                     <div className="text-3xl mb-2 filter drop-shadow-[0_0_8px_rgba(251,146,60,0.5)]">🔥</div>
                     <div className="text-[10px] font-black text-orange-300 truncate">{card.name}</div>
-                    <div className="text-[8px] text-orange-400/60 uppercase tracking-wider mt-1">Wands</div>
+                    <div className="text-[8px] text-orange-400/60 uppercase tracking-wider mt-1">
+                      {t('tarot.wands')}
+                    </div>
                   </div>
                 </button>
               );
@@ -100,7 +110,9 @@ export function CardLibrary({ onClose }: CardLibraryProps) {
         <div className="space-y-4">
           <div className="flex items-center gap-3 px-2">
             <div className="text-2xl">💧</div>
-            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-cyan-300">Cups</h4>
+            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-cyan-300">
+              {t('tarot.cups')}
+            </h4>
             <div className="flex-1 h-px bg-gradient-to-r from-cyan-500/50 to-transparent"></div>
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -117,7 +129,9 @@ export function CardLibrary({ onClose }: CardLibraryProps) {
                   <div className="relative bg-[#0a0a1a] p-4 rounded-2xl border border-cyan-500/20 group-hover:border-cyan-400/40 transition-all group-hover:scale-105 backdrop-blur-sm">
                     <div className="text-3xl mb-2 filter drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]">💧</div>
                     <div className="text-[10px] font-black text-cyan-300 truncate">{card.name}</div>
-                    <div className="text-[8px] text-cyan-400/60 uppercase tracking-wider mt-1">Cups</div>
+                    <div className="text-[8px] text-cyan-400/60 uppercase tracking-wider mt-1">
+                      {t('tarot.cups')}
+                    </div>
                   </div>
                 </button>
               );
@@ -129,7 +143,9 @@ export function CardLibrary({ onClose }: CardLibraryProps) {
         <div className="space-y-4">
           <div className="flex items-center gap-3 px-2">
             <div className="text-2xl">⚔️</div>
-            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-300">Swords</h4>
+            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-300">
+              {t('tarot.swords')}
+            </h4>
             <div className="flex-1 h-px bg-gradient-to-r from-slate-500/50 to-transparent"></div>
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -146,7 +162,9 @@ export function CardLibrary({ onClose }: CardLibraryProps) {
                   <div className="relative bg-[#0a0a1a] p-4 rounded-2xl border border-slate-500/20 group-hover:border-slate-400/40 transition-all group-hover:scale-105 backdrop-blur-sm">
                     <div className="text-3xl mb-2 filter drop-shadow-[0_0_8px_rgba(148,163,184,0.5)]">⚔️</div>
                     <div className="text-[10px] font-black text-slate-300 truncate">{card.name}</div>
-                    <div className="text-[8px] text-slate-400/60 uppercase tracking-wider mt-1">Swords</div>
+                    <div className="text-[8px] text-slate-400/60 uppercase tracking-wider mt-1">
+                      {t('tarot.swords')}
+                    </div>
                   </div>
                 </button>
               );
@@ -158,7 +176,9 @@ export function CardLibrary({ onClose }: CardLibraryProps) {
         <div className="space-y-4">
           <div className="flex items-center gap-3 px-2">
             <div className="text-2xl">💰</div>
-            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-amber-300">Pentacles</h4>
+            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-amber-300">
+              {t('tarot.pentacles')}
+            </h4>
             <div className="flex-1 h-px bg-gradient-to-r from-amber-500/50 to-transparent"></div>
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -175,7 +195,9 @@ export function CardLibrary({ onClose }: CardLibraryProps) {
                   <div className="relative bg-[#0a0a1a] p-4 rounded-2xl border border-amber-500/20 group-hover:border-amber-400/40 transition-all group-hover:scale-105 backdrop-blur-sm">
                     <div className="text-3xl mb-2 filter drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]">💰</div>
                     <div className="text-[10px] font-black text-amber-300 truncate">{card.name}</div>
-                    <div className="text-[8px] text-amber-400/60 uppercase tracking-wider mt-1">Pentacles</div>
+                    <div className="text-[8px] text-amber-400/60 uppercase tracking-wider mt-1">
+                      {t('tarot.pentacles')}
+                    </div>
                   </div>
                 </button>
               );
@@ -215,7 +237,9 @@ export function CardLibrary({ onClose }: CardLibraryProps) {
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {/* Keywords */}
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-violet-400 mb-2">Keywords</h4>
+                <h4 className="text-xs font-bold uppercase tracking-wider text-violet-400 mb-2">
+                  {t('tarot.keywords')}
+                </h4>
                 <div className="flex flex-wrap gap-2">
                   {selectedCard.keywords.map((keyword: string, i: number) => (
                     <span
@@ -230,13 +254,17 @@ export function CardLibrary({ onClose }: CardLibraryProps) {
 
               {/* Upright Meaning */}
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-violet-400 mb-2">Upright Meaning</h4>
+                <h4 className="text-xs font-bold uppercase tracking-wider text-violet-400 mb-2">
+                  {t('tarot.uprightMeaning')}
+                </h4>
                 <p className="text-sm text-white/80 leading-relaxed">{selectedCard.meaning.upright}</p>
               </div>
 
               {/* Reversed Meaning */}
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-rose-400 mb-2">Reversed Meaning</h4>
+                <h4 className="text-xs font-bold uppercase tracking-wider text-rose-400 mb-2">
+                  {t('tarot.reversedMeaning')}
+                </h4>
                 <p className="text-sm text-white/80 leading-relaxed">{selectedCard.meaning.reversed}</p>
               </div>
             </div>

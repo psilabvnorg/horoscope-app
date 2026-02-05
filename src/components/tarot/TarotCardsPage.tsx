@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { ChevronLeft } from 'lucide-react';
 
 interface TarotCardsPageProps {
@@ -6,6 +7,7 @@ interface TarotCardsPageProps {
 }
 
 export function TarotCardsPage({ onBack, onSelectReading }: TarotCardsPageProps) {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col h-full bg-[#0a0a1a] text-white overflow-hidden">
       {/* Fixed Back Button */}
@@ -19,7 +21,7 @@ export function TarotCardsPage({ onBack, onSelectReading }: TarotCardsPageProps)
       {/* Header */}
       <header className="p-4 pt-6 flex items-center justify-center">
         <h1 className="text-lg font-light tracking-[0.15em] uppercase text-white/90">
-          Tarot Cards
+          {t('readings.tarotCards')}
         </h1>
       </header>
 
@@ -60,7 +62,7 @@ export function TarotCardsPage({ onBack, onSelectReading }: TarotCardsPageProps)
             <div className="mb-8">
               <DailyTarotIcon />
             </div>
-            <span className="text-sm font-medium text-white">Daily Tarot</span>
+            <span className="text-sm font-medium text-white">{t('tarot.dailyTarotTitle')}</span>
           </button>
 
           {/* Near Future */}
@@ -71,7 +73,7 @@ export function TarotCardsPage({ onBack, onSelectReading }: TarotCardsPageProps)
             <div className="mb-8">
               <NearFutureIcon />
             </div>
-            <span className="text-sm font-medium text-white">Near Future</span>
+            <span className="text-sm font-medium text-white">{t('tarot.nearFutureTitle')}</span>
           </button>
 
           {/* Love & Relations */}
@@ -82,7 +84,7 @@ export function TarotCardsPage({ onBack, onSelectReading }: TarotCardsPageProps)
             <div className="mb-8">
               <LoveIcon />
             </div>
-            <span className="text-sm font-medium text-white">Love & Relations</span>
+            <span className="text-sm font-medium text-white">{t('tarot.loveTitle')}</span>
           </button>
 
           {/* Yes or No */}
@@ -93,7 +95,7 @@ export function TarotCardsPage({ onBack, onSelectReading }: TarotCardsPageProps)
             <div className="mb-8">
               <YesNoIcon />
             </div>
-            <span className="text-sm font-medium text-white">Yes or No</span>
+            <span className="text-sm font-medium text-white">{t('tarot.yesNoTitle')}</span>
           </button>
         </div>
 
@@ -104,7 +106,7 @@ export function TarotCardsPage({ onBack, onSelectReading }: TarotCardsPageProps)
             className="w-full bg-[#12122a] border border-indigo-500/30 rounded-2xl p-4 text-left hover:border-indigo-400/50 transition-all active:scale-[0.98] flex items-center gap-3"
           >
             <CardMeaningsIcon />
-            <span className="text-sm font-medium text-white">Card Meanings</span>
+            <span className="text-sm font-medium text-white">{t('readings.cardMeanings')}</span>
           </button>
         </div>
       </div>

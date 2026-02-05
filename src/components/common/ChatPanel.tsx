@@ -17,6 +17,7 @@ interface ChatPanelProps {
   title?: string;
   subtitle?: string;
   placeholder?: string;
+  suggestedTitle?: string;
 }
 
 const themeColors = {
@@ -70,6 +71,7 @@ export function ChatPanel({
   title = 'Chat',
   subtitle,
   placeholder = 'Ask me anything...',
+  suggestedTitle = 'Suggested questions:',
 }: ChatPanelProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -117,7 +119,7 @@ export function ChatPanel({
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 && suggestedQuestions.length > 0 && (
           <div className="space-y-3">
-            <p className="text-sm text-white/60 text-center mb-4">Suggested questions:</p>
+            <p className="text-sm text-white/60 text-center mb-4">{suggestedTitle}</p>
             {suggestedQuestions.map((question, idx) => (
               <button
                 key={idx}

@@ -6,8 +6,8 @@ import { GradientButton } from '@/components/ui/gradient-button';
 import { Card } from '@/components/ui/card';
 import { MonthlyEnergy } from './MonthlyEnergy';
 import { ZodiacDetail } from '@/components/zodiac/ZodiacDetail';
-import { useZodiacData, useLoveData } from '@/hooks/useTranslatedData';
-import { ZODIAC_SIGNS, type ZodiacSign } from '@/types';
+import { useZodiacData, useLoveData, useElementBalanceData } from '@/hooks/useTranslatedData';
+import { ZODIAC_SIGNS, type ZodiacSign, type ElementType } from '@/types';
 import { getCompatibilityText } from '@/hooks/useCompatibility';
 import { X, Heart, Sparkles, Info } from 'lucide-react';
 
@@ -19,6 +19,7 @@ export function HomePageSimplified({ profile }: HomePageProps) {
     const { t } = useTranslation();
     const zodiacData = useZodiacData();
     const loveData = useLoveData();
+    const elementBalanceData = useElementBalanceData();
     const [showZodiacDetail, setShowZodiacDetail] = useState(false);
     const [selectedMatch, setSelectedMatch] = useState<ZodiacSign | null>(null);
 
@@ -38,6 +39,19 @@ export function HomePageSimplified({ profile }: HomePageProps) {
         leo: '♌', virgo: '♍', libra: '♎', scorpio: '♏',
         sagittarius: '♐', capricorn: '♑', aquarius: '♒', pisces: '♓'
     };
+
+    const signLabel = t(`zodiac:signs.${profile.sign}`);
+
+    const elementIcons: Record<ElementType, string> = {
+        fire: '🔥',
+        earth: '🌿',
+        air: '💨',
+        water: '💧',
+    };
+
+    const elementKey = (Object.keys(elementBalanceData) as ElementType[])
+        .find((key) => elementBalanceData[key]?.signs?.includes(profile.sign)) || 'fire';
+    const elementInfo = elementBalanceData[elementKey];
 
     return (
         <div className="flex flex-col h-full bg-[#0a0a0f] text-foreground overflow-hidden">
@@ -76,7 +90,7 @@ export function HomePageSimplified({ profile }: HomePageProps) {
                                     className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
                                 >
                                     <span className="text-sm font-semibold uppercase tracking-wider text-white">
-                                        {profile.sign}
+                                        {signLabel}
                                     </span>
                                     <Info className="w-4 h-4 text-white/40" />
                                 </button>
@@ -145,6 +159,48 @@ export function HomePageSimplified({ profile }: HomePageProps) {
                         </Card>
                     </section>
 
+                    {/* Element Balance */}
+                    {elementInfo && (
+                        <section className="space-y-3">
+                            <h3 className="text-sm font-semibold uppercase tracking-wider text-white/90">
+                                {t('home.elementBalance')}
+                            </h3>
+                            <Card variant="elevated" className="relative overflow-hidden">
+                                <div className="absolute right-0 top-0 w-32 h-32 bg-violet-500/10 blur-3xl rounded-full" />
+                                <div className="flex items-center gap-3">
+                                    <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-xl">
+                                        {elementIcons[elementKey]}
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] uppercase tracking-widest text-white/50">
+                                            {t('home.yourElement')}
+                                        </p>
+                                        <p className="text-lg font-semibold text-white">
+                                            {t(`home.${elementKey}`)}
+                                        </p>
+                                    </div>
+                                </div>
+                                <p className="text-sm text-white/70 leading-relaxed mt-3">
+                                    {elementInfo.balance}
+                                </p>
+                                <p className="text-xs text-white/50 mt-2">
+                                    {elementInfo.imbalance}
+                                </p>
+                                <div className="mt-3 space-y-2">
+                                    <p className="text-[10px] uppercase tracking-widest text-white/50">
+                                        {t('home.restoreBalance')}
+                                    </p>
+                                    {elementInfo.tips.map((tip, index) => (
+                                        <div key={index} className="flex items-start gap-2 text-sm text-white/80">
+                                            <span className="text-white/30">•</span>
+                                            <span>{tip}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </Card>
+                        </section>
+                    )}
+
                     {/* Today's Match - Simplified to 1 */}
                     <section className="space-y-3">
                         <h3 className="text-sm font-semibold uppercase tracking-wider text-rose-400">
@@ -157,7 +213,7 @@ export function HomePageSimplified({ profile }: HomePageProps) {
                                 </div>
                                 <div className="flex-1">
                                     <p className="text-lg font-semibold text-white capitalize mb-1">
-                                        {todayMatch}
+                                        {t(`zodiac:signs.${todayMatch}`)}
                                     </p>
                                     <p className="text-xs text-white/60">
                                         {t('home.greatCompatibility')}
@@ -205,7 +261,7 @@ export function HomePageSimplified({ profile }: HomePageProps) {
                                 </div>
                                 <div>
                                     <h2 className="text-lg font-bold text-white uppercase tracking-wider">
-                                        {profile.sign} + {selectedMatch}
+                                        {signLabel} + {t(`zodiac:signs.${selectedMatch}`)}
                                     </h2>
                                     <p className="text-xs text-white/40 uppercase tracking-widest">
                                         {t('home.loveMatch')}

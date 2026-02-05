@@ -1,0 +1,46 @@
+{
+  "fire": {
+    "signs": ["aries", "leo", "sagittarius"],
+    "keywords": ["passion", "courage", "momentum"],
+    "balance": "When balanced, your fire feels confident, inspired, and ready to act without burning out.",
+    "imbalance": "Too much fire can feel impulsive or restless; too little can feel unmotivated or flat.",
+    "tips": [
+      "Move your body for 10 minutes to spark momentum.",
+      "Pick one bold action and do it today.",
+      "Spend time in sunlight or warm colors to recharge."
+    ]
+  },
+  "earth": {
+    "signs": ["taurus", "virgo", "capricorn"],
+    "keywords": ["stability", "patience", "grounding"],
+    "balance": "When balanced, your earth feels steady, practical, and deeply rooted.",
+    "imbalance": "Too much earth can feel rigid or stuck; too little can feel scattered or insecure.",
+    "tips": [
+      "Declutter one small area to restore calm.",
+      "Eat a nourishing meal and slow down while you do.",
+      "Take a short walk and notice textures under your feet."
+    ]
+  },
+  "air": {
+    "signs": ["gemini", "libra", "aquarius"],
+    "keywords": ["clarity", "ideas", "connection"],
+    "balance": "When balanced, your air feels clear, curious, and socially light.",
+    "imbalance": "Too much air can feel anxious or overthinking; too little can feel uninspired.",
+    "tips": [
+      "Write down three thoughts to clear mental noise.",
+      "Open a window or step outside for fresh air.",
+      "Have one meaningful conversation to reconnect."
+    ]
+  },
+  "water": {
+    "signs": ["cancer", "scorpio", "pisces"],
+    "keywords": ["intuition", "emotion", "flow"],
+    "balance": "When balanced, your water feels intuitive, compassionate, and flowing.",
+    "imbalance": "Too much water can feel overwhelming or moody; too little can feel disconnected.",
+    "tips": [
+      "Take a warm shower or bath to reset your mood.",
+      "Listen to a calming song and let feelings move through.",
+      "Journal one page to release what you are holding."
+    ]
+  }
+}

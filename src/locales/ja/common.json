@@ -62,7 +62,12 @@
     "yourHoroscope": "今日のホロスコープ",
     "affirmation": "アファメーション",
     "profile": "{{name}}のプロフィール",
+    "yourProfile": "あなたのプロフィール",
+    "dailyGuidance": "今日のガイダンス",
+    "todayHoroscope": "今日のホロスコープ",
     "dailyTips": "{{sign}}の今日のヒント",
+    "todayMatch": "今日のマッチ",
+    "greatCompatibility": "今日は相性抜群！",
     "todaysMatches": "今日のマッチ",
     "lunarCalendar": "月のカレンダー",
     "todaysFeatures": "今日の特徴",
@@ -70,6 +75,16 @@
     "luckyColor": "ラッキーカラー",
     "luckyTime": "ラッキータイム",
     "monthlyEnergy": "月のエネルギー",
+    "monthEnergy": "{{month}}のエネルギー",
+    "monthEnergySub": "{{sign}} • {{month}} {{year}}",
+    "elementBalance": "エレメントバランス",
+    "yourElement": "あなたのエレメント",
+    "restoreBalance": "バランスを整える",
+    "energyStatus": {
+      "aligned": "調和",
+      "compatible": "相性良好",
+      "challenging": "挑戦"
+    },
     "sun": "太陽",
     "moon": "月",
     "ascendant": "アセンダント",
@@ -91,7 +106,16 @@
     "cardMeanings": "カードの意味",
     "readNow": "今すぐ読む",
     "analyzing": "分析中",
-    "yourReading": "あなたのリーディング"
+    "yourReading": "あなたのリーディング",
+    "palmLabels": {
+      "life": "生命",
+      "fate": "運命",
+      "heart": "心",
+      "head": "頭",
+      "destiny": "宿命",
+      "venus": "金星",
+      "moon": "月"
+    }
   },
   "tarot": {
     "title": "タロット",
@@ -101,7 +125,18 @@
     "cardLibrary": "カードライブラリ",
     "upright": "正位置",
     "reversed": "逆位置",
-    "meaning": "意味"
+    "meaning": "意味",
+    "libraryTitle": "神秘の図書館",
+    "librarySubtitle": "78枚のカードの意味を探索",
+    "majorArcana": "大アルカナ",
+    "minorArcana": "小アルカナ",
+    "wands": "ワンド",
+    "cups": "カップ",
+    "swords": "ソード",
+    "pentacles": "ペンタクル",
+    "keywords": "キーワード",
+    "uprightMeaning": "正位置の意味",
+    "reversedMeaning": "逆位置の意味"
   },
   "love": {
     "title": "愛",
@@ -110,7 +145,121 @@
     "partnerSign": "パートナーの星座",
     "checkCompatibility": "相性をチェック",
     "loveMatch": "恋愛マッチ",
-    "compatibilityScore": "相性スコア"
+    "compatibilityScore": "相性スコア",
+    "reportTitle": "恋愛レポート",
+    "selectSign": "星座を選ぶ",
+    "checkLove": "恋愛チェック",
+    "checkAnother": "別の相性をチェック",
+    "guideTitle": "恋愛ガイド",
+    "guideSubtitle": "関係について質問する",
+    "askAnything": "関係について何でも聞いてください：",
+    "askPlaceholder": "恋愛相性について質問...",
+    "previousSign": "前の星座",
+    "nextSign": "次の星座"
+  },
+  "chat": {
+    "title": {
+      "default": "神秘ガイド",
+      "tarot": "タロットガイド",
+      "couple": "恋愛ガイド",
+      "fortune": "占い師",
+      "crystal-ball": "水晶オラクル",
+      "numerology": "数秘ガイド",
+      "dream": "夢解釈"
+    },
+    "subtitle": {
+      "default": "旅について何でも聞いてください",
+      "tarot": "リーディングについて質問する",
+      "couple": "関係について質問する",
+      "fortune": "未来について質問する",
+      "crystal-ball": "水晶玉に質問する",
+      "numerology": "数字について質問する",
+      "dream": "夢について質問する"
+    },
+    "placeholder": "神秘ガイドに質問...",
+    "suggestedTitle": "おすすめの質問：",
+    "suggested": {
+      "tarot": [
+        "今日のカードの意味は？",
+        "逆位置はどう解釈する？",
+        "仕事に最適なスプレッドは？",
+        "大アルカナについて教えて"
+      ],
+      "couple": [
+        "私たちの関係の特別さは？",
+        "絆を強めるには？",
+        "どんな課題がありそう？",
+        "関係で何に集中すべき？"
+      ],
+      "fortune": [
+        "私の未来はどうなる？",
+        "もうすぐ恋は訪れる？",
+        "仕事はどう発展する？",
+        "今日は何に集中すべき？"
+      ],
+      "crystal-ball": [
+        "今日のアドバイスは？",
+        "今週は何に集中すべき？",
+        "私の未来について教えて",
+        "仕事の助言はある？"
+      ],
+      "numerology": [
+        "ライフパスナンバーは？",
+        "誕生日が示すものは？",
+        "幸運の数字は？",
+        "マスターナンバーについて教えて"
+      ],
+      "dream": [
+        "空を飛ぶ夢は何を意味する？",
+        "夢の中の水は何を象徴する？",
+        "繰り返す夢を解釈して",
+        "動物の夢の意味は？"
+      ]
+    }
+  },
+  "birthChart": {
+    "tabs": {
+      "daily": "日次",
+      "weekly": "週次",
+      "year": "年間"
+    },
+    "yearChart": "年間チャート",
+    "status": {
+      "aligned": "調和",
+      "compatible": "相性良好",
+      "challenging": "挑戦"
+    },
+    "energyCalendar": "{{sign}}の2026エネルギーカレンダー",
+    "whyCare": "なぜ重要なのか",
+    "whyCareDesc": "トランジットは現在の惑星の動きが出生図にどう影響するかを示し、機会や課題、成長の時期を教えてくれます。",
+    "shortTerm": "短期トランジット",
+    "longTerm": "長期トランジット",
+    "readMore": "もっと読む",
+    "planets": {
+      "sun": "太陽",
+      "moon": "月",
+      "mercury": "水星",
+      "mars": "火星",
+      "jupiter": "木星",
+      "yourSun": "あなたの太陽",
+      "yourMoon": "あなたの月",
+      "yourMercury": "あなたの水星",
+      "yourJupiter": "あなたの木星"
+    },
+    "aspects": {
+      "trine": "トライン",
+      "square": "スクエア",
+      "conjunction": "コンジャンクション",
+      "sextile": "セクスタイル"
+    },
+    "transits": {
+      "short1": "太陽が木星にトラインすると、機会と成長が期待できます。",
+      "short2": "月が水星にスクエアすると、感情と理性の緊張が生じやすくなります。",
+      "short3": "水星が月にコンジャンクションすると、感情とコミュニケーションが整います。",
+      "long1": "水星セクスタイル水星は学びと計画に良い時期です。",
+      "long2": "火星セクスタイル太陽は意欲と自信を高めます。",
+      "long3": "火星トライン月は感情のエネルギーを後押しします。"
+    }
   },
   "fortune": {
     "title": "運勢",
@@ -119,7 +268,12 @@
     "dreamExplain": "夢占い",
     "askQuestion": "質問する",
     "enterDream": "夢を入力",
-    "analyze": "分析"
+    "analyze": "分析",
+    "questionCategory": "質問カテゴリ",
+    "categoryLove": "恋愛",
+    "categoryCareer": "仕事",
+    "categoryFamily": "家族",
+    "categorySelf": "自分"
   },
   "swipe": {
     "title": "スワイプ",
@@ -127,7 +281,31 @@
     "reject": "拒否",
     "noMoreCards": "カードがありません",
     "swipeLeft": "左にスワイプして拒否",
-    "swipeRight": "右にスワイプして受け入れ"
+    "swipeRight": "右にスワイプして受け入れ",
+    "emptyTitle": "悟り",
+    "emptySubtitle": "{{count}}個の特性を探索しました。星々は今は満足しています。",
+    "seekMore": "さらに探索",
+    "discovery": "発見",
+    "indicators": {
+      "me": "私です",
+      "skip": "スキップ",
+      "veryAccurate": "とても正確"
+    },
+    "labels": {
+      "skip": "スキップ",
+      "me": "私"
+    }
+  },
+  "traits": {
+    "categories": {
+      "personality": "性格",
+      "love": "恋愛",
+      "career": "仕事",
+      "social": "社交",
+      "emotion": "感情",
+      "spiritual": "精神性",
+      "challenge": "課題"
+    }
   },
   "onboarding": {
     "welcome": "ようこそ",

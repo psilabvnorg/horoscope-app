@@ -1,20 +1,56 @@
 import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocalStorage } from './useLocalStorage';
 import type { TarotReading, TarotCard, ZodiacSign } from '@/types';
+import { useTarotData } from './useTranslatedData';
 import { tarotCards } from '@/data/tarotCards';
 
 const DAILY_READING_KEY = 'horos-daily-tarot';
 const READING_HISTORY_KEY = 'horos-tarot-history';
 
 export function useTarot() {
+  const { i18n } = useTranslation();
+  const currentLang = i18n.language.split('-')[0];
+  const tarotMeanings = useTarotData();
   const [dailyReading, setDailyReading] = useLocalStorage<TarotReading | null>(DAILY_READING_KEY, null);
   const [history, setHistory] = useLocalStorage<TarotReading[]>(READING_HISTORY_KEY, []);
+
+  const getTranslatedMeaning = useCallback((card: TarotCard): string | null => {
+    if (currentLang === 'en') return null;
+    if (!tarotMeanings) return null;
+    if (card.arcana === 'major') {
+      return tarotMeanings['MAJOR ARCANA']?.[card.name] || null;
+    }
+    if (card.suit) {
+      const suitMap: Record<string, keyof typeof tarotMeanings> = {
+        wands: 'WANDS',
+        cups: 'CUPS',
+        swords: 'SWORDS',
+        pentacles: 'PENTACLES',
+      };
+      const suitKey = suitMap[card.suit];
+      return suitKey ? tarotMeanings[suitKey]?.[card.name] || null : null;
+    }
+    return null;
+  }, [currentLang, tarotMeanings]);
+
+  const localizeCard = useCallback((card: TarotCard): TarotCard => {
+    const translatedMeaning = getTranslatedMeaning(card);
+    if (!translatedMeaning) return card;
+    return {
+      ...card,
+      meaning: {
+        upright: translatedMeaning,
+        reversed: translatedMeaning,
+      },
+    };
+  }, [getTranslatedMeaning]);
 
   const getDailyCard = useCallback((sign: ZodiacSign): TarotReading => {
     const today = new Date().toDateString();
     const seed = getDeterministicSeed(today + sign);
     const cardIndex = seed % tarotCards.length;
-    const card = tarotCards[cardIndex];
+    const card = localizeCard(tarotCards[cardIndex]);
     const reversed = (seed % 2) === 1;
 
     const reading: TarotReading = {
@@ -27,7 +63,7 @@ export function useTarot() {
 
     setDailyReading(reading);
     return reading;
-  }, [setDailyReading]);
+  }, [setDailyReading, localizeCard]);
 
   const getThreeCardSpread = useCallback((sign: ZodiacSign): TarotReading => {
     const seed = getDeterministicSeed(new Date().toDateString() + sign + '-3card');
@@ -43,7 +79,7 @@ export function useTarot() {
       usedIndices.add(index);
 
       cards.push({
-        card: tarotCards[index],
+        card: localizeCard(tarotCards[index]),
         position: positions[i],
         reversed: ((seed + i) % 2) === 1,
       });
@@ -59,7 +95,7 @@ export function useTarot() {
 
     setHistory(prev => [reading, ...prev].slice(0, 50));
     return reading;
-  }, [setHistory]);
+  }, [setHistory, localizeCard]);
 
   const getPastPresentFuture = useCallback((sign: ZodiacSign): TarotReading => {
     return getThreeCardSpread(sign);
@@ -79,7 +115,7 @@ export function useTarot() {
       usedIndices.add(index);
 
       cards.push({
-        card: tarotCards[index],
+        card: localizeCard(tarotCards[index]),
         position: positions[i],
         reversed: ((seed + i) % 3) === 0,
       });
@@ -95,11 +131,12 @@ export function useTarot() {
 
     setHistory(prev => [reading, ...prev].slice(0, 50));
     return reading;
-  }, [setHistory]);
+  }, [setHistory, localizeCard]);
 
   const getCardById = useCallback((id: number): TarotCard | undefined => {
-    return tarotCards.find(card => card.id === id);
-  }, []);
+    const card = tarotCards.find(card => card.id === id);
+    return card ? localizeCard(card) : undefined;
+  }, [localizeCard]);
 
   const clearHistory = useCallback(() => {
     setHistory([]);

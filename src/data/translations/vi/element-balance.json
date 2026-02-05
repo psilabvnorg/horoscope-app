@@ -1,0 +1,46 @@
+{
+  "fire": {
+    "signs": ["aries", "leo", "sagittarius"],
+    "keywords": ["đam mê", "dũng khí", "động lực"],
+    "balance": "Khi cân bằng, năng lượng Lửa giúp bạn tự tin, cảm hứng và hành động mà không bị kiệt sức.",
+    "imbalance": "Quá nhiều Lửa có thể bốc đồng hoặc bồn chồn; quá ít khiến bạn thiếu động lực hoặc nhạt nhòa.",
+    "tips": [
+      "Vận động 10 phút để khơi lại đà tiến.",
+      "Chọn một hành động táo bạo và làm ngay hôm nay.",
+      "Tắm nắng nhẹ hoặc ở gần các gam màu ấm để nạp năng lượng."
+    ]
+  },
+  "earth": {
+    "signs": ["taurus", "virgo", "capricorn"],
+    "keywords": ["ổn định", "kiên nhẫn", "vững vàng"],
+    "balance": "Khi cân bằng, năng lượng Đất giúp bạn ổn định, thực tế và vững gốc.",
+    "imbalance": "Quá nhiều Đất có thể cứng nhắc hoặc mắc kẹt; quá ít khiến bạn phân tán hoặc thiếu an toàn.",
+    "tips": [
+      "Dọn gọn một khu vực nhỏ để lấy lại sự bình yên.",
+      "Ăn một bữa lành mạnh và ăn chậm rãi.",
+      "Đi bộ ngắn và cảm nhận mặt đất dưới chân."
+    ]
+  },
+  "air": {
+    "signs": ["gemini", "libra", "aquarius"],
+    "keywords": ["rõ ràng", "ý tưởng", "kết nối"],
+    "balance": "Khi cân bằng, năng lượng Khí giúp bạn sáng rõ, tò mò và giao tiếp nhẹ nhàng.",
+    "imbalance": "Quá nhiều Khí có thể lo âu hoặc suy nghĩ quá mức; quá ít khiến bạn thiếu cảm hứng.",
+    "tips": [
+      "Viết ra ba suy nghĩ để giảm nhiễu tâm trí.",
+      "Mở cửa sổ hoặc bước ra ngoài để hít thở không khí mới.",
+      "Có một cuộc trò chuyện ý nghĩa để kết nối lại."
+    ]
+  },
+  "water": {
+    "signs": ["cancer", "scorpio", "pisces"],
+    "keywords": ["trực giác", "cảm xúc", "dòng chảy"],
+    "balance": "Khi cân bằng, năng lượng Nước giúp bạn trực giác, giàu lòng trắc ẩn và dễ hòa nhịp.",
+    "imbalance": "Quá nhiều Nước có thể choáng ngợp hoặc thất thường; quá ít khiến bạn tách rời cảm xúc.",
+    "tips": [
+      "Tắm ấm để làm dịu và cân bằng cảm xúc.",
+      "Nghe một bài nhạc êm và để cảm xúc trôi qua.",
+      "Viết một trang nhật ký để buông xả những điều đang giữ."
+    ]
+  }
+}

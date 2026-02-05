@@ -167,7 +167,18 @@ function importForecasts() {
     VALUES (?, ?, ?, ?, ?)
   `);
   
+  const insertAction = db.prepare(`
+    INSERT INTO actions (forecast_id, type)
+    VALUES (?, ?)
+  `);
+  
+  const insertActionTrans = db.prepare(`
+    INSERT INTO action_translations (action_id, lang, content)
+    VALUES (?, ?, ?)
+  `);
+  
   let forecastCount = 0;
+  let actionCount = 0;
   
   for (const year of Object.keys(dailyEvent)) {
     const yearData = dailyEvent[year];
@@ -175,6 +186,8 @@ function importForecasts() {
     for (const dateStr of Object.keys(yearData)) {
       const dayData = yearData[dateStr];
       const [y, m, d] = dateStr.split('-').map(Number);
+      
+      let firstForecastId = null;
       
       // Process zodiac-specific forecasts
       if (dayData.zodiac) {
@@ -196,6 +209,11 @@ function importForecasts() {
             scores.energy || null
           );
           
+          // Track first forecast ID for linking global actions
+          if (!firstForecastId && result.lastInsertRowid) {
+            firstForecastId = result.lastInsertRowid;
+          }
+          
           // Insert lucky attributes from global data
           if (dayData.global?.lucky && result.lastInsertRowid) {
             const lucky = dayData.global.lucky;
@@ -211,10 +229,38 @@ function importForecasts() {
           forecastCount++;
         }
       }
+      
+      // Import global actions (linked to first forecast of the day)
+      if (dayData.global?.actions && firstForecastId) {
+        const actions = dayData.global.actions;
+        
+        // Import "do" actions
+        if (actions.do && Array.isArray(actions.do)) {
+          for (const actionText of actions.do) {
+            const actionResult = insertAction.run(firstForecastId, 'do');
+            if (actionResult.lastInsertRowid) {
+              insertActionTrans.run(actionResult.lastInsertRowid, 'en', actionText);
+              actionCount++;
+            }
+          }
+        }
+        
+        // Import "avoid" actions
+        if (actions.avoid && Array.isArray(actions.avoid)) {
+          for (const actionText of actions.avoid) {
+            const actionResult = insertAction.run(firstForecastId, 'avoid');
+            if (actionResult.lastInsertRowid) {
+              insertActionTrans.run(actionResult.lastInsertRowid, 'en', actionText);
+              actionCount++;
+            }
+          }
+        }
+      }
     }
   }
   
   console.log(`   ✅ Imported ${forecastCount} forecast entries`);
+  console.log(`   ✅ Imported ${actionCount} actions`);
 }
 
 // ============================================================
@@ -582,7 +628,7 @@ console.log("✅ All data imported successfully!");
 
 // Print summary
 console.log("\n📊 Database Summary:");
-const tables = ['traits', 'trait_translations', 'forecasts', 'lucky_attributes', 'zodiac_calendar_entries', 'tarot_meanings', 'compatibility_translations', 'element_tips', 'sign_translations'];
+const tables = ['traits', 'trait_translations', 'forecasts', 'lucky_attributes', 'actions', 'action_translations', 'zodiac_calendar_entries', 'tarot_meanings', 'compatibility_translations', 'element_tips', 'sign_translations'];
 for (const table of tables) {
   try {
     const count = db.prepare(`SELECT COUNT(*) as cnt FROM ${table}`).get();

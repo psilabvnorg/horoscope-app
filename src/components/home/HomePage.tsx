@@ -6,9 +6,10 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { MonthlyEnergy } from './MonthlyEnergy';
 import { ZodiacDetail } from '@/components/zodiac/ZodiacDetail';
 import { useZodiacData, useLoveData } from '@/hooks/useTranslatedData';
+import { useDailyForecast } from '@/hooks/useDailyForecast';
 import { ZODIAC_SIGNS, type ZodiacSign } from '@/types';
 import { getCompatibilityText } from '@/hooks/useCompatibility';
-import { X } from 'lucide-react';
+import { X, Check, Ban } from 'lucide-react';
 import {
     Sparkles,
     Moon,
@@ -19,7 +20,10 @@ import {
     ArrowUp,
     Droplets,
     AlertTriangle,
-    Info
+    Info,
+    Briefcase,
+    Smile,
+    Zap
 } from 'lucide-react';
 
 interface HomePageProps {
@@ -33,9 +37,14 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
     const { t } = useTranslation();
     const zodiacData = useZodiacData();
     const loveData = useLoveData();
+    const { data: forecast, loading: forecastLoading } = useDailyForecast(profile.sign);
     const [timeRange, setTimeRange] = useState<TimeRange>('today');
     const [showZodiacDetail, setShowZodiacDetail] = useState(false);
     const [selectedMatch, setSelectedMatch] = useState<ZodiacSign | null>(null);
+
+    // Filter actions by type
+    const doActions = forecast.actions.filter(a => a.type === 'do');
+    const avoidActions = forecast.actions.filter(a => a.type === 'avoid');
 
     // Generate moon phase dates based on current date
     const getMoonPhaseDates = () => {
@@ -253,6 +262,89 @@ export function HomePage({ profile, onNavigateToSwipe }: HomePageProps) {
                             {t('home.affirmationText')}
                         </p>
                     </section>
+
+                    {/* Daily Forecast Scores */}
+                    {!forecastLoading && (forecast.scores.love !== null || forecast.scores.career !== null) && (
+                        <section className="space-y-4">
+                            <h3 className="text-sm font-semibold uppercase tracking-wider text-white/90">
+                                {t('home.dailyScores', 'Daily Energy Scores')}
+                            </h3>
+                            <div className="grid grid-cols-4 gap-2">
+                                {[
+                                    { key: 'love', icon: Heart, color: 'rose', score: forecast.scores.love },
+                                    { key: 'career', icon: Briefcase, color: 'amber', score: forecast.scores.career },
+                                    { key: 'emotion', icon: Smile, color: 'violet', score: forecast.scores.emotion },
+                                    { key: 'energy', icon: Zap, color: 'cyan', score: forecast.scores.energy },
+                                ].map(({ key, icon: Icon, color, score }) => (
+                                    <div key={key} className="bg-white/5 backdrop-blur-sm p-3 rounded-xl border border-white/10 flex flex-col items-center gap-2">
+                                        <Icon className={`w-4 h-4 text-${color}-400`} />
+                                        <div className="flex gap-0.5">
+                                            {[1, 2, 3, 4, 5].map((i) => (
+                                                <div
+                                                    key={i}
+                                                    className={`w-1.5 h-4 rounded-full ${i <= (score || 0) ? `bg-${color}-400` : 'bg-white/20'}`}
+                                                />
+                                            ))}
+                                        </div>
+                                        <span className="text-[8px] uppercase tracking-wider text-white/50">
+                                            {t(`home.scores.${key}`, key)}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* Daily Actions - Do & Avoid */}
+                    {!forecastLoading && (doActions.length > 0 || avoidActions.length > 0) && (
+                        <section className="space-y-4">
+                            <h3 className="text-sm font-semibold uppercase tracking-wider text-white/90">
+                                {t('home.dailyActions', 'Today\'s Guidance')}
+                            </h3>
+                            <div className="space-y-3">
+                                {doActions.length > 0 && (
+                                    <div className="bg-emerald-500/10 backdrop-blur-sm rounded-xl p-4 border border-emerald-500/20">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                                                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                                            </div>
+                                            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
+                                                {t('home.do')}
+                                            </span>
+                                        </div>
+                                        <ul className="space-y-2">
+                                            {doActions.map((action, idx) => (
+                                                <li key={idx} className="flex items-start gap-2 text-sm text-white/70">
+                                                    <span className="text-emerald-400 mt-0.5">•</span>
+                                                    {action.content}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                                {avoidActions.length > 0 && (
+                                    <div className="bg-rose-500/10 backdrop-blur-sm rounded-xl p-4 border border-rose-500/20">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <div className="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center">
+                                                <Ban className="w-3.5 h-3.5 text-rose-400" />
+                                            </div>
+                                            <span className="text-xs font-semibold uppercase tracking-wider text-rose-400">
+                                                {t('home.avoid', 'Avoid')}
+                                            </span>
+                                        </div>
+                                        <ul className="space-y-2">
+                                            {avoidActions.map((action, idx) => (
+                                                <li key={idx} className="flex items-start gap-2 text-sm text-white/70">
+                                                    <span className="text-rose-400 mt-0.5">•</span>
+                                                    {action.content}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                            </div>
+                        </section>
+                    )}
 
                     {/* Daily Horoscope */}
                     <section className="space-y-4">

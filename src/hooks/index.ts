@@ -1,6 +1,7 @@
 export { useChat } from './useChat';
 export { useChatUI } from './useChatUI';
 export { useCompatibility } from './useCompatibility';
+export { useDailyForecast } from './useDailyForecast';
 export { useI18n } from './useI18n';
 export { useLocalStorage } from './useLocalStorage';
 export { useMonthlyEnergy } from './useMonthlyEnergy';

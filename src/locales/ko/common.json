@@ -97,6 +97,15 @@
     "warning": "주의",
     "do": "해",
     "dont": "하지 마세요",
+    "avoid": "피하세요",
+    "dailyScores": "오늘의 에너지 점수",
+    "dailyActions": "오늘의 가이드",
+    "scores": {
+      "love": "사랑",
+      "career": "커리어",
+      "emotion": "감정",
+      "energy": "에너지"
+    },
     "tuViTitle": "Tu Vi (동양 십이지)",
     "tuViSign": "나의 띠",
     "tuViElementUnknown": "오행 정보 없음",

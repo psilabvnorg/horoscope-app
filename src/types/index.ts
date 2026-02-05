@@ -139,6 +139,11 @@ export interface TuViCompatibilityEntry {
   description: string;
 }
 
+export interface ForecastAction {
+  type: 'do' | 'avoid';
+  content: string;
+}
+
 export interface DailyForecastData {
   date: string | null;
   summary: string | null;
@@ -154,6 +159,7 @@ export interface DailyForecastData {
     direction: string | null;
     hours: string[];
   };
+  actions: ForecastAction[];
 }
 
 export interface ElementBalanceEntry {

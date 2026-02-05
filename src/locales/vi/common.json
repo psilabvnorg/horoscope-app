@@ -97,6 +97,15 @@
     "warning": "Cảnh báo",
     "do": "Hãy",
     "dont": "Hãy tránh",
+    "avoid": "Tránh",
+    "dailyScores": "Điểm năng lượng hôm nay",
+    "dailyActions": "Hướng dẫn hôm nay",
+    "scores": {
+      "love": "Tình yêu",
+      "career": "Sự nghiệp",
+      "emotion": "Cảm xúc",
+      "energy": "Năng lượng"
+    },
     "affirmationText": "Tôi có thể là một kiệt tác và một công trình đang tiến triển cùng một lúc.",
     "horoscopeText": "Hôm nay, bạn có thể thấy cách thói quen hàng ngày của bạn đã thay đổi cuộc sống của bạn. Sức khỏe thể chất và tinh thần của bạn có liên quan trực tiếp đến sự chuyển đổi cá nhân của bạn. Đảm bảo rằng bạn được chăm sóc - cả thể chất và tinh thần - nên là một phần trong lịch trình của bạn. Đó chỉ là...",
     "loveTip": "Hãy nhớ, bộ não cao hơn trái tim. Đừng để cảm xúc làm mờ đi sự phán đoán của bạn.",

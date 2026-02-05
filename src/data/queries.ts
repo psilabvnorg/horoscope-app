@@ -1,6 +1,7 @@
 import type {
   DailyForecastData,
   ElementBalanceData,
+  ForecastAction,
   TuViCompatibilityEntry,
   TuViSign,
   TuViSignProfile,
@@ -350,6 +351,24 @@ export async function getDailyForecast(signSlug: string, lang: string): Promise<
   }
   luckyStmt.free();
 
+  // Fetch actions (do/avoid)
+  const actionsStmt = db.prepare(`
+    SELECT a.type as type, at.content as content
+    FROM actions a
+    JOIN action_translations at ON at.action_id = a.id AND at.lang = ?
+    WHERE a.forecast_id = ?
+    ORDER BY a.type, a.id
+  `);
+  actionsStmt.bind([lang, forecast.forecast_id]);
+  const actions: ForecastAction[] = [];
+  while (actionsStmt.step()) {
+    const row = actionsStmt.getAsObject() as { type: 'do' | 'avoid'; content: string };
+    if (row.content) {
+      actions.push({ type: row.type, content: row.content });
+    }
+  }
+  actionsStmt.free();
+
   return {
     date: forecast.date || null,
     summary: forecast.summary || null,
@@ -360,5 +379,6 @@ export async function getDailyForecast(signSlug: string, lang: string): Promise<
       energy: forecast.energy_score ?? null,
     },
     lucky,
+    actions,
   };
 }

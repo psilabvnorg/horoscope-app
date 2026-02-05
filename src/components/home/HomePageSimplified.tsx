@@ -62,7 +62,7 @@ export function HomePageSimplified({ profile }: HomePageProps) {
     const tuViSign = getTuViSignForYear(birthYear);
     const tuViProfile = tuViProfiles[tuViSign];
     const tuViMatches = tuViCompatibility[tuViSign] || [];
-    const tuViSignLabel = t(`tuvi.signs.${tuViSign}`);
+    const tuViSignLabel = t(`tuvi:signs.${tuViSign}`);
 
     const elementIcons: Record<ElementType, string> = {
         fire: '🔥',
@@ -343,7 +343,7 @@ export function HomePageSimplified({ profile }: HomePageProps) {
                                     <div className="space-y-2 text-sm text-white/75">
                                         {tuViMatches.slice(0, 3).map((match) => (
                                             <div key={match.other} className="flex items-center justify-between gap-3">
-                                                <span className="text-white/80">{t(`tuvi.signs.${match.other}`)}</span>
+                                                <span className="text-white/80">{t(`tuvi:signs.${match.other}`)}</span>
                                                 <span className="text-white/50">{match.type}</span>
                                             </div>
                                         ))}

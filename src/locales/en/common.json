@@ -97,6 +97,15 @@
     "warning": "Warning",
     "do": "Do",
     "dont": "Don't",
+    "avoid": "Avoid",
+    "dailyScores": "Daily Energy Scores",
+    "dailyActions": "Today's Guidance",
+    "scores": {
+      "love": "Love",
+      "career": "Career",
+      "emotion": "Emotion",
+      "energy": "Energy"
+    },
     "affirmationText": "I can be a masterpiece and a work in progress at the same time.",
     "horoscopeText": "Today, you can see how your daily routine has changed your life. Your physical and mental health is directly related to your personal transformation. Making sure that you are taken care of - body and mind - should be part of your schedule. That is just...",
     "loveTip": "Remember, the brain is higher than the heart. Don't let your emotions cloud your judgement.",

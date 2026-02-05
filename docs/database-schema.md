@@ -155,5 +155,20 @@ SQLite database: `public/data/horoscope.db`
 | name | TEXT |
 | description | TEXT |
 
+### actions
+| Column | Type |
+|--------|------|
+| id | INTEGER PRIMARY KEY |
+| forecast_id | INTEGER NOT NULL |
+| type | TEXT NOT NULL ('do' or 'avoid') |
+
+### action_translations
+| Column | Type |
+|--------|------|
+| id | INTEGER PRIMARY KEY |
+| action_id | INTEGER NOT NULL |
+| lang | TEXT NOT NULL |
+| content | TEXT |
+
 ## Supported Languages
 `en`, `ja`, `ko`, `vi`

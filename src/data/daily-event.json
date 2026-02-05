@@ -1,50 +1,365 @@
 {
   "2026": {
-    "2026-05-13": {
+    "2026-02-05": {
       "global": {
-        "moon_phase": "waxing_crescent",
-        "moon_zodiac": "Cancer",
+        "moon_phase": "waning_crescent",
+        "moon_zodiac": "Sagittarius",
         "lucky": {
-          "numbers": [2, 7],
-          "color": "silver",
-          "direction": "Northeast",
-          "hours": ["09:00-11:00", "19:00-20:00"]
+          "numbers": [1, 6],
+          "color": "turquoise",
+          "direction": "East",
+          "hours": ["10:00-11:00", "18:00-19:00"]
         },
         "compatibility_today": {
-          "best": ["Gemini", "Libra"],
-          "avoid": ["Scorpio"]
+          "best": ["Aries", "Leo"],
+          "avoid": ["Pisces"]
         },
         "actions": {
           "do": [
-            "Start new ideas",
-            "Meet friends",
-            "Have honest conversations"
+            "Plan future trips",
+            "Study or explore new ideas",
+            "Take light exercise"
           ],
           "avoid": [
-            "Big purchases",
-            "Emotional decisions",
-            "Starting conflicts"
+            "Overspending",
+            "Arguing over small issues",
+            "Overcommitting"
           ]
         }
       },
-
       "zodiac": {
-        "Aries": {
-          "scores": {
-            "love": 3,
-            "career": 4,
-            "emotion": 2,
-            "energy": 3
-          }
+        "Aries": { "scores": { "love": 3, "career": 4, "emotion": 2, "energy": 4 } },
+        "Taurus": { "scores": { "love": 2, "career": 3, "emotion": 3, "energy": 4 } }
+      }
+    },
+
+    "2026-02-06": {
+      "global": {
+        "moon_phase": "waning_crescent",
+        "moon_zodiac": "Sagittarius",
+        "lucky": {
+          "numbers": [3, 8],
+          "color": "gold",
+          "direction": "Southeast",
+          "hours": ["07:00-09:00", "20:00-21:00"]
         },
-        "Taurus": {
-          "scores": {
-            "love": 2,
-            "career": 5,
-            "emotion": 3,
-            "energy": 4
-          }
+        "compatibility_today": {
+          "best": ["Aquarius", "Gemini"],
+          "avoid": ["Virgo"]
+        },
+        "actions": {
+          "do": [
+            "Brainstorm new projects",
+            "Reconnect with old friends",
+            "Make small healthy habits"
+          ],
+          "avoid": [
+            "Last-minute decisions",
+            "Taking shortcuts",
+            "Skipping rest"
+          ]
         }
+      },
+      "zodiac": {
+        "Aries": { "scores": { "love": 4, "career": 3, "emotion": 3, "energy": 3 } },
+        "Taurus": { "scores": { "love": 2, "career": 4, "emotion": 2, "energy": 3 } }
+      }
+    },
+
+    "2026-02-07": {
+      "global": {
+        "moon_phase": "new_moon",
+        "moon_zodiac": "Capricorn",
+        "lucky": {
+          "numbers": [4, 7],
+          "color": "black",
+          "direction": "Northwest",
+          "hours": ["06:00-08:00", "16:00-17:00"]
+        },
+        "compatibility_today": {
+          "best": ["Virgo", "Taurus"],
+          "avoid": ["Aries"]
+        },
+        "actions": {
+          "do": [
+            "Start long-term goals",
+            "Budget and organize finances",
+            "Focus deeply on work"
+          ],
+          "avoid": [
+            "Overloading your schedule",
+            "Harsh self-judgment",
+            "Unnecessary emotional talks"
+          ]
+        }
+      },
+      "zodiac": {
+        "Aries": { "scores": { "love": 2, "career": 3, "emotion": 2, "energy": 3 } },
+        "Taurus": { "scores": { "love": 3, "career": 5, "emotion": 4, "energy": 4 } }
+      }
+    },
+
+    "2026-02-08": {
+      "global": {
+        "moon_phase": "waxing_crescent",
+        "moon_zodiac": "Capricorn",
+        "lucky": {
+          "numbers": [5, 9],
+          "color": "gray",
+          "direction": "North",
+          "hours": ["11:00-12:00", "19:00-20:00"]
+        },
+        "compatibility_today": {
+          "best": ["Scorpio", "Cancer"],
+          "avoid": ["Leo"]
+        },
+        "actions": {
+          "do": [
+            "Focus on discipline",
+            "Plan weekly goals",
+            "Finish pending responsibilities"
+          ],
+          "avoid": [
+            "Comparing yourself to others",
+            "Skipping important details",
+            "Rushing conversations"
+          ]
+        }
+      },
+      "zodiac": {
+        "Aries": { "scores": { "love": 3, "career": 3, "emotion": 2, "energy": 4 } },
+        "Taurus": { "scores": { "love": 4, "career": 4, "emotion": 3, "energy": 3 } }
+      }
+    },
+
+    "2026-02-09": {
+      "global": {
+        "moon_phase": "waxing_crescent",
+        "moon_zodiac": "Aquarius",
+        "lucky": {
+          "numbers": [2, 6],
+          "color": "blue",
+          "direction": "West",
+          "hours": ["10:00-11:00", "18:00-19:00"]
+        },
+        "compatibility_today": {
+          "best": ["Gemini", "Libra"],
+          "avoid": ["Taurus"]
+        },
+        "actions": {
+          "do": [
+            "Explore creative ideas",
+            "Network with groups",
+            "Share innovative thoughts"
+          ],
+          "avoid": [
+            "Being overly detached",
+            "Ignoring commitments",
+            "Procrastinating"
+          ]
+        }
+      },
+      "zodiac": {
+        "Aries": { "scores": { "love": 4, "career": 4, "emotion": 3, "energy": 4 } },
+        "Taurus": { "scores": { "love": 2, "career": 3, "emotion": 2, "energy": 3 } }
+      }
+    },
+
+    "2026-02-10": {
+      "global": {
+        "moon_phase": "waxing_crescent",
+        "moon_zodiac": "Aquarius",
+        "lucky": {
+          "numbers": [3, 5],
+          "color": "purple",
+          "direction": "South",
+          "hours": ["09:00-10:00", "21:00-22:00"]
+        },
+        "compatibility_today": {
+          "best": ["Sagittarius", "Aries"],
+          "avoid": ["Cancer"]
+        },
+        "actions": {
+          "do": [
+            "Think independently",
+            "Try new tech tools",
+            "Organize group projects"
+          ],
+          "avoid": [
+            "Overreacting emotionally",
+            "Rigid planning",
+            "Judging others too quickly"
+          ]
+        }
+      },
+      "zodiac": {
+        "Aries": { "scores": { "love": 4, "career": 3, "emotion": 3, "energy": 4 } },
+        "Taurus": { "scores": { "love": 2, "career": 4, "emotion": 3, "energy": 2 } }
+      }
+    },
+
+    "2026-02-11": {
+      "global": {
+        "moon_phase": "first_quarter",
+        "moon_zodiac": "Pisces",
+        "lucky": {
+          "numbers": [7, 8],
+          "color": "sea-green",
+          "direction": "Northeast",
+          "hours": ["08:00-09:00", "17:00-18:00"]
+        },
+        "compatibility_today": {
+          "best": ["Cancer", "Scorpio"],
+          "avoid": ["Virgo"]
+        },
+        "actions": {
+          "do": [
+            "Express feelings",
+            "Spend time near water",
+            "Practice meditation"
+          ],
+          "avoid": [
+            "Over-sensitivity",
+            "Trusting too quickly",
+            "Escaping responsibilities"
+          ]
+        }
+      },
+      "zodiac": {
+        "Aries": { "scores": { "love": 3, "career": 2, "emotion": 4, "energy": 3 } },
+        "Taurus": { "scores": { "love": 3, "career": 3, "emotion": 4, "energy": 3 } }
+      }
+    },
+
+    "2026-02-12": {
+      "global": {
+        "moon_phase": "waxing_gibbous",
+        "moon_zodiac": "Pisces",
+        "lucky": {
+          "numbers": [1, 9],
+          "color": "white",
+          "direction": "East",
+          "hours": ["06:00-07:00", "14:00-15:00"]
+        },
+        "compatibility_today": {
+          "best": ["Taurus", "Capricorn"],
+          "avoid": ["Gemini"]
+        },
+        "actions": {
+          "do": [
+            "Reflect on long-term goals",
+            "Spend quiet time alone",
+            "Help someone in need"
+          ],
+          "avoid": [
+            "Overthinking relationships",
+            "Unclear communication",
+            "Taking on too much work"
+          ]
+        }
+      },
+      "zodiac": {
+        "Aries": { "scores": { "love": 3, "career": 3, "emotion": 4, "energy": 2 } },
+        "Taurus": { "scores": { "love": 4, "career": 3, "emotion": 3, "energy": 3 } }
+      }
+    },
+
+    "2026-02-13": {
+      "global": {
+        "moon_phase": "waxing_gibbous",
+        "moon_zodiac": "Aries",
+        "lucky": {
+          "numbers": [2, 5],
+          "color": "red",
+          "direction": "Southwest",
+          "hours": ["12:00-13:00", "19:00-20:00"]
+        },
+        "compatibility_today": {
+          "best": ["Leo", "Sagittarius"],
+          "avoid": ["Capricorn"]
+        },
+        "actions": {
+          "do": [
+            "Practice confidence",
+            "Start a passion project",
+            "Take on a leadership role"
+          ],
+          "avoid": [
+            "Acting impulsively",
+            "Rushing conclusions",
+            "Ignoring others' needs"
+          ]
+        }
+      },
+      "zodiac": {
+        "Aries": { "scores": { "love": 4, "career": 4, "emotion": 3, "energy": 5 } },
+        "Taurus": { "scores": { "love": 3, "career": 4, "emotion": 3, "energy": 2 } }
+      }
+    },
+
+    "2026-02-14": {
+      "global": {
+        "moon_phase": "waning_gibbous",
+        "moon_zodiac": "Virgo",
+        "lucky": {
+          "numbers": [4, 9],
+          "color": "emerald",
+          "direction": "South",
+          "hours": ["08:00-09:00", "17:00-18:00"]
+        },
+        "compatibility_today": {
+          "best": ["Taurus", "Capricorn"],
+          "avoid": ["Leo"]
+        },
+        "actions": {
+          "do": [
+            "Organize your plans",
+            "Focus on self-care",
+            "Complete unfinished tasks"
+          ],
+          "avoid": [
+            "Overthinking details",
+            "Taking impulsive risks",
+            "Unnecessary criticism"
+          ]
+        }
+      },
+      "zodiac": {
+        "Aries": { "scores": { "love": 4, "career": 3, "emotion": 3, "energy": 4 } },
+        "Taurus": { "scores": { "love": 5, "career": 4, "emotion": 3, "energy": 2 } }
+      }
+    },
+
+    "2026-02-15": {
+      "global": {
+        "moon_phase": "waning_gibbous",
+        "moon_zodiac": "Virgo",
+        "lucky": {
+          "numbers": [6, 8],
+          "color": "navy",
+          "direction": "North",
+          "hours": ["09:00-10:00", "18:00-19:00"]
+        },
+        "compatibility_today": {
+          "best": ["Cancer", "Pisces"],
+          "avoid": ["Aries"]
+        },
+        "actions": {
+          "do": [
+            "Review habits",
+            "Make practical decisions",
+            "Organize your space"
+          ],
+          "avoid": [
+            "Trying to control others",
+            "Self-criticism",
+            "Overcommitting"
+          ]
+        }
+      },
+      "zodiac": {
+        "Aries": { "scores": { "love": 2, "career": 3, "emotion": 2, "energy": 3 } },
+        "Taurus": { "scores": { "love": 3, "career": 4, "emotion": 4, "energy": 3 } }
       }
     }
   }

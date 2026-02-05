@@ -97,6 +97,15 @@
     "warning": "警告",
     "do": "すべきこと",
     "dont": "避けるべきこと",
+    "avoid": "避ける",
+    "dailyScores": "今日のエネルギースコア",
+    "dailyActions": "今日のガイダンス",
+    "scores": {
+      "love": "愛",
+      "career": "キャリア",
+      "emotion": "感情",
+      "energy": "エネルギー"
+    },
     "tuViTitle": "Tu Vi（東洋十二支）",
     "tuViSign": "あなたの干支",
     "tuViElementUnknown": "五行データなし",

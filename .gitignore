@@ -28,3 +28,6 @@ npm-debug.log*
 
 # Vite
 .vite/
+
+# Generated SQLite database
+public/data/horoscope.db

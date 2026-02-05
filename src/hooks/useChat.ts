@@ -2,6 +2,7 @@ import { useState, useCallback, useRef } from 'react';
 import type { ChatMessage, UserProfile } from '@/types';
 import { generateResponse } from '@/lib/llm';
 import { buildSystemPrompt, type PromptContext, type EnhancedContext } from '@/lib/llm';
+import { useLoveData, useZodiacData } from '@/hooks/useTranslatedData';
 
 interface UseChatOptions {
   context?: PromptContext;
@@ -15,6 +16,8 @@ export function useChat(options: UseChatOptions = {}) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const zodiacData = useZodiacData();
+  const loveCompatibility = useLoveData();
 
   const sendMessage = useCallback(async (content: string, profile?: UserProfile) => {
     if (!content.trim()) return;
@@ -40,8 +43,15 @@ export function useChat(options: UseChatOptions = {}) {
     try {
       // Build system prompt with user context and enhanced context
       const systemPrompt = options.context
-        ? buildSystemPrompt(options.context, profile, options.customAdditions, options.enhancedContext)
-        : options.systemPrompt || buildSystemPrompt('fortune', profile, options.customAdditions, options.enhancedContext);
+        ? buildSystemPrompt(options.context, profile, options.customAdditions, options.enhancedContext, {
+            zodiacData,
+            loveCompatibility,
+          })
+        : options.systemPrompt ||
+          buildSystemPrompt('fortune', profile, options.customAdditions, options.enhancedContext, {
+            zodiacData,
+            loveCompatibility,
+          });
 
       const response = await generateResponse(
         systemPrompt,

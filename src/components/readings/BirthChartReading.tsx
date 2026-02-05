@@ -3,9 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronDown, ChevronUp } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import type { ZodiacSign } from '@/types';
-import zodiacCalendarData from '@/data/zodiac-star-calendar-2026.json';
-
-const zodiacCalendar = zodiacCalendarData as Record<string, Record<string, string>>;
+import { useZodiacCalendarData } from '@/hooks/useTranslatedData';
 
 interface BirthChartReadingProps {
     onBack: () => void;
@@ -153,6 +151,7 @@ const parseZodiacCalendar = (sign: string, locale: string): MonthEnergy[] => {
 
 export function BirthChartReading({ onBack, userSign = 'aries' }: BirthChartReadingProps) {
     const { t, i18n } = useTranslation();
+    const zodiacCalendar = useZodiacCalendarData();
     const [activeTab, setActiveTab] = useState<TabType>('year');
     const [selectedDate, setSelectedDate] = useState(3); // Index of today
     const [isExpanded, setIsExpanded] = useState(false);
